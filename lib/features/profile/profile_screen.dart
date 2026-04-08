@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '../../core/constants.dart';
 import '../../core/supabase_config.dart';
+import '../auth/auth_state.dart';
+import '../gamification/jukumon_widget.dart';
+import '../gamification/level_bar.dart';
+import '../gamification/streak_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -43,133 +46,101 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profile')),
+      appBar: AppBar(
+        title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: signOut,
+          ),
+        ],
+      ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _profile == null
               ? const Center(child: Text('Profile not found'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      // Avatar
-                      CircleAvatar(
-                        radius: 48,
-                        backgroundColor: theme.colorScheme.primaryContainer,
-                        child: Text(
-                          (_profile!['username'] as String? ?? '?')[0]
-                              .toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onPrimaryContainer,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-
-                      // Display name
-                      Text(
-                        _profile!['display_name'] as String? ??
-                            _profile!['username'] as String? ??
-                            'Unknown',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '@${_profile!['username'] ?? ''}',
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-
-                      // Stats row
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _StatCard(
-                            label: 'XP',
-                            value: '${_profile!['xp'] ?? 0}',
-                            icon: Icons.bolt,
-                          ),
-                          _StatCard(
-                            label: 'Level',
-                            value: '${_profile!['level'] ?? 1}',
-                            icon: Icons.trending_up,
-                          ),
-                          _StatCard(
-                            label: 'Rank',
-                            value: rankLabels[_profile!['rank'] as String? ??
-                                    'bronze'] ??
-                                'Bronze',
-                            icon: Icons.military_tech,
-                          ),
-                          _StatCard(
-                            label: 'Streak',
-                            value: '${_profile!['streak_current'] ?? 0}',
-                            icon: Icons.local_fire_department,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Bio
-                      if (_profile!['bio'] != null &&
-                          (_profile!['bio'] as String).isNotEmpty)
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Text(
-                                _profile!['bio'] as String,
-                                style: theme.textTheme.bodyMedium,
-                              ),
+              : RefreshIndicator(
+                  onRefresh: _loadProfile,
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        // Avatar
+                        CircleAvatar(
+                          radius: 48,
+                          backgroundColor: theme.colorScheme.primaryContainer,
+                          child: Text(
+                            (_profile!['username'] as String? ?? '?')[0]
+                                .toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 36,
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onPrimaryContainer,
                             ),
                           ),
                         ),
-                    ],
+                        const SizedBox(height: 12),
+
+                        // Display name
+                        Text(
+                          _profile!['display_name'] as String? ??
+                              _profile!['username'] as String? ??
+                              'Unknown',
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '@${_profile!['username'] ?? ''}',
+                          style: TextStyle(
+                            color: theme.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Level bar
+                        LevelBar(
+                          xp: _profile!['xp'] as int? ?? 0,
+                          level: _profile!['level'] as int? ?? 1,
+                          rank: _profile!['rank'] as String? ?? 'bronze',
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Streak card
+                        StreakCard(
+                          current:
+                              _profile!['streak_current'] as int? ?? 0,
+                          best: _profile!['streak_best'] as int? ?? 0,
+                        ),
+                        const SizedBox(height: 8),
+
+                        // Jukumon companion
+                        JukumonWidget(
+                          level: _profile!['level'] as int? ?? 1,
+                          rank: _profile!['rank'] as String? ?? 'bronze',
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Bio
+                        if (_profile!['bio'] != null &&
+                            (_profile!['bio'] as String).isNotEmpty)
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Text(
+                                  _profile!['bio'] as String,
+                                  style: theme.textTheme.bodyMedium,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
-    );
-  }
-}
-
-class _StatCard extends StatelessWidget {
-  const _StatCard({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
-
-  final String label;
-  final String value;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      children: [
-        Icon(icon, color: theme.colorScheme.primary, size: 20),
-        const SizedBox(height: 4),
-        Text(
-          value,
-          style: theme.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 11,
-            color: theme.colorScheme.onSurfaceVariant,
-          ),
-        ),
-      ],
     );
   }
 }

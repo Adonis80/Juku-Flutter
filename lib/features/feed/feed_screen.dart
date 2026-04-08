@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/supabase_config.dart';
-import '../auth/auth_state.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -50,11 +50,7 @@ class _FeedScreenState extends State<FeedScreen> {
         actions: [
           IconButton(
             icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: signOut,
+            onPressed: () => context.go('/explore'),
           ),
         ],
       ),
@@ -88,6 +84,9 @@ class _FeedScreenState extends State<FeedScreen> {
                       final author = lesson['profiles'] as Map<String, dynamic>?;
 
                       return Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                        onTap: () => context.push('/lesson/${lesson['id']}'),
                         child: Padding(
                           padding: const EdgeInsets.all(16),
                           child: Column(
@@ -207,6 +206,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               ),
                             ],
                           ),
+                        ),
                         ),
                       );
                     },
