@@ -7,17 +7,21 @@ import '../features/auth/signup_screen.dart';
 import '../features/bookmarks/bookmarks_screen.dart';
 import '../features/chat/chat_list_screen.dart';
 import '../features/chat/chat_thread_screen.dart';
+import '../features/circles/circles_screen.dart';
 import '../features/explore/explore_screen.dart';
 import '../features/feed/create_lesson_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/feed/lesson_detail_screen.dart';
 import '../features/invite/invite_screen.dart';
+import '../features/juice/juice_wallet_screen.dart';
+import '../features/leaderboard/leaderboard_screen.dart';
 import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/public_profile_screen.dart';
 import '../features/settings/settings_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
+import '../features/world/world_builder_screen.dart';
 import 'app_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -135,6 +139,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/invite',
         builder: (_, _) => const InviteScreen(),
+      ),
+      GoRoute(
+        path: '/leaderboard',
+        builder: (_, _) => const LeaderboardScreen(),
+      ),
+      GoRoute(
+        path: '/wallet',
+        builder: (_, _) => const JuiceWalletScreen(),
+      ),
+      GoRoute(
+        path: '/world',
+        builder: (_, _) => const WorldBuilderScreen(),
+      ),
+      GoRoute(
+        path: '/circles',
+        builder: (_, _) => const CirclesScreen(),
       ),
     ],
   );
