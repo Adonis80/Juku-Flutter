@@ -19,6 +19,11 @@ import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/public_profile_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/studio/module_builder_screen.dart';
+import '../features/studio/play_screen.dart';
+import '../features/studio/publish_success_screen.dart';
+import '../features/studio/studio_home_screen.dart';
+import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
 import '../features/world/world_builder_screen.dart';
@@ -66,9 +71,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
-            path: '/create',
+            path: '/studio',
             pageBuilder: (_, _) => const NoTransitionPage(
-              child: CreateLessonScreen(),
+              child: StudioHomeScreen(),
             ),
           ),
           GoRoute(
@@ -155,6 +160,33 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/circles',
         builder: (_, _) => const CirclesScreen(),
+      ),
+      // Studio routes
+      GoRoute(
+        path: '/studio/new',
+        builder: (_, _) => const TemplatePickerScreen(),
+      ),
+      GoRoute(
+        path: '/studio/build/:templateType',
+        builder: (_, state) => ModuleBuilderScreen(
+          templateTypeParam: state.pathParameters['templateType']!,
+        ),
+      ),
+      GoRoute(
+        path: '/studio/play/:moduleId',
+        builder: (_, state) => PlayScreen(
+          moduleId: state.pathParameters['moduleId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/studio/published/:moduleId',
+        builder: (_, state) => PublishSuccessScreen(
+          moduleId: state.pathParameters['moduleId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/create',
+        builder: (_, _) => const CreateLessonScreen(),
       ),
     ],
   );
