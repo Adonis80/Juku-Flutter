@@ -6,6 +6,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import 'conditional_calculator_play.dart';
+import 'multiplayer_state.dart';
 import 'studio_state.dart';
 
 class PlayScreen extends ConsumerWidget {
@@ -34,11 +36,77 @@ class PlayScreen extends ConsumerWidget {
         }
 
         return switch (module.templateType) {
-          StudioTemplate.quiz => _QuizPlay(module: module),
+          StudioTemplate.quiz => _PlayModeChooser(module: module),
           StudioTemplate.flashcard => _FlashcardPlay(module: module),
           StudioTemplate.calculator => _CalculatorPlay(module: module),
+          StudioTemplate.conditionalCalculator =>
+            ConditionalCalculatorPlay(module: module),
         };
       },
+    );
+  }
+}
+
+class _PlayModeChooser extends StatelessWidget {
+  final StudioModule module;
+  const _PlayModeChooser({required this.module});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Scaffold(
+      appBar: AppBar(title: Text(module.title)),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.psychology,
+                size: 64, color: theme.colorScheme.primary),
+            const SizedBox(height: 16),
+            Text(
+              module.title,
+              style: theme.textTheme.headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton.icon(
+                onPressed: () {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(
+                        body: _QuizPlay(module: module),
+                      ),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.person),
+                label: const Text('Play Solo'),
+              ),
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  final sessionId = await createGameSession(
+                    moduleId: module.id,
+                  );
+                  if (context.mounted) {
+                    context.go('/studio/lobby/$sessionId');
+                  }
+                },
+                icon: const Icon(Icons.group),
+                label: const Text('Play Multiplayer'),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

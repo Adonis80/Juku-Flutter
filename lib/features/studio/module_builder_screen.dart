@@ -65,6 +65,8 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
         steps.add('Language Pair');
       case StudioTemplate.calculator:
         steps[2] = 'Describe Pricing';
+      case StudioTemplate.conditionalCalculator:
+        steps[2] = 'Describe Pricing';
     }
 
     steps.addAll(['Generate', 'Review & Edit', 'Publish']);
@@ -645,6 +647,21 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
           'formula': '',
           'output_label': 'Result',
           'output_unit': '',
+        };
+      case StudioTemplate.conditionalCalculator:
+        return {
+          'steps': [
+            {
+              'id': 'step_1',
+              'question': '',
+              'type': 'choice',
+              'options': [
+                {'label': '', 'next': 'result', 'value': ''}
+              ],
+            }
+          ],
+          'result_template': '',
+          'currency': '',
         };
     }
   }

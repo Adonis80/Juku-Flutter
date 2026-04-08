@@ -6,7 +6,7 @@ import '../../core/supabase_config.dart';
 
 // --- Models ---
 
-enum StudioTemplate { quiz, flashcard, calculator }
+enum StudioTemplate { quiz, flashcard, calculator, conditionalCalculator }
 
 extension StudioTemplateX on StudioTemplate {
   String get label {
@@ -17,10 +17,19 @@ extension StudioTemplateX on StudioTemplate {
         return 'Flashcard Battle';
       case StudioTemplate.calculator:
         return 'Price Calculator';
+      case StudioTemplate.conditionalCalculator:
+        return 'Smart Calculator';
     }
   }
 
-  String get dbValue => name;
+  String get dbValue {
+    switch (this) {
+      case StudioTemplate.conditionalCalculator:
+        return 'conditional_calculator';
+      default:
+        return name;
+    }
+  }
 }
 
 StudioTemplate templateFromDb(String value) {
@@ -29,6 +38,8 @@ StudioTemplate templateFromDb(String value) {
       return StudioTemplate.flashcard;
     case 'calculator':
       return StudioTemplate.calculator;
+    case 'conditional_calculator':
+      return StudioTemplate.conditionalCalculator;
     default:
       return StudioTemplate.quiz;
   }

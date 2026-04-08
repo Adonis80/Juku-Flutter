@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'conditional_calculator_editor.dart';
 import 'studio_state.dart';
 
 class ContentEditor extends StatelessWidget {
@@ -46,6 +47,12 @@ class ContentEditor extends StatelessWidget {
                 config: config, onConfigChanged: onConfigChanged),
             StudioTemplate.calculator => _CalculatorEditor(
                 config: config, onConfigChanged: onConfigChanged),
+            StudioTemplate.conditionalCalculator =>
+              ConditionalCalculatorEditor(
+                config: config,
+                onConfigChanged: onConfigChanged,
+                onRegenerate: onRegenerate,
+              ),
           },
         ),
       ],

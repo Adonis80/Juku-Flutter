@@ -72,6 +72,8 @@ class AiGenerator {
         if (languagePair != null) parsed['language_pair'] = languagePair;
       case StudioTemplate.calculator:
         break;
+      case StudioTemplate.conditionalCalculator:
+        break;
     }
 
     return parsed;
@@ -104,6 +106,16 @@ class AiGenerator {
             '{"inputs": [{"label": "...", "key": "snake_case_key", "unit": "...", '
             '"type": "number"}], "formula": "key1 * key2", '
             '"output_label": "Total", "output_unit": "\$"}';
+      case StudioTemplate.conditionalCalculator:
+        final desc = calculatorDescription ?? topic;
+        return 'The user described their pricing/service system as: "$desc". '
+            'Convert this into a step-by-step decision tree calculator. Each step '
+            'asks a question and offers choices that lead to the next step or a result. '
+            'Choices can have prices attached. Return valid JSON only, no explanation: '
+            '{"steps": [{"id": "step_1", "question": "What type?", "type": "choice", '
+            '"options": [{"label": "Option A", "next": "step_2", "value": "opt_a"}, '
+            '{"label": "Option B", "next": "result", "value": "opt_b", "price": 25}]}], '
+            '"result_template": "Your {step_1} will cost {price}", "currency": "GBP"}';
     }
   }
 

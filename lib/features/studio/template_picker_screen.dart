@@ -39,6 +39,15 @@ class TemplatePickerScreen extends StatelessWidget {
             color: const Color(0xFFF59E0B),
             onTap: () => context.push('/studio/build/calculator'),
           ),
+          const SizedBox(height: 12),
+          _TemplateCard(
+            icon: Icons.account_tree,
+            name: 'Smart Calculator',
+            description: 'Guided step-by-step pricing with branching logic',
+            example: 'Wedding dress alterations quoter',
+            color: const Color(0xFF10B981),
+            onTap: () => context.push('/studio/build/conditional_calculator'),
+          ),
           const SizedBox(height: 24),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),

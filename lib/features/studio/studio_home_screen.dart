@@ -231,6 +231,8 @@ class _ModuleCard extends StatelessWidget {
         return Icons.layers;
       case StudioTemplate.calculator:
         return Icons.calculate;
+      case StudioTemplate.conditionalCalculator:
+        return Icons.account_tree;
     }
   }
 

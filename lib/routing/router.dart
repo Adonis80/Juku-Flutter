@@ -19,7 +19,10 @@ import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/public_profile_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/studio/join_game_screen.dart';
+import '../features/studio/lobby_screen.dart';
 import '../features/studio/module_builder_screen.dart';
+import '../features/studio/multiplayer_game_screen.dart';
 import '../features/studio/play_screen.dart';
 import '../features/studio/publish_success_screen.dart';
 import '../features/studio/studio_home_screen.dart';
@@ -182,6 +185,30 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/studio/published/:moduleId',
         builder: (_, state) => PublishSuccessScreen(
           moduleId: state.pathParameters['moduleId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/studio/lobby/:sessionId',
+        builder: (_, state) => LobbyScreen(
+          sessionId: state.pathParameters['sessionId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/studio/game/:sessionId',
+        builder: (_, state) => MultiplayerGameScreen(
+          sessionId: state.pathParameters['sessionId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/studio/join/:sessionId',
+        builder: (_, state) => JoinGameScreen(
+          sessionId: state.pathParameters['sessionId']!,
+        ),
+      ),
+      GoRoute(
+        path: '/join/:sessionId',
+        builder: (_, state) => JoinGameScreen(
+          sessionId: state.pathParameters['sessionId']!,
         ),
       ),
       GoRoute(
