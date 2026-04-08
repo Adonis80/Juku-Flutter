@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../core/supabase_config.dart';
+import '../bookmarks/bookmarks_screen.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   const LessonDetailScreen({super.key, required this.lessonId});
@@ -128,6 +129,9 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lesson'),
+        actions: [
+          BookmarkButton(lessonId: widget.lessonId),
+        ],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())

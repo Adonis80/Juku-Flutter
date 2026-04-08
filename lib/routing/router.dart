@@ -4,14 +4,20 @@ import 'package:go_router/go_router.dart';
 import '../features/auth/auth_state.dart';
 import '../features/auth/login_screen.dart';
 import '../features/auth/signup_screen.dart';
+import '../features/bookmarks/bookmarks_screen.dart';
 import '../features/chat/chat_list_screen.dart';
 import '../features/chat/chat_thread_screen.dart';
 import '../features/explore/explore_screen.dart';
 import '../features/feed/create_lesson_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/feed/lesson_detail_screen.dart';
+import '../features/invite/invite_screen.dart';
+import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/public_profile_screen.dart';
+import '../features/settings/settings_screen.dart';
+import '../features/topics/topic_channel_screen.dart';
+import '../features/topics/topic_list_screen.dart';
 import 'app_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -50,9 +56,9 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
-            path: '/explore',
+            path: '/topics',
             pageBuilder: (_, _) => const NoTransitionPage(
-              child: ExploreScreen(),
+              child: TopicListScreen(),
             ),
           ),
           GoRoute(
@@ -76,7 +82,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
 
-      // Detail routes (push on top of shell, full screen)
+      // Detail routes (push on top of shell)
       GoRoute(
         path: '/lesson/:id',
         builder: (_, state) => LessonDetailScreen(
@@ -99,6 +105,36 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, state) => PublicProfileScreen(
           userId: state.pathParameters['userId']!,
         ),
+      ),
+      GoRoute(
+        path: '/topics/:topicKey',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return TopicChannelScreen(
+            topicKey: state.pathParameters['topicKey']!,
+            channelName: extra?['name'] as String?,
+          );
+        },
+      ),
+      GoRoute(
+        path: '/notifications',
+        builder: (_, _) => const NotificationsScreen(),
+      ),
+      GoRoute(
+        path: '/bookmarks',
+        builder: (_, _) => const BookmarksScreen(),
+      ),
+      GoRoute(
+        path: '/settings',
+        builder: (_, _) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/explore',
+        builder: (_, _) => const ExploreScreen(),
+      ),
+      GoRoute(
+        path: '/invite',
+        builder: (_, _) => const InviteScreen(),
       ),
     ],
   );

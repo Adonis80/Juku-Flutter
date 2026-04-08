@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/supabase_config.dart';
+import '../notifications/notifications_screen.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -48,6 +49,7 @@ class _FeedScreenState extends State<FeedScreen> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          const NotificationBadge(),
           IconButton(
             icon: const Icon(Icons.search),
             onPressed: () => context.go('/explore'),

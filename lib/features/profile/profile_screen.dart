@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../core/supabase_config.dart';
-import '../auth/auth_state.dart';
 import '../gamification/jukumon_widget.dart';
 import '../gamification/level_bar.dart';
 import '../gamification/streak_card.dart';
@@ -50,8 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: const Text('Profile'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: signOut,
+            icon: const Icon(Icons.settings_outlined),
+            onPressed: () => context.push('/settings'),
           ),
         ],
       ),

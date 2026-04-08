@@ -20,9 +20,9 @@ class AppShell extends StatelessWidget {
             label: 'Feed',
           ),
           NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore),
-            label: 'Explore',
+            icon: Icon(Icons.forum_outlined),
+            selectedIcon: Icon(Icons.forum),
+            label: 'Topics',
           ),
           NavigationDestination(
             icon: Icon(Icons.add_box_outlined),
@@ -46,7 +46,7 @@ class AppShell extends StatelessWidget {
 
   int _selectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/explore')) return 1;
+    if (location.startsWith('/topics')) return 1;
     if (location.startsWith('/create')) return 2;
     if (location.startsWith('/chat')) return 3;
     if (location.startsWith('/profile')) return 4;
@@ -58,7 +58,7 @@ class AppShell extends StatelessWidget {
       case 0:
         context.go('/feed');
       case 1:
-        context.go('/explore');
+        context.go('/topics');
       case 2:
         context.go('/create');
       case 3:
