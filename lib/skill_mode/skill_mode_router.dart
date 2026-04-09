@@ -2,7 +2,9 @@ import 'package:go_router/go_router.dart';
 
 import 'screens/sm_card_screen.dart';
 import 'screens/sm_create_deck_screen.dart';
+import 'screens/sm_deck_detail_screen.dart';
 import 'screens/sm_deck_screen.dart';
+import 'screens/sm_marketplace_screen.dart';
 import 'screens/sm_home_screen.dart';
 import 'screens/sm_pronunciation_screen.dart';
 import 'screens/sm_shuffle_screen.dart';
@@ -23,8 +25,18 @@ List<GoRoute> skillModeRoutes() {
       builder: (_, _) => const SmCreateDeckScreen(),
     ),
     GoRoute(
+      path: '/skill-mode/marketplace',
+      builder: (_, _) => const SmMarketplaceScreen(),
+    ),
+    GoRoute(
       path: '/skill-mode/deck',
       builder: (_, _) => const SmDeckScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/deck-detail/:id',
+      builder: (_, state) => SmDeckDetailScreen(
+        deckId: state.pathParameters['id']!,
+      ),
     ),
     GoRoute(
       path: '/skill-mode/card/:id',
