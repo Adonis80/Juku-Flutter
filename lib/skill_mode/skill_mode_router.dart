@@ -2,6 +2,8 @@ import 'package:go_router/go_router.dart';
 
 import 'screens/sm_card_screen.dart';
 import 'screens/sm_create_deck_screen.dart';
+import 'screens/sm_creator_dashboard_screen.dart';
+import 'screens/sm_creator_profile_screen.dart';
 import 'screens/sm_deck_detail_screen.dart';
 import 'screens/sm_deck_screen.dart';
 import 'screens/sm_marketplace_screen.dart';
@@ -65,6 +67,16 @@ List<GoRoute> skillModeRoutes() {
       builder: (_, state) => SmSongPlayerScreen(
         songId: state.pathParameters['id']!,
       ),
+    ),
+    GoRoute(
+      path: '/skill-mode/creator/:userId',
+      builder: (_, state) => SmCreatorProfileScreen(
+        userId: state.pathParameters['userId']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/my-decks',
+      builder: (_, _) => const SmCreatorDashboardScreen(),
     ),
     GoRoute(
       path: '/skill-mode/vault',
