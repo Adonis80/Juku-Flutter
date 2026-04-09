@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../core/supabase_config.dart';
 import '../../features/auth/auth_state.dart';
+import '../grammar_modules/sm_language_registry.dart';
 
 /// Skill Mode home — language selector, daily count, streak, start session.
 class SmHomeScreen extends ConsumerStatefulWidget {
@@ -20,14 +21,9 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
   int _streakDays = 0;
   bool _loading = true;
 
-  static const _languages = {
-    'es': ('Spanish', '🇪🇸'),
-    'de': ('German', '🇩🇪'),
-    'fr': ('French', '🇫🇷'),
-    'ru': ('Russian', '🇷🇺'),
-    'ar': ('Arabic', '🇸🇦'),
-    'zh': ('Mandarin', '🇨🇳'),
-    'ja': ('Japanese', '🇯🇵'),
+  static final _languages = {
+    for (final lang in SmLanguageRegistry.allLanguages)
+      lang.code: (lang.name, lang.flag),
   };
 
   @override
@@ -118,21 +114,18 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                       scrollDirection: Axis.horizontal,
                       children: _languages.entries.map((entry) {
                         final isSelected = entry.key == _selectedLanguage;
-                        final isAvailable = entry.key == 'de'; // v0.1: German only
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: FilterChip(
                             selected: isSelected,
                             label: Text('${entry.value.$2} ${entry.value.$1}'),
-                            onSelected: isAvailable
-                                ? (selected) {
-                                    if (selected) {
-                                      setState(
-                                          () => _selectedLanguage = entry.key);
-                                      _loadData();
-                                    }
-                                  }
-                                : null,
+                            onSelected: (selected) {
+                              if (selected) {
+                                setState(
+                                    () => _selectedLanguage = entry.key);
+                                _loadData();
+                              }
+                            },
                           ),
                         );
                       }).toList(),
