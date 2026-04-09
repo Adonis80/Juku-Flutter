@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'screens/sm_card_screen.dart';
 import 'screens/sm_deck_screen.dart';
 import 'screens/sm_home_screen.dart';
+import 'screens/sm_pronunciation_screen.dart';
 import 'screens/sm_shuffle_screen.dart';
 import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
@@ -29,6 +30,12 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode/shuffle/:id',
       builder: (_, state) => SmShuffleScreen(
+        cardId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/pronunciation/:id',
+      builder: (_, state) => SmPronunciationScreen(
         cardId: state.pathParameters['id']!,
       ),
     ),
