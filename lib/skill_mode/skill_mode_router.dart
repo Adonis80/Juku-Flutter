@@ -12,6 +12,7 @@ import 'screens/sm_pronunciation_screen.dart';
 import 'screens/sm_shuffle_screen.dart';
 import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
+import 'screens/sm_song_upload_screen.dart';
 import 'screens/sm_vault_screen.dart';
 
 /// All GoRouter sub-routes for Skill Mode.
@@ -61,6 +62,10 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode/songs',
       builder: (_, _) => const SmSongListScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/songs/upload',
+      builder: (_, _) => const SmSongUploadScreen(),
     ),
     GoRoute(
       path: '/skill-mode/songs/:id',
