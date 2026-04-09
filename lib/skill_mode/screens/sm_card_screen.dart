@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import '../../core/supabase_config.dart';
 import '../../features/auth/auth_state.dart';
 import '../models/sm_card.dart';
+import '../services/sm_audio_service.dart';
 import '../state/sm_session_notifier.dart';
 import '../widgets/animations/sm_magnet_transform.dart';
 import '../widgets/tile/sm_tile_row.dart';
@@ -40,6 +41,9 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
   // Reveal cascade
   late List<AnimationController> _flipControllers;
   bool _revealStarted = false;
+
+  // Audio
+  final _audio = SmAudioService.instance;
 
   @override
   void initState() {
@@ -114,6 +118,15 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
       });
     }
 
+    // Play audio after tile cascade completes.
+    final card = _card;
+    if (card != null) {
+      final cascadeMs = 40 * _flipControllers.length + 300;
+      Future.delayed(Duration(milliseconds: cascadeMs), () {
+        if (mounted) _audio.playCardAudio(card);
+      });
+    }
+
     // Award XP on first reveal
     final user = ref.read(currentUserProvider);
     if (user != null) {
@@ -129,6 +142,14 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
       _showForeignOrder = true;
       _nativeOpacity = 0.3;
     });
+
+    // Play audio after magnet animation settles (~800ms).
+    final card = _card;
+    if (card != null) {
+      Future.delayed(const Duration(milliseconds: 850), () {
+        if (mounted) _audio.playCardAudio(card);
+      });
+    }
   }
 
   /// Press 3: Grammar Panel.

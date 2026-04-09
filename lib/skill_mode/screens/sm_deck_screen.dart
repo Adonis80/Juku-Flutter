@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/auth/auth_state.dart';
 import '../models/sm_card.dart';
+import '../services/sm_audio_service.dart';
 import '../state/sm_deck_notifier.dart';
 import '../state/sm_session_notifier.dart';
 import '../services/sm_supabase_service.dart';
@@ -21,6 +22,7 @@ class SmDeckScreen extends ConsumerStatefulWidget {
 
 class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
   final _service = SmSupabaseService();
+  final _audio = SmAudioService.instance;
   bool _loading = true;
   String? _error;
 
@@ -70,6 +72,9 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
 
       setState(() => _loading = false);
 
+      // Preload first 3 cards' audio.
+      _audio.preloadCards(cards.take(3).toList());
+
       // Navigate to first card
       if (mounted) {
         _navigateToCard(cards.first);
@@ -101,6 +106,13 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
     }
 
     if (session.cardsReviewed < cards.length) {
+      // Preload next 3 cards' audio from current position.
+      final startIdx = session.cardsReviewed + 1;
+      if (startIdx < cards.length) {
+        _audio.preloadCards(
+          cards.sublist(startIdx, (startIdx + 3).clamp(0, cards.length)),
+        );
+      }
       _navigateToCard(cards[session.cardsReviewed]);
     }
   }
@@ -108,6 +120,9 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
   Future<void> _endSession() async {
     final session = ref.read(smSessionProvider);
     final user = ref.read(currentUserProvider);
+
+    // Clean up audio preloads.
+    await _audio.disposePreloads();
 
     if (session.sessionId != null && user != null) {
       try {
