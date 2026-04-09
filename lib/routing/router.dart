@@ -30,6 +30,7 @@ import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
 import '../features/world/world_builder_screen.dart';
+import '../skill_mode/skill_mode_router.dart';
 import 'app_shell.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -215,6 +216,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/create',
         builder: (_, _) => const CreateLessonScreen(),
       ),
+
+      // Skill Mode routes
+      ...skillModeRoutes(),
     ],
   );
 });

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../core/supabase_config.dart';
+import '../../skill_mode/skill_mode_gate.dart';
+import '../../skill_mode/widgets/sm_entry_card.dart';
 import '../notifications/notifications_screen.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -14,6 +16,12 @@ class FeedScreen extends StatefulWidget {
 class _FeedScreenState extends State<FeedScreen> {
   List<Map<String, dynamic>> _lessons = [];
   bool _loading = true;
+
+  // Domain gate: show Skill Mode entry card for language domain users.
+  // For now, always show it (no tenant system yet).
+  bool get _showSkillMode =>
+      canAccessSkillMode(activeDomain: 'languages');
+  int get _skillModeOffset => _showSkillMode ? 1 : 0;
 
   @override
   void initState() {
@@ -79,10 +87,16 @@ class _FeedScreenState extends State<FeedScreen> {
                   onRefresh: _loadFeed,
                   child: ListView.separated(
                     padding: const EdgeInsets.all(16),
-                    itemCount: _lessons.length,
+                    itemCount: _lessons.length + _skillModeOffset,
                     separatorBuilder: (_, _) => const SizedBox(height: 8),
                     itemBuilder: (context, index) {
-                      final lesson = _lessons[index];
+                      // Skill Mode entry card at position 0
+                      if (_showSkillMode && index == 0) {
+                        return const SmEntryCard();
+                      }
+
+                      final lessonIndex = index - _skillModeOffset;
+                      final lesson = _lessons[lessonIndex];
                       final author = lesson['profiles'] as Map<String, dynamic>?;
 
                       return Card(
