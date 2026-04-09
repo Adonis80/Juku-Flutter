@@ -422,7 +422,21 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
             icon: const Icon(Icons.swap_horiz),
             tooltip: 'Toggle word order',
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: 12),
+          // Translate button
+          IconButton.filled(
+            onPressed: () {
+              final card = _card;
+              if (card == null) return;
+              context.push(
+                '/skill-mode/translations?cardId=${card.id}'
+                '&sourceText=${Uri.encodeComponent(card.foreignText)}',
+              );
+            },
+            icon: const Icon(Icons.translate),
+            tooltip: 'Community Translations',
+          ),
+          const SizedBox(width: 12),
           // Next card
           FilledButton.icon(
             onPressed: () {

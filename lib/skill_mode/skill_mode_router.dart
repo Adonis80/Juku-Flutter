@@ -13,6 +13,7 @@ import 'screens/sm_shuffle_screen.dart';
 import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
 import 'screens/sm_song_upload_screen.dart';
+import 'screens/sm_translation_screen.dart';
 import 'screens/sm_vault_screen.dart';
 
 /// All GoRouter sub-routes for Skill Mode.
@@ -82,6 +83,17 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode/my-decks',
       builder: (_, _) => const SmCreatorDashboardScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/translations',
+      builder: (_, state) => SmTranslationScreen(
+        cardId: state.uri.queryParameters['cardId'],
+        songId: state.uri.queryParameters['songId'],
+        lyricLineIndex: state.uri.queryParameters['lineIndex'] != null
+            ? int.tryParse(state.uri.queryParameters['lineIndex']!)
+            : null,
+        sourceText: state.uri.queryParameters['sourceText'] ?? '',
+      ),
     ),
     GoRoute(
       path: '/skill-mode/vault',

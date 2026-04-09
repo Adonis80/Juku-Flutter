@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'package:go_router/go_router.dart';
+
 import '../../core/supabase_config.dart';
 import '../models/sm_song.dart';
 
@@ -278,6 +280,13 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
 
                       return GestureDetector(
                         onTap: () => _onLineTapped(i),
+                        onLongPress: () {
+                          context.push(
+                            '/skill-mode/translations?songId=${widget.songId}'
+                            '&lineIndex=$i'
+                            '&sourceText=${Uri.encodeComponent(line.text)}',
+                          );
+                        },
                         child: Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Column(
