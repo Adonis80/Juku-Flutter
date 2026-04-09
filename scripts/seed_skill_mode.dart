@@ -1,4 +1,4 @@
-// Seed script: inserts 50 Spanish cards into skill_mode_cards.
+// Seed script: inserts 50 German cards into skill_mode_cards.
 // Run after migration: dart scripts/seed_skill_mode.dart
 //
 // MANUAL (Dhayan): Run this script after running the migration in Supabase SQL Editor.
@@ -16,57 +16,62 @@ const supabaseAnonKey =
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRpcGluanhkdXBmd250bWthcmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ2MTkwODYsImV4cCI6MjA5MDE5NTA4Nn0.kg2NuAJk1pFEpcXN0bbVma_xqMMjOIxcsNXlcLI8hhY';
 
 Future<void> main() async {
-  print('Seeding 50 Spanish cards into skill_mode_cards...');
+  print('Seeding 50 German cards into skill_mode_cards...');
 
   final cards = <Map<String, dynamic>>[
     // ---- 20 Vocabulary word cards (A1) ----
 
     // Greetings
-    _word('Hola', 'Hello', pos: 'interjection', diff: 1, tags: ['greeting', 'a1']),
-    _word('Buenos días', 'Good morning', pos: 'phrase', diff: 1, tags: ['greeting', 'a1']),
-    _word('Buenas noches', 'Good night', pos: 'phrase', diff: 1, tags: ['greeting', 'a1']),
-    _word('Adiós', 'Goodbye', pos: 'interjection', diff: 1, tags: ['greeting', 'a1']),
-    _word('Por favor', 'Please', pos: 'phrase', diff: 1, tags: ['courtesy', 'a1']),
-    _word('Gracias', 'Thank you', pos: 'interjection', diff: 1, tags: ['courtesy', 'a1']),
+    _word('Hallo', 'Hello', pos: 'interjection', diff: 1, tags: ['greeting', 'a1']),
+    _word('Guten Morgen', 'Good morning', pos: 'phrase', diff: 1, tags: ['greeting', 'a1']),
+    _word('Gute Nacht', 'Good night', pos: 'phrase', diff: 1, tags: ['greeting', 'a1']),
+    _word('Auf Wiedersehen', 'Goodbye', pos: 'phrase', diff: 1, tags: ['greeting', 'a1']),
+    _word('Bitte', 'Please', pos: 'particle', diff: 1, tags: ['courtesy', 'a1']),
+    _word('Danke', 'Thank you', pos: 'interjection', diff: 1, tags: ['courtesy', 'a1']),
 
-    // Numbers
-    _word('Uno', 'One', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
-    _word('Dos', 'Two', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
-    _word('Tres', 'Three', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
-    _word('Diez', 'Ten', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
+    // Nouns with gender (der/die/das)
+    _word('der Hund', 'the dog', pos: 'noun', diff: 1, tags: ['animal', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'masculine', 'article': 'der'}),
+    _word('die Katze', 'the cat', pos: 'noun', diff: 1, tags: ['animal', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'feminine', 'article': 'die'}),
+    _word('das Buch', 'the book', pos: 'noun', diff: 1, tags: ['object', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'neuter', 'article': 'das'}),
+    _word('die Mutter', 'the mother', pos: 'noun', diff: 1, tags: ['family', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'feminine', 'article': 'die'}),
+    _word('der Vater', 'the father', pos: 'noun', diff: 1, tags: ['family', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'masculine', 'article': 'der'}),
+    _word('der Bruder', 'the brother', pos: 'noun', diff: 1, tags: ['family', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'masculine', 'article': 'der'}),
+    _word('die Schwester', 'the sister', pos: 'noun', diff: 1, tags: ['family', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'feminine', 'article': 'die'}),
+    _word('das Haus', 'the house', pos: 'noun', diff: 1, tags: ['home', 'a1'],
+        grammar: {'pos': 'noun', 'gender': 'neuter', 'article': 'das'}),
 
     // Colours
-    _word('Rojo', 'Red', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
-        grammar: {'pos': 'adjective', 'gender': 'masculine'}),
-    _word('Azul', 'Blue', pos: 'adjective', diff: 1, tags: ['colour', 'a1']),
-    _word('Verde', 'Green', pos: 'adjective', diff: 1, tags: ['colour', 'a1']),
-    _word('Blanco', 'White', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
-        grammar: {'pos': 'adjective', 'gender': 'masculine'}),
+    _word('rot', 'red', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
+        grammar: {'pos': 'adjective'}),
+    _word('blau', 'blue', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
+        grammar: {'pos': 'adjective'}),
+    _word('grün', 'green', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
+        grammar: {'pos': 'adjective'}),
+    _word('weiß', 'white', pos: 'adjective', diff: 1, tags: ['colour', 'a1'],
+        grammar: {'pos': 'adjective'}),
 
-    // Family
-    _word('Madre', 'Mother', pos: 'noun', diff: 1, tags: ['family', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'feminine'}),
-    _word('Padre', 'Father', pos: 'noun', diff: 1, tags: ['family', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'masculine'}),
-    _word('Hermano', 'Brother', pos: 'noun', diff: 1, tags: ['family', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'masculine'}),
-    _word('Hermana', 'Sister', pos: 'noun', diff: 1, tags: ['family', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'feminine'}),
-    _word('Amigo', 'Friend', pos: 'noun', diff: 1, tags: ['social', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'masculine'}),
-    _word('Casa', 'House', pos: 'noun', diff: 1, tags: ['home', 'a1'],
-        grammar: {'pos': 'noun', 'gender': 'feminine'}),
+    // Numbers
+    _word('eins', 'one', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
+    _word('zwei', 'two', pos: 'numeral', diff: 1, tags: ['number', 'a1']),
 
-    // ---- 15 Sentence cards (4-6 tiles) ----
+    // ---- 15 Sentence cards (4-7 tiles) — showcasing German word order ----
 
+    // V2 rule: verb always second in main clause
     _sentence(
-      'Yo tengo un gato',
+      'Ich habe eine Katze',
       'I have a cat',
       tiles: [
-        {'word': 'Yo', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
-        {'word': 'tengo', 'type': 'inflected', 'pos': 'verb', 'native': 'have'},
-        {'word': 'un', 'type': 'standard', 'pos': 'article', 'native': 'a'},
-        {'word': 'gato', 'type': 'standard', 'pos': 'noun', 'native': 'cat'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'habe', 'type': 'inflected', 'pos': 'verb', 'native': 'have'},
+        {'word': 'eine', 'type': 'standard', 'pos': 'article', 'native': 'a'},
+        {'word': 'Katze', 'type': 'standard', 'pos': 'noun', 'native': 'cat'},
       ],
       nativeOrder: [0, 1, 2, 3],
       foreignOrder: [0, 1, 2, 3],
@@ -74,12 +79,12 @@ Future<void> main() async {
       tags: ['present', 'a1'],
     ),
     _sentence(
-      'Ella come manzanas',
+      'Sie isst Äpfel',
       'She eats apples',
       tiles: [
-        {'word': 'Ella', 'type': 'standard', 'pos': 'pronoun', 'native': 'She'},
-        {'word': 'come', 'type': 'inflected', 'pos': 'verb', 'native': 'eats'},
-        {'word': 'manzanas', 'type': 'standard', 'pos': 'noun', 'native': 'apples'},
+        {'word': 'Sie', 'type': 'standard', 'pos': 'pronoun', 'native': 'She'},
+        {'word': 'isst', 'type': 'inflected', 'pos': 'verb', 'native': 'eats'},
+        {'word': 'Äpfel', 'type': 'standard', 'pos': 'noun', 'native': 'apples'},
       ],
       nativeOrder: [0, 1, 2],
       foreignOrder: [0, 1, 2],
@@ -87,285 +92,328 @@ Future<void> main() async {
       tags: ['present', 'a1'],
     ),
     _sentence(
-      'El libro es rojo',
+      'Das Buch ist rot',
       'The book is red',
       tiles: [
-        {'word': 'El', 'type': 'standard', 'pos': 'article', 'native': 'The'},
-        {'word': 'libro', 'type': 'standard', 'pos': 'noun', 'native': 'book'},
-        {'word': 'es', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
-        {'word': 'rojo', 'type': 'standard', 'pos': 'adjective', 'native': 'red'},
+        {'word': 'Das', 'type': 'standard', 'pos': 'article', 'native': 'The'},
+        {'word': 'Buch', 'type': 'standard', 'pos': 'noun', 'native': 'book'},
+        {'word': 'ist', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
+        {'word': 'rot', 'type': 'standard', 'pos': 'adjective', 'native': 'red'},
       ],
       nativeOrder: [0, 1, 2, 3],
       foreignOrder: [0, 1, 2, 3],
       diff: 1,
-      tags: ['ser', 'adjective', 'a1'],
+      tags: ['sein', 'adjective', 'a1'],
     ),
+    // Adjective before noun in German (same as English here)
     _sentence(
-      'Nosotros vivimos en una casa grande',
+      'Wir wohnen in einem großen Haus',
       'We live in a big house',
       tiles: [
-        {'word': 'Nosotros', 'type': 'standard', 'pos': 'pronoun', 'native': 'We'},
-        {'word': 'vivimos', 'type': 'inflected', 'pos': 'verb', 'native': 'live'},
-        {'word': 'en', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
-        {'word': 'una', 'type': 'standard', 'pos': 'article', 'native': 'a'},
-        {'word': 'casa', 'type': 'standard', 'pos': 'noun', 'native': 'house'},
-        {'word': 'grande', 'type': 'standard', 'pos': 'adjective', 'native': 'big'},
+        {'word': 'Wir', 'type': 'standard', 'pos': 'pronoun', 'native': 'We'},
+        {'word': 'wohnen', 'type': 'inflected', 'pos': 'verb', 'native': 'live'},
+        {'word': 'in', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
+        {'word': 'einem', 'type': 'standard', 'pos': 'article', 'native': 'a'},
+        {'word': 'großen', 'type': 'inflected', 'pos': 'adjective', 'native': 'big'},
+        {'word': 'Haus', 'type': 'standard', 'pos': 'noun', 'native': 'house'},
       ],
-      nativeOrder: [0, 1, 2, 3, 5, 4],  // "a big house" → "una casa grande"
+      nativeOrder: [0, 1, 2, 3, 4, 5],
       foreignOrder: [0, 1, 2, 3, 4, 5],
       diff: 2,
-      tags: ['present', 'adjective-position', 'a1'],
+      tags: ['dative', 'adjective-declension', 'a1'],
+      grammar: {'case': 'dative', 'note': 'in + dative = location'},
     ),
+    // Accusative case
     _sentence(
-      'Me gusta el café',
-      'I like coffee',
+      'Ich sehe den Hund',
+      'I see the dog',
       tiles: [
-        {'word': 'Me', 'type': 'particle', 'pos': 'pronoun', 'native': 'to me', 'is_ghost': false},
-        {'word': 'gusta', 'type': 'inflected', 'pos': 'verb', 'native': 'is pleasing'},
-        {'word': 'el', 'type': 'ghost', 'pos': 'article', 'native': '', 'is_ghost': true},
-        {'word': 'café', 'type': 'standard', 'pos': 'noun', 'native': 'coffee'},
-      ],
-      nativeOrder: [3, 1, 0],
-      foreignOrder: [0, 1, 2, 3],
-      diff: 2,
-      tags: ['gustar', 'ghost', 'a1'],
-    ),
-    _sentence(
-      'Ellos tienen dos perros',
-      'They have two dogs',
-      tiles: [
-        {'word': 'Ellos', 'type': 'standard', 'pos': 'pronoun', 'native': 'They'},
-        {'word': 'tienen', 'type': 'inflected', 'pos': 'verb', 'native': 'have'},
-        {'word': 'dos', 'type': 'standard', 'pos': 'numeral', 'native': 'two'},
-        {'word': 'perros', 'type': 'standard', 'pos': 'noun', 'native': 'dogs'},
-      ],
-      nativeOrder: [0, 1, 2, 3],
-      foreignOrder: [0, 1, 2, 3],
-      diff: 1,
-      tags: ['present', 'tener', 'a1'],
-    ),
-    _sentence(
-      'Quiero aprender español',
-      'I want to learn Spanish',
-      tiles: [
-        {'word': 'Quiero', 'type': 'inflected', 'pos': 'verb', 'native': 'I want'},
-        {'word': 'aprender', 'type': 'standard', 'pos': 'verb', 'native': 'to learn'},
-        {'word': 'español', 'type': 'standard', 'pos': 'noun', 'native': 'Spanish'},
-      ],
-      nativeOrder: [0, 1, 2],
-      foreignOrder: [0, 1, 2],
-      diff: 2,
-      tags: ['infinitive', 'a1'],
-    ),
-    _sentence(
-      'La niña está contenta',
-      'The girl is happy',
-      tiles: [
-        {'word': 'La', 'type': 'standard', 'pos': 'article', 'native': 'The'},
-        {'word': 'niña', 'type': 'standard', 'pos': 'noun', 'native': 'girl'},
-        {'word': 'está', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
-        {'word': 'contenta', 'type': 'inflected', 'pos': 'adjective', 'native': 'happy'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'sehe', 'type': 'inflected', 'pos': 'verb', 'native': 'see'},
+        {'word': 'den', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Hund', 'type': 'standard', 'pos': 'noun', 'native': 'dog'},
       ],
       nativeOrder: [0, 1, 2, 3],
       foreignOrder: [0, 1, 2, 3],
       diff: 2,
-      tags: ['estar', 'adjective-agreement', 'a1'],
+      tags: ['accusative', 'a1'],
+      grammar: {'case': 'accusative', 'note': 'der → den in accusative'},
     ),
+    // Separable verb: anfangen → Ich fange ... an
     _sentence(
-      'Voy al supermercado',
-      'I go to the supermarket',
+      'Ich fange morgen an',
+      'I start tomorrow',
       tiles: [
-        {'word': 'Voy', 'type': 'inflected', 'pos': 'verb', 'native': 'I go'},
-        {'word': 'al', 'type': 'compound', 'pos': 'preposition', 'native': 'to the'},
-        {'word': 'supermercado', 'type': 'standard', 'pos': 'noun', 'native': 'supermarket'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'fange', 'type': 'inflected', 'pos': 'verb', 'native': 'start'},
+        {'word': 'morgen', 'type': 'standard', 'pos': 'adverb', 'native': 'tomorrow'},
+        {'word': 'an', 'type': 'particle', 'pos': 'particle', 'native': '(prefix)'},
       ],
       nativeOrder: [0, 1, 2],
-      foreignOrder: [0, 1, 2],
-      diff: 2,
-      tags: ['ir', 'contraction', 'a1'],
-    ),
-    _sentence(
-      'Mi hermano es más alto que yo',
-      'My brother is taller than me',
-      tiles: [
-        {'word': 'Mi', 'type': 'standard', 'pos': 'determiner', 'native': 'My'},
-        {'word': 'hermano', 'type': 'standard', 'pos': 'noun', 'native': 'brother'},
-        {'word': 'es', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
-        {'word': 'más', 'type': 'particle', 'pos': 'adverb', 'native': 'more'},
-        {'word': 'alto', 'type': 'standard', 'pos': 'adjective', 'native': 'tall'},
-        {'word': 'que', 'type': 'particle', 'pos': 'conjunction', 'native': 'than'},
-        {'word': 'yo', 'type': 'standard', 'pos': 'pronoun', 'native': 'me'},
-      ],
-      nativeOrder: [0, 1, 2, 4, 5, 6],
-      foreignOrder: [0, 1, 2, 3, 4, 5, 6],
+      foreignOrder: [0, 1, 2, 3],
       diff: 3,
-      tags: ['comparatives', 'particle', 'a2'],
+      tags: ['separable-verb', 'particle', 'a2'],
+      grammar: {'verb': 'anfangen', 'separable_prefix': 'an'},
     ),
+    // Subordinate clause: verb goes to end
     _sentence(
-      'Puedes hablar más despacio',
-      'Can you speak more slowly',
+      'Ich weiß, dass er Deutsch spricht',
+      'I know that he speaks German',
       tiles: [
-        {'word': 'Puedes', 'type': 'inflected', 'pos': 'verb', 'native': 'Can you'},
-        {'word': 'hablar', 'type': 'standard', 'pos': 'verb', 'native': 'speak'},
-        {'word': 'más', 'type': 'particle', 'pos': 'adverb', 'native': 'more'},
-        {'word': 'despacio', 'type': 'standard', 'pos': 'adverb', 'native': 'slowly'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'weiß', 'type': 'inflected', 'pos': 'verb', 'native': 'know'},
+        {'word': 'dass', 'type': 'particle', 'pos': 'conjunction', 'native': 'that'},
+        {'word': 'er', 'type': 'standard', 'pos': 'pronoun', 'native': 'he'},
+        {'word': 'Deutsch', 'type': 'standard', 'pos': 'noun', 'native': 'German'},
+        {'word': 'spricht', 'type': 'inflected', 'pos': 'verb', 'native': 'speaks'},
       ],
-      nativeOrder: [0, 1, 2, 3],
+      nativeOrder: [0, 1, 2, 3, 5, 4],
+      foreignOrder: [0, 1, 2, 3, 4, 5],
+      diff: 3,
+      tags: ['subordinate', 'verb-final', 'a2'],
+      grammar: {'note': 'dass sends verb to end of clause'},
+    ),
+    // Modal verb: können (can) — infinitive goes to end
+    _sentence(
+      'Ich kann Deutsch sprechen',
+      'I can speak German',
+      tiles: [
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'kann', 'type': 'inflected', 'pos': 'verb', 'native': 'can'},
+        {'word': 'Deutsch', 'type': 'standard', 'pos': 'noun', 'native': 'German'},
+        {'word': 'sprechen', 'type': 'standard', 'pos': 'verb', 'native': 'speak'},
+      ],
+      nativeOrder: [0, 1, 3, 2],
       foreignOrder: [0, 1, 2, 3],
       diff: 2,
-      tags: ['poder', 'travel', 'a1'],
+      tags: ['modal', 'infinitive-end', 'a1'],
+      grammar: {'note': 'Modal verb second, infinitive at end'},
     ),
+    // Dative: Ich gebe dem Mann das Buch
     _sentence(
-      'Dónde está el baño',
-      'Where is the bathroom',
+      'Ich gebe dem Mann das Buch',
+      'I give the man the book',
       tiles: [
-        {'word': 'Dónde', 'type': 'standard', 'pos': 'adverb', 'native': 'Where'},
-        {'word': 'está', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
-        {'word': 'el', 'type': 'standard', 'pos': 'article', 'native': 'the'},
-        {'word': 'baño', 'type': 'standard', 'pos': 'noun', 'native': 'bathroom'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'gebe', 'type': 'inflected', 'pos': 'verb', 'native': 'give'},
+        {'word': 'dem', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Mann', 'type': 'standard', 'pos': 'noun', 'native': 'man'},
+        {'word': 'das', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Buch', 'type': 'standard', 'pos': 'noun', 'native': 'book'},
+      ],
+      nativeOrder: [0, 1, 2, 3, 4, 5],
+      foreignOrder: [0, 1, 2, 3, 4, 5],
+      diff: 2,
+      tags: ['dative', 'accusative', 'a2'],
+      grammar: {'case': 'dative+accusative', 'note': 'dem = dative der, das = accusative das'},
+    ),
+    // Question with inversion
+    _sentence(
+      'Wo ist die Toilette',
+      'Where is the toilet',
+      tiles: [
+        {'word': 'Wo', 'type': 'standard', 'pos': 'adverb', 'native': 'Where'},
+        {'word': 'ist', 'type': 'inflected', 'pos': 'verb', 'native': 'is'},
+        {'word': 'die', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Toilette', 'type': 'standard', 'pos': 'noun', 'native': 'toilet'},
       ],
       nativeOrder: [0, 1, 2, 3],
       foreignOrder: [0, 1, 2, 3],
       diff: 1,
       tags: ['question', 'travel', 'a1'],
     ),
+    // Negation with nicht (position matters in German)
     _sentence(
-      'No entiendo la pregunta',
+      'Ich verstehe die Frage nicht',
       'I don\'t understand the question',
       tiles: [
-        {'word': 'No', 'type': 'particle', 'pos': 'adverb', 'native': 'don\'t'},
-        {'word': 'entiendo', 'type': 'inflected', 'pos': 'verb', 'native': 'I understand'},
-        {'word': 'la', 'type': 'standard', 'pos': 'article', 'native': 'the'},
-        {'word': 'pregunta', 'type': 'standard', 'pos': 'noun', 'native': 'question'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'verstehe', 'type': 'inflected', 'pos': 'verb', 'native': 'understand'},
+        {'word': 'die', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Frage', 'type': 'standard', 'pos': 'noun', 'native': 'question'},
+        {'word': 'nicht', 'type': 'particle', 'pos': 'adverb', 'native': 'not'},
       ],
-      nativeOrder: [1, 0, 2, 3],
-      foreignOrder: [0, 1, 2, 3],
+      nativeOrder: [0, 4, 1, 2, 3],
+      foreignOrder: [0, 1, 2, 3, 4],
       diff: 2,
       tags: ['negation', 'particle', 'a1'],
+      grammar: {'note': 'nicht goes after the object in German'},
     ),
+    // Time-manner-place: Ich fahre heute mit dem Zug nach Berlin
     _sentence(
-      'Hace buen tiempo hoy',
-      'The weather is nice today',
+      'Ich fahre heute mit dem Zug nach Berlin',
+      'I travel to Berlin by train today',
       tiles: [
-        {'word': 'Hace', 'type': 'inflected', 'pos': 'verb', 'native': 'It makes'},
-        {'word': 'buen', 'type': 'standard', 'pos': 'adjective', 'native': 'good'},
-        {'word': 'tiempo', 'type': 'standard', 'pos': 'noun', 'native': 'weather'},
-        {'word': 'hoy', 'type': 'standard', 'pos': 'adverb', 'native': 'today'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'fahre', 'type': 'inflected', 'pos': 'verb', 'native': 'travel'},
+        {'word': 'heute', 'type': 'standard', 'pos': 'adverb', 'native': 'today'},
+        {'word': 'mit', 'type': 'standard', 'pos': 'preposition', 'native': 'by'},
+        {'word': 'dem', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Zug', 'type': 'standard', 'pos': 'noun', 'native': 'train'},
+        {'word': 'nach', 'type': 'standard', 'pos': 'preposition', 'native': 'to'},
+        {'word': 'Berlin', 'type': 'standard', 'pos': 'noun', 'native': 'Berlin'},
       ],
-      nativeOrder: [2, 0, 1, 3],
-      foreignOrder: [0, 1, 2, 3],
+      nativeOrder: [0, 1, 6, 7, 3, 4, 5, 2],
+      foreignOrder: [0, 1, 2, 3, 4, 5, 6, 7],
+      diff: 3,
+      tags: ['time-manner-place', 'dative', 'a2'],
+      grammar: {'note': 'German word order: Time-Manner-Place (heute-mit dem Zug-nach Berlin)'},
+    ),
+    // Separable verb: aufstehen
+    _sentence(
+      'Er steht um sechs Uhr auf',
+      'He gets up at six o\'clock',
+      tiles: [
+        {'word': 'Er', 'type': 'standard', 'pos': 'pronoun', 'native': 'He'},
+        {'word': 'steht', 'type': 'inflected', 'pos': 'verb', 'native': 'gets'},
+        {'word': 'um', 'type': 'standard', 'pos': 'preposition', 'native': 'at'},
+        {'word': 'sechs', 'type': 'standard', 'pos': 'numeral', 'native': 'six'},
+        {'word': 'Uhr', 'type': 'standard', 'pos': 'noun', 'native': 'o\'clock'},
+        {'word': 'auf', 'type': 'particle', 'pos': 'particle', 'native': '(prefix)'},
+      ],
+      nativeOrder: [0, 1, 5, 2, 3, 4],
+      foreignOrder: [0, 1, 2, 3, 4, 5],
+      diff: 3,
+      tags: ['separable-verb', 'particle', 'a2'],
+      grammar: {'verb': 'aufstehen', 'separable_prefix': 'auf'},
+    ),
+    // Perfect tense: haben + past participle at end
+    _sentence(
+      'Ich habe das Buch gelesen',
+      'I have read the book',
+      tiles: [
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'habe', 'type': 'inflected', 'pos': 'verb', 'native': 'have'},
+        {'word': 'das', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Buch', 'type': 'standard', 'pos': 'noun', 'native': 'book'},
+        {'word': 'gelesen', 'type': 'inflected', 'pos': 'verb', 'native': 'read'},
+      ],
+      nativeOrder: [0, 1, 4, 2, 3],
+      foreignOrder: [0, 1, 2, 3, 4],
       diff: 2,
-      tags: ['hacer', 'weather', 'a1'],
+      tags: ['perfect', 'past-participle', 'a2'],
+      grammar: {'note': 'Perfect tense: auxiliary (habe) second, participle (gelesen) at end'},
     ),
 
     // ---- 10 Inflected verb card sets (present tense, 6 forms — for conjugation dial) ----
 
-    _inflected('hablar', 'to speak', forms: [
-      'hablo', 'hablas', 'habla', 'hablamos', 'habláis', 'hablan',
-    ], tags: ['ar-verb', 'present', 'a1']),
-    _inflected('comer', 'to eat', forms: [
-      'como', 'comes', 'come', 'comemos', 'coméis', 'comen',
-    ], tags: ['er-verb', 'present', 'a1']),
-    _inflected('vivir', 'to live', forms: [
-      'vivo', 'vives', 'vive', 'vivimos', 'vivís', 'viven',
-    ], tags: ['ir-verb', 'present', 'a1']),
-    _inflected('ser', 'to be (permanent)', forms: [
-      'soy', 'eres', 'es', 'somos', 'sois', 'son',
+    _inflected('sprechen', 'to speak', forms: [
+      'spreche', 'sprichst', 'spricht', 'sprechen', 'sprecht', 'sprechen',
+    ], tags: ['strong-verb', 'present', 'a1']),
+    _inflected('essen', 'to eat', forms: [
+      'esse', 'isst', 'isst', 'essen', 'esst', 'essen',
+    ], tags: ['strong-verb', 'present', 'a1']),
+    _inflected('wohnen', 'to live', forms: [
+      'wohne', 'wohnst', 'wohnt', 'wohnen', 'wohnt', 'wohnen',
+    ], tags: ['weak-verb', 'present', 'a1']),
+    _inflected('sein', 'to be', forms: [
+      'bin', 'bist', 'ist', 'sind', 'seid', 'sind',
     ], tags: ['irregular', 'present', 'a1']),
-    _inflected('estar', 'to be (temporary)', forms: [
-      'estoy', 'estás', 'está', 'estamos', 'estáis', 'están',
+    _inflected('haben', 'to have', forms: [
+      'habe', 'hast', 'hat', 'haben', 'habt', 'haben',
     ], tags: ['irregular', 'present', 'a1']),
-    _inflected('tener', 'to have', forms: [
-      'tengo', 'tienes', 'tiene', 'tenemos', 'tenéis', 'tienen',
+    _inflected('werden', 'to become', forms: [
+      'werde', 'wirst', 'wird', 'werden', 'werdet', 'werden',
     ], tags: ['irregular', 'present', 'a1']),
-    _inflected('ir', 'to go', forms: [
-      'voy', 'vas', 'va', 'vamos', 'vais', 'van',
-    ], tags: ['irregular', 'present', 'a1']),
-    _inflected('hacer', 'to do/make', forms: [
-      'hago', 'haces', 'hace', 'hacemos', 'hacéis', 'hacen',
-    ], tags: ['irregular', 'present', 'a1']),
-    _inflected('poder', 'to be able to', forms: [
-      'puedo', 'puedes', 'puede', 'podemos', 'podéis', 'pueden',
-    ], tags: ['stem-change', 'present', 'a2']),
-    _inflected('querer', 'to want', forms: [
-      'quiero', 'quieres', 'quiere', 'queremos', 'queréis', 'quieren',
-    ], tags: ['stem-change', 'present', 'a2']),
+    _inflected('gehen', 'to go', forms: [
+      'gehe', 'gehst', 'geht', 'gehen', 'geht', 'gehen',
+    ], tags: ['strong-verb', 'present', 'a1']),
+    _inflected('machen', 'to do/make', forms: [
+      'mache', 'machst', 'macht', 'machen', 'macht', 'machen',
+    ], tags: ['weak-verb', 'present', 'a1']),
+    _inflected('können', 'to be able to', forms: [
+      'kann', 'kannst', 'kann', 'können', 'könnt', 'können',
+    ], tags: ['modal', 'present', 'a2']),
+    _inflected('wollen', 'to want', forms: [
+      'will', 'willst', 'will', 'wollen', 'wollt', 'wollen',
+    ], tags: ['modal', 'present', 'a2']),
 
     // ---- 5 Sentences with ghost/particle tiles ----
 
+    // Impersonal "es" (ghost subject)
     _sentence(
-      'Llueve mucho en Londres',
+      'Es regnet viel in London',
       'It rains a lot in London',
       tiles: [
-        {'word': 'Llueve', 'type': 'inflected', 'pos': 'verb', 'native': 'It rains'},
-        {'word': 'mucho', 'type': 'standard', 'pos': 'adverb', 'native': 'a lot'},
-        {'word': 'en', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
-        {'word': 'Londres', 'type': 'standard', 'pos': 'noun', 'native': 'London'},
+        {'word': 'Es', 'type': 'ghost', 'pos': 'pronoun', 'native': 'It', 'is_ghost': true},
+        {'word': 'regnet', 'type': 'inflected', 'pos': 'verb', 'native': 'rains'},
+        {'word': 'viel', 'type': 'standard', 'pos': 'adverb', 'native': 'a lot'},
+        {'word': 'in', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
+        {'word': 'London', 'type': 'standard', 'pos': 'noun', 'native': 'London'},
       ],
-      nativeOrder: [0, 1, 2, 3],
-      foreignOrder: [0, 1, 2, 3],
+      nativeOrder: [0, 1, 2, 3, 4],
+      foreignOrder: [0, 1, 2, 3, 4],
       diff: 2,
-      tags: ['weather', 'null-subject', 'ghost', 'a1'],
+      tags: ['weather', 'ghost', 'impersonal', 'a1'],
     ),
+    // "Man" (impersonal pronoun — ghost-like)
     _sentence(
-      'Se habla español aquí',
-      'Spanish is spoken here',
+      'Hier spricht man Deutsch',
+      'German is spoken here',
       tiles: [
-        {'word': 'Se', 'type': 'ghost', 'pos': 'pronoun', 'native': '', 'is_ghost': true},
-        {'word': 'habla', 'type': 'inflected', 'pos': 'verb', 'native': 'is spoken'},
-        {'word': 'español', 'type': 'standard', 'pos': 'noun', 'native': 'Spanish'},
-        {'word': 'aquí', 'type': 'standard', 'pos': 'adverb', 'native': 'here'},
+        {'word': 'Hier', 'type': 'standard', 'pos': 'adverb', 'native': 'Here'},
+        {'word': 'spricht', 'type': 'inflected', 'pos': 'verb', 'native': 'speaks'},
+        {'word': 'man', 'type': 'ghost', 'pos': 'pronoun', 'native': 'one', 'is_ghost': true},
+        {'word': 'Deutsch', 'type': 'standard', 'pos': 'noun', 'native': 'German'},
       ],
-      nativeOrder: [2, 1, 3],
+      nativeOrder: [3, 1, 0],
       foreignOrder: [0, 1, 2, 3],
       diff: 3,
-      tags: ['passive-se', 'ghost', 'a2'],
+      tags: ['impersonal', 'ghost', 'a2'],
+      grammar: {'note': 'man = impersonal one/people; verb in V2 position'},
     ),
+    // "Es gibt" (there is/are — idiomatic)
     _sentence(
-      'Hay muchos estudiantes en la clase',
+      'Es gibt viele Studenten in der Klasse',
       'There are many students in the class',
       tiles: [
-        {'word': 'Hay', 'type': 'ghost', 'pos': 'verb', 'native': 'There are', 'is_ghost': true},
-        {'word': 'muchos', 'type': 'standard', 'pos': 'adjective', 'native': 'many'},
-        {'word': 'estudiantes', 'type': 'standard', 'pos': 'noun', 'native': 'students'},
-        {'word': 'en', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
-        {'word': 'la', 'type': 'standard', 'pos': 'article', 'native': 'the'},
-        {'word': 'clase', 'type': 'standard', 'pos': 'noun', 'native': 'class'},
+        {'word': 'Es', 'type': 'ghost', 'pos': 'pronoun', 'native': 'There', 'is_ghost': true},
+        {'word': 'gibt', 'type': 'inflected', 'pos': 'verb', 'native': 'are'},
+        {'word': 'viele', 'type': 'standard', 'pos': 'adjective', 'native': 'many'},
+        {'word': 'Studenten', 'type': 'standard', 'pos': 'noun', 'native': 'students'},
+        {'word': 'in', 'type': 'standard', 'pos': 'preposition', 'native': 'in'},
+        {'word': 'der', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Klasse', 'type': 'standard', 'pos': 'noun', 'native': 'class'},
       ],
-      nativeOrder: [0, 1, 2, 3, 4, 5],
-      foreignOrder: [0, 1, 2, 3, 4, 5],
+      nativeOrder: [0, 1, 2, 3, 4, 5, 6],
+      foreignOrder: [0, 1, 2, 3, 4, 5, 6],
       diff: 2,
-      tags: ['hay', 'ghost', 'a1'],
+      tags: ['es-gibt', 'ghost', 'a1'],
     ),
+    // Reflexive with sich
     _sentence(
-      'A mí no me gustan las verduras',
-      'I don\'t like vegetables',
+      'Ich freue mich auf den Urlaub',
+      'I look forward to the holiday',
       tiles: [
-        {'word': 'A mí', 'type': 'particle', 'pos': 'pronoun', 'native': 'As for me', 'is_ghost': false},
-        {'word': 'no', 'type': 'particle', 'pos': 'adverb', 'native': 'not'},
-        {'word': 'me', 'type': 'particle', 'pos': 'pronoun', 'native': 'to me'},
-        {'word': 'gustan', 'type': 'inflected', 'pos': 'verb', 'native': 'are pleasing'},
-        {'word': 'las', 'type': 'ghost', 'pos': 'article', 'native': '', 'is_ghost': true},
-        {'word': 'verduras', 'type': 'standard', 'pos': 'noun', 'native': 'vegetables'},
+        {'word': 'Ich', 'type': 'standard', 'pos': 'pronoun', 'native': 'I'},
+        {'word': 'freue', 'type': 'inflected', 'pos': 'verb', 'native': 'look forward'},
+        {'word': 'mich', 'type': 'particle', 'pos': 'pronoun', 'native': 'myself'},
+        {'word': 'auf', 'type': 'particle', 'pos': 'preposition', 'native': 'to'},
+        {'word': 'den', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Urlaub', 'type': 'standard', 'pos': 'noun', 'native': 'holiday'},
       ],
-      nativeOrder: [5, 3, 2, 1, 0],
+      nativeOrder: [0, 1, 3, 4, 5],
       foreignOrder: [0, 1, 2, 3, 4, 5],
       diff: 3,
-      tags: ['gustar', 'negation', 'ghost', 'particle', 'a2'],
+      tags: ['reflexive', 'particle', 'accusative', 'a2'],
+      grammar: {'note': 'sich freuen auf + accusative = to look forward to'},
     ),
+    // Separable verb in perfect tense: hat ... aufgemacht
     _sentence(
-      'Tengo que irme ahora',
-      'I have to leave now',
+      'Er hat die Tür aufgemacht',
+      'He opened the door',
       tiles: [
-        {'word': 'Tengo', 'type': 'inflected', 'pos': 'verb', 'native': 'I have'},
-        {'word': 'que', 'type': 'particle', 'pos': 'conjunction', 'native': 'to'},
-        {'word': 'irme', 'type': 'compound', 'pos': 'verb', 'native': 'leave'},
-        {'word': 'ahora', 'type': 'standard', 'pos': 'adverb', 'native': 'now'},
+        {'word': 'Er', 'type': 'standard', 'pos': 'pronoun', 'native': 'He'},
+        {'word': 'hat', 'type': 'inflected', 'pos': 'verb', 'native': 'has'},
+        {'word': 'die', 'type': 'standard', 'pos': 'article', 'native': 'the'},
+        {'word': 'Tür', 'type': 'standard', 'pos': 'noun', 'native': 'door'},
+        {'word': 'aufgemacht', 'type': 'compound', 'pos': 'verb', 'native': 'opened'},
       ],
-      nativeOrder: [0, 1, 2, 3],
-      foreignOrder: [0, 1, 2, 3],
-      diff: 2,
-      tags: ['tener-que', 'reflexive', 'particle', 'a2'],
+      nativeOrder: [0, 4, 2, 3],
+      foreignOrder: [0, 1, 2, 3, 4],
+      diff: 3,
+      tags: ['perfect', 'separable-verb', 'compound', 'a2'],
+      grammar: {'verb': 'aufmachen', 'note': 'Separable verbs rejoin in past participle: auf+ge+macht'},
     ),
   ];
 
@@ -390,7 +438,7 @@ Future<void> main() async {
     }
   }
 
-  print('Done! Seeded ${cards.length} Spanish cards.');
+  print('Done! Seeded ${cards.length} German cards.');
 }
 
 // ---- Helpers ----
@@ -404,7 +452,7 @@ Map<String, dynamic> _word(
   Map<String, dynamic>? grammar,
 }) {
   return {
-    'language': 'es',
+    'language': 'de',
     'foreign_text': foreign,
     'native_text': native,
     'tile_type': 'standard',
@@ -412,6 +460,10 @@ Map<String, dynamic> _word(
     'difficulty': diff,
     'part_of_speech': pos,
     'grammar_metadata': grammar ?? {},
+    'tile_config': {},
+    'sentence_tiles': null,
+    'native_word_order': null,
+    'foreign_word_order': null,
     'tags': tags,
   };
 }
@@ -424,18 +476,21 @@ Map<String, dynamic> _sentence(
   required List<int> foreignOrder,
   int diff = 1,
   List<String> tags = const [],
+  Map<String, dynamic>? grammar,
 }) {
   return {
-    'language': 'es',
+    'language': 'de',
     'foreign_text': foreign,
     'native_text': native,
     'tile_type': 'standard',
     'card_type': 'sentence',
     'difficulty': diff,
+    'part_of_speech': null,
+    'grammar_metadata': grammar ?? {},
+    'tile_config': {},
     'sentence_tiles': tiles,
     'native_word_order': nativeOrder,
     'foreign_word_order': foreignOrder,
-    'grammar_metadata': {},
     'tags': tags,
   };
 }
@@ -447,7 +502,7 @@ Map<String, dynamic> _inflected(
   List<String> tags = const [],
 }) {
   return {
-    'language': 'es',
+    'language': 'de',
     'foreign_text': foreign,
     'native_text': native,
     'tile_type': 'inflected',
@@ -458,13 +513,16 @@ Map<String, dynamic> _inflected(
       'pos': 'verb',
       'tense': 'present',
       'inflection_forms': forms,
-      'form_labels': ['yo', 'tú', 'él/ella', 'nosotros', 'vosotros', 'ellos'],
+      'form_labels': ['ich', 'du', 'er/sie/es', 'wir', 'ihr', 'sie/Sie'],
     },
     'tile_config': {
       'root': foreign,
       'suffix': '',
       'suffix_color': '#10B981',
     },
+    'sentence_tiles': null,
+    'native_word_order': null,
+    'foreign_word_order': null,
     'tags': tags,
   };
 }

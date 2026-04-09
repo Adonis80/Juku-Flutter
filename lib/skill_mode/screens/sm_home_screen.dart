@@ -14,7 +14,7 @@ class SmHomeScreen extends ConsumerStatefulWidget {
 }
 
 class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
-  String _selectedLanguage = 'es';
+  String _selectedLanguage = 'de';
   int _dueCards = 0;
   int _totalCards = 0;
   int _streakDays = 0;
@@ -118,7 +118,7 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                       scrollDirection: Axis.horizontal,
                       children: _languages.entries.map((entry) {
                         final isSelected = entry.key == _selectedLanguage;
-                        final isAvailable = entry.key == 'es'; // v0.1: Spanish only
+                        final isAvailable = entry.key == 'de'; // v0.1: German only
                         return Padding(
                           padding: const EdgeInsets.only(right: 8),
                           child: FilterChip(
@@ -234,7 +234,7 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Run the seed script to add Spanish cards',
+                            'Run the seed script to add German cards',
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.outline,
                             ),
