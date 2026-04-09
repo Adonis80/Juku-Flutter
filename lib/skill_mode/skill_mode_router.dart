@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import 'screens/sm_card_screen.dart';
+import 'screens/sm_create_deck_screen.dart';
 import 'screens/sm_deck_screen.dart';
 import 'screens/sm_home_screen.dart';
 import 'screens/sm_pronunciation_screen.dart';
@@ -16,6 +17,10 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode',
       builder: (_, _) => const SmHomeScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/create-deck',
+      builder: (_, _) => const SmCreateDeckScreen(),
     ),
     GoRoute(
       path: '/skill-mode/deck',
