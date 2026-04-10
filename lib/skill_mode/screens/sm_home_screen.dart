@@ -206,6 +206,57 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                     ),
                   ),
 
+                  const SizedBox(height: 16),
+
+                  // Translation Battles entry card
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () =>
+                          context.push('/skill-mode/competitions'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.translate,
+                              size: 40,
+                              color: theme.colorScheme.tertiary,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Translation Battles',
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Compete to translate song lyrics',
+                                    style: theme.textTheme.bodySmall
+                                        ?.copyWith(
+                                      color: theme
+                                          .colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
                   const Spacer(),
 
                   // Empty state for new users

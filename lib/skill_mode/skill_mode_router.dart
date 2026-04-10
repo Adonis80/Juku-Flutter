@@ -18,6 +18,11 @@ import 'screens/sm_conjugation_table_screen.dart';
 import 'screens/sm_duo_battle_screen.dart';
 import 'screens/sm_duo_lobby_screen.dart';
 import 'screens/sm_duo_results_screen.dart';
+import 'screens/sm_competition_detail_screen.dart';
+import 'screens/sm_competition_entry_screen.dart';
+import 'screens/sm_competition_hub_screen.dart';
+import 'screens/sm_competition_results_screen.dart';
+import 'screens/sm_competition_vote_screen.dart';
 import 'screens/sm_translation_screen.dart';
 import 'screens/sm_vault_screen.dart';
 import 'screens/sm_writing_screen.dart';
@@ -141,6 +146,34 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode/vault',
       builder: (_, _) => const SmVaultScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/competitions',
+      builder: (_, _) => const SmCompetitionHubScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/competition/:id',
+      builder: (_, state) => SmCompetitionDetailScreen(
+        competitionId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/competition/:id/enter',
+      builder: (_, state) => SmCompetitionEntryScreen(
+        competitionId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/competition/:id/vote',
+      builder: (_, state) => SmCompetitionVoteScreen(
+        competitionId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/competition/:id/results',
+      builder: (_, state) => SmCompetitionResultsScreen(
+        competitionId: state.pathParameters['id']!,
+      ),
     ),
   ];
 }
