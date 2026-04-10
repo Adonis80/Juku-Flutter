@@ -48,13 +48,33 @@
 
 ## Current Sprint
 
-None — all engineering features complete.
+### SM-15 — Payment v2: Hybrid Stripe + GoCardless
+
+**Goal:** Wire up real payment flows for Juice top-ups (Stripe card) and creator payouts (GoCardless direct debit). No Apple/Google IAP — all payments web or direct debit.
+
+**Full spec:** DECISIONS.md D-001
+
+**Acceptance criteria:**
+- [ ] Juice Wallet screen: payment method selector (Card via Stripe / Bank via GoCardless)
+- [ ] Stripe card top-up: user enters amount → Stripe PaymentSheet → Juice credited
+- [ ] GoCardless mandate setup: link from app → browser → GoCardless hosted page → back via deep link
+- [ ] `juice_ledger` table: weekly tip accumulations per user
+- [ ] `payment_methods` table: stored card (Stripe) or bank (GoCardless mandate)
+- [ ] `settlements` table: weekly settlement records (amount, method, status)
+- [ ] `settle-weekly` Edge Function: cron Sunday 23:00 UTC, calculates net balance, triggers charges/payouts
+- [ ] `gocardless-webhook` Edge Function: handles mandate confirmation, payment events
+- [ ] Flutter: Juice top-up flow with Stripe PaymentSheet integration
+- [ ] Flutter: GoCardless mandate setup flow (webview → deep link callback)
+- [ ] Flutter: Settlement history screen in Juice Wallet
+- [ ] All new tables have RLS enabled
+- [ ] `flutter analyze` zero issues
+
+**Credentials:** Stripe pk_live/sk_live ✅ — GoCardless token ✅ — add to Supabase secrets before building
 
 ---
 
-## Next (when assigned)
+## Backlog
 
-- **SM-15:** Payment v2 — Hybrid Stripe + GoCardless (requires Stripe + GoCardless accounts first)
 - **23.5.6:** Sound packs (blocked — needs manual audio sourcing from freesound.org)
 
 ---
