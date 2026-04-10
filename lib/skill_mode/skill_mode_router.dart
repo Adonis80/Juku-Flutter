@@ -14,6 +14,7 @@ import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
 import 'screens/sm_song_upload_screen.dart';
 import 'screens/sm_challenge_screen.dart';
+import 'screens/sm_conjugation_table_screen.dart';
 import 'screens/sm_duo_battle_screen.dart';
 import 'screens/sm_duo_lobby_screen.dart';
 import 'screens/sm_duo_results_screen.dart';
@@ -102,6 +103,14 @@ List<GoRoute> skillModeRoutes() {
     GoRoute(
       path: '/skill-mode/challenges',
       builder: (_, _) => const SmChallengeScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/conjugation',
+      builder: (_, state) => SmConjugationTableScreen(
+        verb: state.uri.queryParameters['verb'] ?? '',
+        language: state.uri.queryParameters['language'] ?? 'de',
+        conjugations: const {},
+      ),
     ),
     GoRoute(
       path: '/skill-mode/duo',
