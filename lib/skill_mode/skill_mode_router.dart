@@ -20,6 +20,7 @@ import 'screens/sm_duo_lobby_screen.dart';
 import 'screens/sm_duo_results_screen.dart';
 import 'screens/sm_translation_screen.dart';
 import 'screens/sm_vault_screen.dart';
+import 'screens/sm_writing_screen.dart';
 
 /// All GoRouter sub-routes for Skill Mode.
 /// Added as detail routes (pushed on top of shell) in the main router.
@@ -126,6 +127,15 @@ List<GoRoute> skillModeRoutes() {
       path: '/skill-mode/duo-results/:id',
       builder: (_, state) => SmDuoResultsScreen(
         battleId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/writing',
+      builder: (_, state) => SmWritingScreen(
+        character: state.uri.queryParameters['character'] ?? '',
+        pinyin: state.uri.queryParameters['pinyin'],
+        meaning: state.uri.queryParameters['meaning'] ?? '',
+        language: state.uri.queryParameters['language'] ?? 'zh',
       ),
     ),
     GoRoute(
