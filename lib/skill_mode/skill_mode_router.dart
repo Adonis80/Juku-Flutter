@@ -13,6 +13,9 @@ import 'screens/sm_shuffle_screen.dart';
 import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
 import 'screens/sm_song_upload_screen.dart';
+import 'screens/sm_duo_battle_screen.dart';
+import 'screens/sm_duo_lobby_screen.dart';
+import 'screens/sm_duo_results_screen.dart';
 import 'screens/sm_translation_screen.dart';
 import 'screens/sm_vault_screen.dart';
 
@@ -93,6 +96,22 @@ List<GoRoute> skillModeRoutes() {
             ? int.tryParse(state.uri.queryParameters['lineIndex']!)
             : null,
         sourceText: state.uri.queryParameters['sourceText'] ?? '',
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/duo',
+      builder: (_, _) => const SmDuoLobbyScreen(),
+    ),
+    GoRoute(
+      path: '/skill-mode/duo-battle/:id',
+      builder: (_, state) => SmDuoBattleScreen(
+        battleId: state.pathParameters['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/skill-mode/duo-results/:id',
+      builder: (_, state) => SmDuoResultsScreen(
+        battleId: state.pathParameters['id']!,
       ),
     ),
     GoRoute(
