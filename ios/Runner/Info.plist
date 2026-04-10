@@ -79,6 +79,10 @@
 		</array>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>Juku needs microphone access for pronunciation practice and audio recording.</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Juku needs photo access to add images to your modules.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Juku needs camera access to take photos for your modules.</string>
 		<key>UIStatusBarHidden</key>
 		<false/>
 	</dict>

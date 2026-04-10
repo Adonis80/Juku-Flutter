@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'conditional_calculator_editor.dart';
+import 'image_upload_widget.dart';
 import 'studio_state.dart';
 
 class ContentEditor extends StatelessWidget {
@@ -210,6 +211,7 @@ class _QuizEditor extends StatelessWidget {
     final hintCtrl =
         TextEditingController(text: q['hint'] as String? ?? '');
     int selectedAnswer = correctIdx;
+    String? imageUrl = q['image_url'] as String?;
 
     showModalBottomSheet(
       context: context,
@@ -227,6 +229,14 @@ class _QuizEditor extends StatelessWidget {
                   decoration:
                       const InputDecoration(labelText: 'Question'),
                   maxLines: 2,
+                ),
+                const SizedBox(height: 12),
+                // Image upload for question
+                StudioImageUpload(
+                  currentImageUrl: imageUrl,
+                  onImageChanged: (url) =>
+                      setSheetState(() => imageUrl = url),
+                  height: 100,
                 ),
                 const SizedBox(height: 12),
                 RadioGroup<int>(
@@ -267,6 +277,7 @@ class _QuizEditor extends StatelessWidget {
                           optCtrls.map((c) => c.text).toList(),
                       'answer': selectedAnswer,
                       'hint': hintCtrl.text,
+                      if (imageUrl != null) 'image_url': imageUrl,
                     });
                     Navigator.pop(ctx);
                   },
