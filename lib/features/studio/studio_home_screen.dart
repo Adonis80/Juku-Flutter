@@ -251,16 +251,55 @@ class _ModuleCard extends StatelessWidget {
     }
   }
 
+  Color _parseHex(String hex) {
+    final clean = hex.replaceAll('#', '');
+    return Color(int.parse('FF$clean', radix: 16));
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final hasCover = module.coverUrl != null &&
+        module.coverUrl!.isNotEmpty;
+    final hasBranding = module.branding.isNotEmpty;
+
+    // Build background decoration from branding
+    BoxDecoration? coverDecoration;
+    if (hasCover) {
+      coverDecoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
+          image: NetworkImage(module.coverUrl!),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+            Colors.black.withValues(alpha: 0.5),
+            BlendMode.darken,
+          ),
+        ),
+      );
+    } else if (hasBranding) {
+      coverDecoration = BoxDecoration(
+        borderRadius: BorderRadius.circular(12),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            _parseHex(module.primaryColor),
+            _parseHex(module.accentColor),
+          ],
+        ),
+      );
+    }
+
+    final useWhiteText = hasCover || hasBranding;
 
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: onTap,
         onLongPress: isOwn ? onDelete : null,
-        child: Padding(
+        child: Container(
+          decoration: coverDecoration,
           padding: const EdgeInsets.all(12),
           child: Row(
             children: [
@@ -268,12 +307,16 @@ class _ModuleCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primaryContainer,
+                  color: useWhiteText
+                      ? Colors.white.withValues(alpha: 0.2)
+                      : theme.colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
                   _templateIcon(module.templateType),
-                  color: theme.colorScheme.onPrimaryContainer,
+                  color: useWhiteText
+                      ? Colors.white
+                      : theme.colorScheme.onPrimaryContainer,
                 ),
               ),
               const SizedBox(width: 12),
@@ -283,8 +326,10 @@ class _ModuleCard extends StatelessWidget {
                   children: [
                     Text(
                       module.title,
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w600),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: useWhiteText ? Colors.white : null,
+                      ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -295,24 +340,32 @@ class _ModuleCard extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 6, vertical: 1),
                           decoration: BoxDecoration(
-                            color: theme.colorScheme.secondaryContainer,
+                            color: useWhiteText
+                                ? Colors.white.withValues(alpha: 0.2)
+                                : theme.colorScheme.secondaryContainer,
                             borderRadius: BorderRadius.circular(4),
                           ),
                           child: Text(
                             module.templateType.label,
                             style: TextStyle(
                               fontSize: 10,
-                              color: theme.colorScheme.onSecondaryContainer,
+                              color: useWhiteText
+                                  ? Colors.white
+                                  : theme
+                                      .colorScheme.onSecondaryContainer,
                             ),
                           ),
                         ),
-                        if (!isOwn && module.creatorUsername != null) ...[
+                        if (!isOwn &&
+                            module.creatorUsername != null) ...[
                           const SizedBox(width: 6),
                           Text(
                             '@${module.creatorUsername}',
                             style: TextStyle(
                               fontSize: 11,
-                              color: _rankColor(module.creatorRank),
+                              color: useWhiteText
+                                  ? Colors.white70
+                                  : _rankColor(module.creatorRank),
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -331,8 +384,12 @@ class _ModuleCard extends StatelessWidget {
                           horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
                         color: module.published
-                            ? Colors.green.withValues(alpha: 0.1)
-                            : theme.colorScheme.surfaceContainerHighest,
+                            ? Colors.green.withValues(alpha: 0.2)
+                            : (useWhiteText
+                                ? Colors.white
+                                    .withValues(alpha: 0.15)
+                                : theme.colorScheme
+                                    .surfaceContainerHighest),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -341,8 +398,13 @@ class _ModuleCard extends StatelessWidget {
                           fontSize: 10,
                           fontWeight: FontWeight.w600,
                           color: module.published
-                              ? Colors.green
-                              : theme.colorScheme.onSurfaceVariant,
+                              ? (useWhiteText
+                                  ? Colors.greenAccent
+                                  : Colors.green)
+                              : (useWhiteText
+                                  ? Colors.white60
+                                  : theme
+                                      .colorScheme.onSurfaceVariant),
                         ),
                       ),
                     ),
@@ -351,13 +413,18 @@ class _ModuleCard extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.play_arrow,
-                          size: 14, color: theme.colorScheme.outline),
+                          size: 14,
+                          color: useWhiteText
+                              ? Colors.white60
+                              : theme.colorScheme.outline),
                       const SizedBox(width: 2),
                       Text(
                         '${module.playCount}',
                         style: TextStyle(
                           fontSize: 12,
-                          color: theme.colorScheme.outline,
+                          color: useWhiteText
+                              ? Colors.white60
+                              : theme.colorScheme.outline,
                         ),
                       ),
                     ],

@@ -55,6 +55,8 @@ class StudioModule {
   final bool published;
   final int playCount;
   final String? domain;
+  final Map<String, dynamic> branding;
+  final String? coverUrl;
   final DateTime? createdAt;
   final String? creatorUsername;
   final String? creatorRank;
@@ -69,13 +71,28 @@ class StudioModule {
     required this.published,
     required this.playCount,
     this.domain,
+    this.branding = const {},
+    this.coverUrl,
     this.createdAt,
     this.creatorUsername,
     this.creatorRank,
   });
 
+  /// Primary color from branding, or default purple.
+  String get primaryColor =>
+      branding['primary_color'] as String? ?? '#8B5CF6';
+
+  /// Accent color from branding, or default amber.
+  String get accentColor =>
+      branding['accent_color'] as String? ?? '#F59E0B';
+
   factory StudioModule.fromJson(Map<String, dynamic> json) {
     final profile = json['profiles'] as Map<String, dynamic>?;
+    final rawBranding = json['branding'];
+    final brandingMap = rawBranding is String
+        ? jsonDecode(rawBranding) as Map<String, dynamic>
+        : rawBranding as Map<String, dynamic>? ?? {};
+
     return StudioModule(
       id: json['id'] as String,
       creatorId: json['creator_id'] as String,
@@ -88,6 +105,8 @@ class StudioModule {
       published: json['published'] as bool? ?? false,
       playCount: json['play_count'] as int? ?? 0,
       domain: json['domain'] as String?,
+      branding: brandingMap,
+      coverUrl: json['cover_url'] as String?,
       createdAt: json['created_at'] != null
           ? DateTime.tryParse(json['created_at'] as String)
           : null,
