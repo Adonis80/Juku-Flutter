@@ -51,6 +51,8 @@ dependencies:
   drift_flutter: ^0.2.4
   sensors_plus: ^6.1.1
   audioplayers: ^6.4.0
+  flutter_native_splash: ^2.4.7
+  shared_preferences: ^2.5.5
 
 dev_dependencies:
   flutter_test:
@@ -107,3 +109,11 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+
+# Native splash screen configuration
+flutter_native_splash:
+  color: "#8B5CF6"
+  color_dark: "#1C1B1F"
+  android_12:
+    color: "#8B5CF6"
+    color_dark: "#1C1B1F"

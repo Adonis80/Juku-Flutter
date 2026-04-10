@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'core/error_handler.dart';
 import 'core/supabase_config.dart';
+import 'features/onboarding/onboarding_screen.dart';
 import 'routing/router.dart';
 import 'theme/app_theme.dart';
 
+/// Whether onboarding has been shown. Set during startup.
+bool onboardingDone = true;
+
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  setupErrorHandling();
+
+  ErrorWidget.builder = (details) => AppErrorWidget(details: details);
 
   await Supabase.initialize(
     url: supabaseUrl,
     anonKey: supabaseAnonKey,
   );
 
+  onboardingDone = await isOnboardingComplete();
+
+  FlutterNativeSplash.remove();
   runApp(const ProviderScope(child: JukuApp()));
 }
 
