@@ -13,6 +13,7 @@ import 'screens/sm_shuffle_screen.dart';
 import 'screens/sm_song_list_screen.dart';
 import 'screens/sm_song_player_screen.dart';
 import 'screens/sm_song_upload_screen.dart';
+import 'screens/sm_challenge_screen.dart';
 import 'screens/sm_duo_battle_screen.dart';
 import 'screens/sm_duo_lobby_screen.dart';
 import 'screens/sm_duo_results_screen.dart';
@@ -97,6 +98,10 @@ List<GoRoute> skillModeRoutes() {
             : null,
         sourceText: state.uri.queryParameters['sourceText'] ?? '',
       ),
+    ),
+    GoRoute(
+      path: '/skill-mode/challenges',
+      builder: (_, _) => const SmChallengeScreen(),
     ),
     GoRoute(
       path: '/skill-mode/duo',
