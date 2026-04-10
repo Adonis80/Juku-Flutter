@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'ai_generator.dart';
+import 'branding_editor.dart';
 import 'content_editor.dart';
 import 'studio_state.dart';
 
@@ -33,6 +34,9 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
 
   // Generated config
   Map<String, dynamic>? _config;
+
+  // Branding
+  ModuleBranding _branding = const ModuleBranding();
 
   // Publish fields
   final _titleCtrl = TextEditingController();
@@ -69,7 +73,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
         steps[2] = 'Describe Pricing';
     }
 
-    steps.addAll(['Generate', 'Review & Edit', 'Publish']);
+    steps.addAll(['Generate', 'Review & Edit', 'Branding', 'Publish']);
     return steps;
   }
 
@@ -212,6 +216,11 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
         return _buildGenerateStep(theme);
       case 'Review & Edit':
         return _buildReviewStep(theme);
+      case 'Branding':
+        return BrandingEditor(
+          branding: _branding,
+          onChanged: (b) => setState(() => _branding = b),
+        );
       case 'Publish':
         return _buildPublishStep(theme);
       default:
@@ -602,6 +611,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
             : _descCtrl.text.trim(),
         config: _config!,
         domain: _domain.toLowerCase(),
+        branding: _branding.toJson(),
       );
 
       if (mounted) {

@@ -172,6 +172,8 @@ Future<String> publishModule({
   String? description,
   required Map<String, dynamic> config,
   String? domain,
+  Map<String, dynamic>? branding,
+  String? coverUrl,
 }) async {
   final user = supabase.auth.currentUser;
   if (user == null) throw Exception('Not authenticated');
@@ -184,6 +186,8 @@ Future<String> publishModule({
     'config': config,
     'published': true,
     'domain': domain,
+    if (branding != null) 'branding': branding,
+    if (coverUrl != null) 'cover_url': coverUrl,
   }).select('id').single();
 
   // Award XP
