@@ -47,6 +47,7 @@
 | SM-16 | Juku Live: real-time broadcasts + Juice gifting | 2026-04-10 |
 | SM-17 | Daily Challenges: viral loop with streaks + leaderboards | 2026-04-10 |
 | SM-18 | Jukumon Evolution v2: skill branches + cinematic + variants | 2026-04-10 |
+| SM-19 | Juku Studio Pro: 8 card types + revenue dashboard | 2026-04-10 |
 
 ---
 
@@ -87,20 +88,19 @@
 
 ## Current Sprint
 
-### SM-19 — Juku Studio Pro
+### SM-20 — White-Label Tenant Dashboard
 
-**Goal:** Enhanced module builder with AI generation, expanded card types, audio recording, cover art generation, creator revenue dashboard.
+**Goal:** Self-serve tenant onboarding, branding customisation, analytics, user management, and content moderation.
 
-**Full spec:** ROADMAP.md SM-19
+**Full spec:** ROADMAP.md SM-20
 
 **Acceptance criteria:**
-- [ ] Card type library: 8+ types
-- [ ] AI content generation via BYOLLM
-- [ ] Audio recording per card
-- [ ] Cover art via AI or image upload
-- [ ] Preview mode: full Skill Mode playback
-- [ ] Publish to marketplace
-- [ ] Creator revenue dashboard
+- [ ] Self-serve signup wizard (5 steps)
+- [ ] Custom branding: logo, colours, welcome message
+- [ ] Content namespace: siloed per tenant
+- [ ] User management: invite, revoke, activity
+- [ ] Moderation queue: approve/reject cards
+- [ ] Analytics: DAU, plays, Juice, signups
 - [ ] `flutter analyze` zero issues
 
 ---
