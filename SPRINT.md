@@ -250,6 +250,7 @@ Post GL-3: all planned sprints complete. See ROADMAP.md for future work.
 This session (2026-04-11, session 3):
 - Fixed Google OAuth deep link callback — AppDelegate plugin registration + LaunchMode.externalApplication
 - ⏳ Whitelist `pro.juku.app://callback` in Supabase dashboard → Auth → URL Configuration → Redirect URLs
+- 🚨 **NEXT SESSION:** App not loading on iPhone — diagnose and fix first before any other work
 
 Previous session (2026-04-11, session 2):
 - D-002: Fixed Xcode 26.4 build failure — record 5.2.1 → 6.2.0 (kernel_snapshot_program fix)
