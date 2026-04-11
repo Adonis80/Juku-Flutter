@@ -21,6 +21,11 @@ class StudioHomeScreen extends ConsumerWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: [
+          IconButton(
+            onPressed: () => context.push('/studio/revenue'),
+            icon: const Icon(Icons.bar_chart),
+            tooltip: 'Revenue',
+          ),
           FilledButton.icon(
             onPressed: () => context.push('/studio/new'),
             icon: const Icon(Icons.add, size: 18),

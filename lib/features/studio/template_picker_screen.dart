@@ -6,8 +6,6 @@ class TemplatePickerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Choose a Template')),
       body: ListView(
@@ -48,17 +46,41 @@ class TemplatePickerScreen extends StatelessWidget {
             color: const Color(0xFF10B981),
             onTap: () => context.push('/studio/build/conditional_calculator'),
           ),
-          const SizedBox(height: 24),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              'More templates coming soon...',
-              style: TextStyle(
-                color: theme.colorScheme.outline,
-                fontStyle: FontStyle.italic,
-              ),
-              textAlign: TextAlign.center,
-            ),
+          const SizedBox(height: 12),
+          _TemplateCard(
+            icon: Icons.image,
+            name: 'Image Match',
+            description: 'Match images to words or descriptions',
+            example: 'Match animals to their names',
+            color: const Color(0xFFEC4899),
+            onTap: () => context.push('/studio/build/image_match'),
+          ),
+          const SizedBox(height: 12),
+          _TemplateCard(
+            icon: Icons.edit_note,
+            name: 'Fill the Blank',
+            description: 'Complete sentences with the correct word',
+            example: 'German preposition exercises',
+            color: const Color(0xFF14B8A6),
+            onTap: () => context.push('/studio/build/fill_blank'),
+          ),
+          const SizedBox(height: 12),
+          _TemplateCard(
+            icon: Icons.headphones,
+            name: 'Audio Card',
+            description: 'Listen and respond — pronunciation or comprehension',
+            example: 'French pronunciation practice',
+            color: const Color(0xFFF97316),
+            onTap: () => context.push('/studio/build/audio_card'),
+          ),
+          const SizedBox(height: 12),
+          _TemplateCard(
+            icon: Icons.shuffle,
+            name: 'Word Scramble',
+            description: 'Unscramble letters or words to form the answer',
+            example: 'Vocabulary building game',
+            color: const Color(0xFF6366F1),
+            onTap: () => context.push('/studio/build/word_scramble'),
           ),
         ],
       ),

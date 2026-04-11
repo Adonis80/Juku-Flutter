@@ -32,6 +32,7 @@ import '../features/studio/module_builder_screen.dart';
 import '../features/studio/multiplayer_game_screen.dart';
 import '../features/studio/play_screen.dart';
 import '../features/studio/publish_success_screen.dart';
+import '../features/studio/revenue_dashboard_screen.dart';
 import '../features/studio/studio_home_screen.dart';
 import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
@@ -184,6 +185,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const CirclesScreen(),
       ),
       // Studio routes
+      GoRoute(
+        path: '/studio/revenue',
+        builder: (_, _) => const RevenueDashboardScreen(),
+      ),
       GoRoute(
         path: '/studio/new',
         builder: (_, _) => const TemplatePickerScreen(),

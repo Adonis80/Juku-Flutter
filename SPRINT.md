@@ -46,6 +46,7 @@
 | SM-15 | Payment v2: Stripe + GoCardless | 2026-04-10 |
 | SM-16 | Juku Live: real-time broadcasts + Juice gifting | 2026-04-10 |
 | SM-17 | Daily Challenges: viral loop with streaks + leaderboards | 2026-04-10 |
+| SM-18 | Jukumon Evolution v2: skill branches + cinematic + variants | 2026-04-10 |
 
 ---
 
@@ -86,20 +87,20 @@
 
 ## Current Sprint
 
-### SM-18 — Jukumon Evolution v2
+### SM-19 — Juku Studio Pro
 
-**Goal:** Jukumon evolution system with 4 skill-based branches, evolution cinematics, and rare cosmetic variants.
+**Goal:** Enhanced module builder with AI generation, expanded card types, audio recording, cover art generation, creator revenue dashboard.
 
-**Full spec:** ROADMAP.md SM-18
+**Full spec:** ROADMAP.md SM-19
 
 **Acceptance criteria:**
-- [ ] `jukumon_evolutions` table: user's current evolution branch + stage
-- [ ] `jukumon_variants` table: cosmetic variants (rare, seasonal)
-- [ ] Dominant skill calculated from last 30 days of session data
-- [ ] Evolution triggered at levels 5, 15, 30, 50, 100
-- [ ] Evolution animation screen (full-screen cinematic)
-- [ ] Jukumon displayed on public profile with evolution branch
-- [ ] Rare variants purchasable with Juice
+- [ ] Card type library: 8+ types
+- [ ] AI content generation via BYOLLM
+- [ ] Audio recording per card
+- [ ] Cover art via AI or image upload
+- [ ] Preview mode: full Skill Mode playback
+- [ ] Publish to marketplace
+- [ ] Creator revenue dashboard
 - [ ] `flutter analyze` zero issues
 
 ---

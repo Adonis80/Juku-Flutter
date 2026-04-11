@@ -48,7 +48,8 @@ flutter build apk       # Build Android APK
 | SM-15 | Payment v2: Stripe + GoCardless | ✅ DONE |
 | SM-16 | Juku Live: real-time broadcasts + gifting | ✅ DONE |
 | SM-17 | Juku Challenges: daily viral loop | ✅ DONE |
-| **SM-18** | **Jukumon Evolution v2** | **🔄 CURRENT** |
+| SM-18 | Jukumon Evolution v2 | ✅ DONE |
+| **SM-19** | **Juku Studio Pro** | **🔄 CURRENT** |
 
 ---
 
