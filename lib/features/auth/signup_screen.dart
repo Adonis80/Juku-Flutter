@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'auth_state.dart';
 
@@ -94,7 +95,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                       const SizedBox(height: 24),
                       FilledButton(
-                        onPressed: () => Navigator.of(context).pop(),
+                        onPressed: () => context.go('/login'),
                         child: const Text('Back to Login'),
                       ),
                     ],

@@ -56,7 +56,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
   }
 
   Future<void> _castVote(String voteType) async {
-    if (_voting) return;
+    if (_voting || _lesson == null) return;
     setState(() => _voting = true);
 
     // Optimistic update

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import 'auth_state.dart';
 
@@ -158,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: theme.textTheme.bodySmall,
                     ),
                     GestureDetector(
-                      onTap: () => Navigator.of(context).pushNamed('/signup'),
+                      onTap: () => context.go('/signup'),
                       child: Text(
                         'Sign Up',
                         style: theme.textTheme.bodySmall?.copyWith(
