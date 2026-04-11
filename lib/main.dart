@@ -24,10 +24,7 @@ Future<void> main() async {
 
   ErrorWidget.builder = (details) => AppErrorWidget(details: details);
 
-  await Supabase.initialize(
-    url: supabaseUrl,
-    anonKey: supabaseAnonKey,
-  );
+  await Supabase.initialize(url: supabaseUrl, anonKey: supabaseAnonKey);
 
   PaymentService.initStripe(_stripePublishableKey);
 

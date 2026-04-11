@@ -49,10 +49,7 @@ void main() {
         'user_id': 'u-2',
         'role': 'student',
         'joined_at': '2026-04-11T12:00:00Z',
-        'profiles': {
-          'username': 'alice',
-          'display_name': 'Alice',
-        },
+        'profiles': {'username': 'alice', 'display_name': 'Alice'},
       };
       final m = ClassroomMember.fromJson(json);
       expect(m.username, 'alice');

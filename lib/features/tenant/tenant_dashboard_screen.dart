@@ -19,17 +19,12 @@ class TenantDashboardScreen extends ConsumerWidget {
     final tenantAsync = ref.watch(tenantProvider);
 
     return tenantAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (e, _) => Scaffold(
-        body: Center(child: Text('Error: $e')),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (e, _) => Scaffold(body: Center(child: Text('Error: $e'))),
       data: (tenant) {
         if (tenant == null) {
-          return const Scaffold(
-            body: Center(child: Text('No tenant found')),
-          );
+          return const Scaffold(body: Center(child: Text('No tenant found')));
         }
         return _DashboardBody(tenant: tenant);
       },
@@ -68,9 +63,7 @@ class _DashboardBody extends StatelessWidget {
             BrandingTab(tenant: tenant),
             SettingsTab(tenant: tenant),
           ],
-        )
-            .animate()
-            .fadeIn(duration: 300.ms),
+        ).animate().fadeIn(duration: 300.ms),
       ),
     );
   }

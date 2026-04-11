@@ -51,8 +51,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     } else {
       // Weekly or monthly: aggregate xp_events
       final days = _activeTab == 0 ? 7 : 30;
-      final since =
-          DateTime.now().subtract(Duration(days: days)).toIso8601String();
+      final since = DateTime.now()
+          .subtract(Duration(days: days))
+          .toIso8601String();
 
       // Use RPC or manual aggregation
       // Since we can't do GROUP BY easily via PostgREST, fetch recent events and aggregate client-side
@@ -74,7 +75,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       final topIds = sorted.take(20).map((e) => e.key).toList();
 
       if (topIds.isEmpty) {
-        if (mounted) setState(() { _users = []; _loading = false; });
+        if (mounted) {
+          setState(() {
+            _users = [];
+            _loading = false;
+          });
+        }
         return;
       }
 
@@ -88,8 +94,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       for (final p in data) {
         p['period_xp'] = totals[p['id']] ?? 0;
       }
-      data.sort((a, b) =>
-          (b['period_xp'] as int).compareTo(a['period_xp'] as int));
+      data.sort(
+        (a, b) => (b['period_xp'] as int).compareTo(a['period_xp'] as int),
+      );
     }
 
     if (mounted) {
@@ -119,77 +126,73 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _users.isEmpty
-              ? Center(
-                  child: Text('No data yet',
-                      style: TextStyle(color: theme.colorScheme.outline)),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(12),
-                    itemCount: _users.length,
-                    itemBuilder: (context, index) {
-                      final u = _users[index];
-                      final username =
-                          u['username'] as String? ?? 'unknown';
-                      final rank = u['rank'] as String? ?? 'bronze';
-                      final xpDisplay = _activeTab == 2
-                          ? '${u['xp'] ?? 0} XP'
-                          : '${u['period_xp'] ?? 0} XP';
+          ? Center(
+              child: Text(
+                'No data yet',
+                style: TextStyle(color: theme.colorScheme.outline),
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(12),
+                itemCount: _users.length,
+                itemBuilder: (context, index) {
+                  final u = _users[index];
+                  final username = u['username'] as String? ?? 'unknown';
+                  final rank = u['rank'] as String? ?? 'bronze';
+                  final xpDisplay = _activeTab == 2
+                      ? '${u['xp'] ?? 0} XP'
+                      : '${u['period_xp'] ?? 0} XP';
 
-                      return Card(
-                        color: index < 3
-                            ? _podiumColor(index, theme)
-                            : null,
-                        child: ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: index < 3
-                                ? Colors.white.withValues(alpha: 0.9)
-                                : theme.colorScheme.primaryContainer,
-                            child: index < 3
-                                ? Text(
-                                    _podiumEmoji(index),
-                                    style: const TextStyle(fontSize: 20),
-                                  )
-                                : Text(
-                                    '${index + 1}',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: theme
-                                          .colorScheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                          ),
-                          title: Text(
-                            u['display_name'] as String? ?? username,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w600),
-                          ),
-                          subtitle: Text(
-                            '@$username · ${rankLabels[rank] ?? 'Bronze'} · Level ${u['level'] ?? 1}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: index < 3
-                                  ? Colors.white70
-                                  : theme.colorScheme.outline,
-                            ),
-                          ),
-                          trailing: Text(
-                            xpDisplay,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: index < 3
-                                  ? Colors.white
-                                  : theme.colorScheme.primary,
-                            ),
-                          ),
-                          onTap: () =>
-                              context.push('/profile/${u['id']}'),
+                  return Card(
+                    color: index < 3 ? _podiumColor(index, theme) : null,
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundColor: index < 3
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : theme.colorScheme.primaryContainer,
+                        child: index < 3
+                            ? Text(
+                                _podiumEmoji(index),
+                                style: const TextStyle(fontSize: 20),
+                              )
+                            : Text(
+                                '${index + 1}',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: theme.colorScheme.onPrimaryContainer,
+                                ),
+                              ),
+                      ),
+                      title: Text(
+                        u['display_name'] as String? ?? username,
+                        style: const TextStyle(fontWeight: FontWeight.w600),
+                      ),
+                      subtitle: Text(
+                        '@$username · ${rankLabels[rank] ?? 'Bronze'} · Level ${u['level'] ?? 1}',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: index < 3
+                              ? Colors.white70
+                              : theme.colorScheme.outline,
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                      trailing: Text(
+                        xpDisplay,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: index < 3
+                              ? Colors.white
+                              : theme.colorScheme.primary,
+                        ),
+                      ),
+                      onTap: () => context.push('/profile/${u['id']}'),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 

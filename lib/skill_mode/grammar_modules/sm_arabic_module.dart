@@ -17,12 +17,12 @@ class SmArabicModule extends SmGrammarModule {
 
   @override
   List<String> get conjugationLabels => [
-    '\u0623\u0646\u0627',         // أنا (I)
+    '\u0623\u0646\u0627', // أنا (I)
     '\u0623\u0646\u062A/\u0623\u0646\u062A\u0650', // أنتَ/أنتِ (you m/f)
-    '\u0647\u0648/\u0647\u064A',   // هو/هي (he/she)
-    '\u0646\u062D\u0646',         // نحن (we)
-    '\u0623\u0646\u062A\u0645',   // أنتم (you pl)
-    '\u0647\u0645',               // هم (they)
+    '\u0647\u0648/\u0647\u064A', // هو/هي (he/she)
+    '\u0646\u062D\u0646', // نحن (we)
+    '\u0623\u0646\u062A\u0645', // أنتم (you pl)
+    '\u0647\u0645', // هم (they)
   ];
 
   // --- Root system colours ---
@@ -33,8 +33,8 @@ class SmArabicModule extends SmGrammarModule {
   static const _caseColors = <String, Color>{
     'nominative': Color(0xFF3B82F6), // marfu' (raf')
     'accusative': Color(0xFFF59E0B), // mansub (nasb)
-    'genitive': Color(0xFFEF4444),   // majrur (jarr)
-    'jussive': Color(0xFF10B981),     // majzum (jazm)
+    'genitive': Color(0xFFEF4444), // majrur (jarr)
+    'jussive': Color(0xFF10B981), // majzum (jazm)
   };
 
   @override
@@ -89,14 +89,16 @@ class SmArabicModule extends SmGrammarModule {
 
       String? rule;
       if (root != null) {
-        rule = 'Root: $root \u2014 three-letter root system (\u062C\u0630\u0631)';
+        rule =
+            'Root: $root \u2014 three-letter root system (\u062C\u0630\u0631)';
       }
       if (verbForm != null) {
         rule = '${rule != null ? "$rule. " : ""}Verb Form $verbForm';
       }
       final isSunLetter = cardGrammar['is_sun_letter'] as bool? ?? false;
       if (isSunLetter) {
-        rule = '${rule != null ? "$rule. " : ""}Sun letter \u2014 \u0627\u0644 assimilates';
+        rule =
+            '${rule != null ? "$rule. " : ""}Sun letter \u2014 \u0627\u0644 assimilates';
       }
 
       return SmGrammarAnnotation(
@@ -194,16 +196,16 @@ class _ArabicCaseTile extends StatelessWidget {
   const _ArabicCaseTile({required this.grammaticalCase});
 
   static const _labels = <String, String>{
-    'nominative': '\u0631\u0641\u0639',   // رفع
-    'accusative': '\u0646\u0635\u0628',   // نصب
-    'genitive': '\u062C\u0631',           // جر
-    'jussive': '\u062C\u0632\u0645',      // جزم
+    'nominative': '\u0631\u0641\u0639', // رفع
+    'accusative': '\u0646\u0635\u0628', // نصب
+    'genitive': '\u062C\u0631', // جر
+    'jussive': '\u062C\u0632\u0645', // جزم
   };
 
   @override
   Widget build(BuildContext context) {
-    final color = SmArabicModule._caseColors[grammaticalCase] ??
-        const Color(0xFF6B7280);
+    final color =
+        SmArabicModule._caseColors[grammaticalCase] ?? const Color(0xFF6B7280);
     final label = _labels[grammaticalCase] ?? grammaticalCase;
 
     return Positioned(

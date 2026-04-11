@@ -12,21 +12,15 @@ class SmLevelUpOverlay extends StatefulWidget {
   final SmLevelUp levelUp;
   final VoidCallback? onDismiss;
 
-  const SmLevelUpOverlay({
-    super.key,
-    required this.levelUp,
-    this.onDismiss,
-  });
+  const SmLevelUpOverlay({super.key, required this.levelUp, this.onDismiss});
 
   /// Show as an overlay entry.
   static void show(BuildContext context, SmLevelUp levelUp) {
     final overlay = Overlay.of(context);
     late OverlayEntry entry;
     entry = OverlayEntry(
-      builder: (_) => SmLevelUpOverlay(
-        levelUp: levelUp,
-        onDismiss: () => entry.remove(),
-      ),
+      builder: (_) =>
+          SmLevelUpOverlay(levelUp: levelUp, onDismiss: () => entry.remove()),
     );
     overlay.insert(entry);
   }
@@ -129,35 +123,32 @@ class _SmLevelUpOverlayState extends State<SmLevelUpOverlay>
                 children: [
                   // Level number badge.
                   Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      gradient: RadialGradient(
-                        colors: [
-                          _rankColor,
-                          _rankColor.withAlpha(180),
-                        ],
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: _rankColor.withAlpha(120),
-                          blurRadius: 40,
-                          spreadRadius: 10,
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: RadialGradient(
+                            colors: [_rankColor, _rankColor.withAlpha(180)],
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: _rankColor.withAlpha(120),
+                              blurRadius: 40,
+                              spreadRadius: 10,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Text(
-                        '${widget.levelUp.newLevel}',
-                        style: const TextStyle(
-                          fontSize: 48,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.white,
+                        child: Center(
+                          child: Text(
+                            '${widget.levelUp.newLevel}',
+                            style: const TextStyle(
+                              fontSize: 48,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
                       .animate()
                       .scale(
                         begin: const Offset(0.0, 0.0),
@@ -170,14 +161,14 @@ class _SmLevelUpOverlayState extends State<SmLevelUpOverlay>
                   const SizedBox(height: 24),
 
                   Text(
-                    'LEVEL UP!',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w900,
-                      color: _rankColor,
-                      letterSpacing: 4,
-                    ),
-                  )
+                        'LEVEL UP!',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w900,
+                          color: _rankColor,
+                          letterSpacing: 4,
+                        ),
+                      )
                       .animate()
                       .fadeIn(
                         delay: const Duration(milliseconds: 400),
@@ -200,9 +191,9 @@ class _SmLevelUpOverlayState extends State<SmLevelUpOverlay>
                       color: _rankColor.withAlpha(200),
                     ),
                   ).animate().fadeIn(
-                        delay: const Duration(milliseconds: 700),
-                        duration: const Duration(milliseconds: 300),
-                      ),
+                    delay: const Duration(milliseconds: 700),
+                    duration: const Duration(milliseconds: 300),
+                  ),
                 ],
               ),
             ),

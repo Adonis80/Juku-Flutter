@@ -45,7 +45,8 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
     final data = await supabase
         .from('topic_messages')
         .select(
-            'id, content, upvotes, created_at, user_id, profiles!topic_messages_user_id_fkey(username)')
+          'id, content, upvotes, created_at, user_id, profiles!topic_messages_user_id_fkey(username)',
+        )
         .eq('topic_key', widget.topicKey)
         .order('created_at', ascending: true)
         .limit(100);
@@ -65,11 +66,11 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
         .stream(primaryKey: ['id'])
         .eq('topic_key', widget.topicKey)
         .listen((data) {
-      if (mounted) {
-        setState(() => _messages = List<Map<String, dynamic>>.from(data));
-        _scrollToBottom();
-      }
-    });
+          if (mounted) {
+            setState(() => _messages = List<Map<String, dynamic>>.from(data));
+            _scrollToBottom();
+          }
+        });
   }
 
   void _scrollToBottom() {
@@ -102,9 +103,9 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
       });
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed: $e')));
       }
     }
 
@@ -113,14 +114,16 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
 
   Future<void> _toggleVote(String messageId) async {
     try {
-      await supabase.rpc('toggle_topic_message_vote',
-          params: {'p_message_id': messageId});
+      await supabase.rpc(
+        'toggle_topic_message_vote',
+        params: {'p_message_id': messageId},
+      );
       // Realtime will update the list
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Vote failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Vote failed: $e')));
       }
     }
   }
@@ -131,105 +134,95 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
     final userId = supabase.auth.currentUser?.id;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.channelName ?? widget.topicKey),
-      ),
+      appBar: AppBar(title: Text(widget.channelName ?? widget.topicKey)),
       body: Column(
         children: [
           Expanded(
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _messages.isEmpty
-                    ? Center(
-                        child: Text(
-                          'No messages yet — start the discussion!',
-                          style:
-                              TextStyle(color: theme.colorScheme.outline),
-                        ),
-                      )
-                    : ListView.builder(
-                        controller: _scrollCtrl,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          final msg = _messages[index];
-                          final author = msg['profiles']
-                              as Map<String, dynamic>?;
-                          final isOwn = msg['user_id'] == userId;
+                ? Center(
+                    child: Text(
+                      'No messages yet — start the discussion!',
+                      style: TextStyle(color: theme.colorScheme.outline),
+                    ),
+                  )
+                : ListView.builder(
+                    controller: _scrollCtrl,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      final msg = _messages[index];
+                      final author = msg['profiles'] as Map<String, dynamic>?;
+                      final isOwn = msg['user_id'] == userId;
 
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 3),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12),
-                              child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                      return Card(
+                        margin: const EdgeInsets.symmetric(vertical: 3),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '@${author?['username'] ?? 'unknown'}',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: isOwn
-                                              ? theme.colorScheme.primary
-                                              : theme.colorScheme
-                                                  .onSurfaceVariant,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      // Upvote button
-                                      InkWell(
-                                        borderRadius:
-                                            BorderRadius.circular(12),
-                                        onTap: () => _toggleVote(
-                                            msg['id'] as String),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsets.symmetric(
-                                                  horizontal: 6,
-                                                  vertical: 2),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                Icons
-                                                    .arrow_upward_rounded,
-                                                size: 16,
-                                                color: theme
-                                                    .colorScheme.primary,
-                                              ),
-                                              const SizedBox(width: 2),
-                                              Text(
-                                                '${msg['upvotes'] ?? 0}',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  color: theme
-                                                      .colorScheme
-                                                      .primary,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 6),
                                   Text(
-                                    msg['content'] as String? ?? '',
-                                    style: theme.textTheme.bodyMedium,
+                                    '@${author?['username'] ?? 'unknown'}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: isOwn
+                                          ? theme.colorScheme.primary
+                                          : theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  // Upvote button
+                                  InkWell(
+                                    borderRadius: BorderRadius.circular(12),
+                                    onTap: () =>
+                                        _toggleVote(msg['id'] as String),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 6,
+                                        vertical: 2,
+                                      ),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Icon(
+                                            Icons.arrow_upward_rounded,
+                                            size: 16,
+                                            color: theme.colorScheme.primary,
+                                          ),
+                                          const SizedBox(width: 2),
+                                          Text(
+                                            '${msg['upvotes'] ?? 0}',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w600,
+                                              color: theme.colorScheme.primary,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
-                            ),
-                          );
-                        },
-                      ),
+                              const SizedBox(height: 6),
+                              Text(
+                                msg['content'] as String? ?? '',
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
 
           // Input bar
@@ -258,10 +251,11 @@ class _TopicChannelScreenState extends State<TopicChannelScreen> {
                         borderSide: BorderSide.none,
                       ),
                       filled: true,
-                      fillColor:
-                          theme.colorScheme.surfaceContainerHighest,
+                      fillColor: theme.colorScheme.surfaceContainerHighest,
                       contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                     ),
                     textInputAction: TextInputAction.send,
                     onSubmitted: (_) => _send(),

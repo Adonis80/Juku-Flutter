@@ -61,7 +61,8 @@ class _InviteScreenState extends State<InviteScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-              'NFC not available yet — use the share link below instead'),
+            'NFC not available yet — use the share link below instead',
+          ),
         ),
       );
     }
@@ -70,9 +71,9 @@ class _InviteScreenState extends State<InviteScreen> {
   void _copyLink() {
     if (_inviteLink == null) return;
     Clipboard.setData(ClipboardData(text: _inviteLink!));
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Invite link copied!')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Invite link copied!')));
   }
 
   @override
@@ -87,23 +88,23 @@ class _InviteScreenState extends State<InviteScreen> {
           children: [
             // NFC tap illustration
             Container(
-              width: 120,
-              height: 120,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.tertiary,
-                  ],
-                ),
-              ),
-              child: Icon(
-                Icons.nfc_rounded,
-                size: 56,
-                color: theme.colorScheme.onPrimary,
-              ),
-            )
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.tertiary,
+                      ],
+                    ),
+                  ),
+                  child: Icon(
+                    Icons.nfc_rounded,
+                    size: 56,
+                    color: theme.colorScheme.onPrimary,
+                  ),
+                )
                 .animate(onPlay: (c) => c.repeat(reverse: true))
                 .scale(
                   begin: const Offset(1, 1),
@@ -140,7 +141,10 @@ class _InviteScreenState extends State<InviteScreen> {
                     )
                   : const Icon(Icons.nfc_rounded),
               label: Text(
-                  _nfcScanning ? 'Scanning for nearby phone...' : 'Start NFC Invite'),
+                _nfcScanning
+                    ? 'Scanning for nearby phone...'
+                    : 'Start NFC Invite',
+              ),
               style: FilledButton.styleFrom(
                 minimumSize: const Size.fromHeight(52),
               ),
@@ -150,7 +154,9 @@ class _InviteScreenState extends State<InviteScreen> {
             // Divider
             Row(
               children: [
-                Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
+                Expanded(
+                  child: Divider(color: theme.colorScheme.outlineVariant),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
@@ -161,7 +167,9 @@ class _InviteScreenState extends State<InviteScreen> {
                     ),
                   ),
                 ),
-                Expanded(child: Divider(color: theme.colorScheme.outlineVariant)),
+                Expanded(
+                  child: Divider(color: theme.colorScheme.outlineVariant),
+                ),
               ],
             ),
             const SizedBox(height: 16),
@@ -256,21 +264,25 @@ class _InviteScreenState extends State<InviteScreen> {
                     ),
                     const SizedBox(height: 8),
                     _RewardRow(
-                        icon: Icons.person_add,
-                        text: 'Friend joins',
-                        xp: '+25 XP'),
+                      icon: Icons.person_add,
+                      text: 'Friend joins',
+                      xp: '+25 XP',
+                    ),
                     _RewardRow(
-                        icon: Icons.trending_up,
-                        text: 'Friend hits Level 5',
-                        xp: '+50 XP'),
+                      icon: Icons.trending_up,
+                      text: 'Friend hits Level 5',
+                      xp: '+50 XP',
+                    ),
                     _RewardRow(
-                        icon: Icons.school,
-                        text: 'Friend creates first lesson',
-                        xp: '+15 XP'),
+                      icon: Icons.school,
+                      text: 'Friend creates first lesson',
+                      xp: '+15 XP',
+                    ),
                     _RewardRow(
-                        icon: Icons.monetization_on,
-                        text: 'Friend sends first tip',
-                        xp: '+10 XP'),
+                      icon: Icons.monetization_on,
+                      text: 'Friend sends first tip',
+                      xp: '+10 XP',
+                    ),
                   ],
                 ),
               ),
@@ -283,11 +295,7 @@ class _InviteScreenState extends State<InviteScreen> {
 }
 
 class _RewardRow extends StatelessWidget {
-  const _RewardRow({
-    required this.icon,
-    required this.text,
-    required this.xp,
-  });
+  const _RewardRow({required this.icon, required this.text, required this.xp});
 
   final IconData icon;
   final String text;

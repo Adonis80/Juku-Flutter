@@ -18,8 +18,7 @@ class SmConversationResultScreen extends ConsumerWidget {
     final conversation = convState.conversation;
 
     final fluency = conversation?.fluencyScore ?? convState.avgFluency;
-    final vocabulary =
-        conversation?.vocabularyScore ?? convState.avgVocabulary;
+    final vocabulary = conversation?.vocabularyScore ?? convState.avgVocabulary;
     final grammar = conversation?.grammarScore ?? convState.avgGrammar;
     final overall = conversation?.overallScore ?? convState.avgOverall;
     final xp = conversation?.xpAwarded ?? 0;
@@ -40,13 +39,13 @@ class SmConversationResultScreen extends ConsumerWidget {
           children: [
             // Overall score.
             Text(
-              '$overall%',
-              style: TextStyle(
-                fontSize: 64,
-                fontWeight: FontWeight.w900,
-                color: gradeColor,
-              ),
-            )
+                  '$overall%',
+                  style: TextStyle(
+                    fontSize: 64,
+                    fontWeight: FontWeight.w900,
+                    color: gradeColor,
+                  ),
+                )
                 .animate()
                 .scale(
                   begin: const Offset(0.3, 0.3),
@@ -102,28 +101,30 @@ class SmConversationResultScreen extends ConsumerWidget {
             // XP earned.
             if (xp > 0)
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFF59E0B).withAlpha(20),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(Icons.star, color: Color(0xFFF59E0B)),
-                    const SizedBox(width: 8),
-                    Text(
-                      '+$xp XP',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFFF59E0B),
-                      ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
                     ),
-                  ],
-                ),
-              )
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF59E0B).withAlpha(20),
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.star, color: Color(0xFFF59E0B)),
+                        const SizedBox(width: 8),
+                        Text(
+                          '+$xp XP',
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFF59E0B),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                   .animate()
                   .fadeIn(delay: const Duration(milliseconds: 600))
                   .scale(

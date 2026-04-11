@@ -6,7 +6,8 @@ class SmCard {
   final String nativeText;
   final String? romanization;
   final String? audioUrl;
-  final String tileType; // 'standard' | 'ghost' | 'compound' | 'inflected' | 'particle'
+  final String
+  tileType; // 'standard' | 'ghost' | 'compound' | 'inflected' | 'particle'
   final String cardType; // 'word' | 'sentence'
   final int difficulty;
   final String? partOfSpeech;
@@ -50,10 +51,10 @@ class SmCard {
       cardType: json['card_type'] as String? ?? 'word',
       difficulty: json['difficulty'] as int? ?? 1,
       partOfSpeech: json['part_of_speech'] as String?,
-      grammarMetadata:
-          Map<String, dynamic>.from(json['grammar_metadata'] as Map? ?? {}),
-      tileConfig:
-          Map<String, dynamic>.from(json['tile_config'] as Map? ?? {}),
+      grammarMetadata: Map<String, dynamic>.from(
+        json['grammar_metadata'] as Map? ?? {},
+      ),
+      tileConfig: Map<String, dynamic>.from(json['tile_config'] as Map? ?? {}),
       sentenceTiles: (json['sentence_tiles'] as List?)
           ?.map((e) => Map<String, dynamic>.from(e as Map))
           .toList(),

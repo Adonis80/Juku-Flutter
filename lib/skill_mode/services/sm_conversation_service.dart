@@ -30,8 +30,7 @@ class SmConversationService {
         .order('sort_order');
 
     return (data as List)
-        .map((e) =>
-            ConversationScenario.fromJson(e as Map<String, dynamic>))
+        .map((e) => ConversationScenario.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
@@ -42,12 +41,16 @@ class SmConversationService {
     required String scenarioId,
     required String language,
   }) async {
-    final data = await supabase.from('ai_conversations').insert({
-      'user_id': userId,
-      'scenario_id': scenarioId,
-      'language': language,
-      'status': 'active',
-    }).select('*, ai_conversation_scenarios(*)').single();
+    final data = await supabase
+        .from('ai_conversations')
+        .insert({
+          'user_id': userId,
+          'scenario_id': scenarioId,
+          'language': language,
+          'status': 'active',
+        })
+        .select('*, ai_conversation_scenarios(*)')
+        .single();
 
     return AiConversation.fromJson(data);
   }
@@ -76,8 +79,7 @@ class SmConversationService {
         .order('created_at');
 
     return (data as List)
-        .map((e) =>
-            ConversationMessage.fromJson(e as Map<String, dynamic>))
+        .map((e) => ConversationMessage.fromJson(e as Map<String, dynamic>))
         .toList();
   }
 
@@ -122,9 +124,7 @@ class SmConversationService {
     final request = http.MultipartRequest('POST', uri)
       ..headers['Authorization'] = 'Bearer ${session.accessToken}'
       ..fields['language'] = language
-      ..files.add(
-        await http.MultipartFile.fromPath('audio', audioPath),
-      );
+      ..files.add(await http.MultipartFile.fromPath('audio', audioPath));
 
     final response = await request.send();
     final body = await response.stream.bytesToString();
@@ -146,10 +146,7 @@ class SmConversationService {
 
     final response = await supabase.functions.invoke(
       'ai-conversation-respond',
-      body: {
-        'conversation_id': conversationId,
-        'user_message': userMessage,
-      },
+      body: {'conversation_id': conversationId, 'user_message': userMessage},
     );
 
     if (response.status != 200) return null;
@@ -158,10 +155,7 @@ class SmConversationService {
     final reply = data['reply'] as String? ?? '';
     final scoresJson = data['scores'] as Map<String, dynamic>? ?? {};
 
-    return (
-      reply: reply,
-      scores: ConversationScores.fromJson(scoresJson),
-    );
+    return (reply: reply, scores: ConversationScores.fromJson(scoresJson));
   }
 
   // ── Speech Synthesis (ElevenLabs via Edge Function) ──
@@ -180,10 +174,7 @@ class SmConversationService {
         'Authorization': 'Bearer ${session.accessToken}',
         'Content-Type': 'application/json',
       },
-      body: jsonEncode({
-        'text': text,
-        'language': language,
-      }),
+      body: jsonEncode({'text': text, 'language': language}),
     );
 
     if (response.statusCode != 200) return null;
@@ -261,16 +252,13 @@ class SmConversationService {
     required String provider,
     required String apiKey,
   }) async {
-    await supabase.from('ai_api_keys').upsert(
-      {
-        'user_id': userId,
-        'provider': provider,
-        'api_key_encrypted': apiKey,
-        'is_valid': true,
-        'updated_at': DateTime.now().toIso8601String(),
-      },
-      onConflict: 'user_id,provider',
-    );
+    await supabase.from('ai_api_keys').upsert({
+      'user_id': userId,
+      'provider': provider,
+      'api_key_encrypted': apiKey,
+      'is_valid': true,
+      'updated_at': DateTime.now().toIso8601String(),
+    }, onConflict: 'user_id,provider');
   }
 
   Future<void> deleteApiKey({

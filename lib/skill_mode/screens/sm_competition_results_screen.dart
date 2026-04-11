@@ -50,8 +50,7 @@ class SmCompetitionResultsScreen extends ConsumerWidget {
                   child: Icon(
                     Icons.emoji_events,
                     size: 72,
-                    color:
-                        theme.colorScheme.onTertiaryContainer.withAlpha(60),
+                    color: theme.colorScheme.onTertiaryContainer.withAlpha(60),
                   ),
                 ),
               ),
@@ -71,20 +70,17 @@ class SmCompetitionResultsScreen extends ConsumerWidget {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (_, i) {
-                  final entry = entries[i];
-                  return _ResultRow(
-                    entry: entry,
-                    position: i + 1,
-                    xpFirst: comp?.xpFirst ?? 200,
-                    xpSecond: comp?.xpSecond ?? 100,
-                    xpThird: comp?.xpThird ?? 50,
-                    xpParticipation: comp?.xpParticipation ?? 15,
-                  );
-                },
-                childCount: entries.length,
-              ),
+              delegate: SliverChildBuilderDelegate((_, i) {
+                final entry = entries[i];
+                return _ResultRow(
+                  entry: entry,
+                  position: i + 1,
+                  xpFirst: comp?.xpFirst ?? 200,
+                  xpSecond: comp?.xpSecond ?? 100,
+                  xpThird: comp?.xpThird ?? 50,
+                  xpParticipation: comp?.xpParticipation ?? 15,
+                );
+              }, childCount: entries.length),
             ),
           ),
 
@@ -126,7 +122,11 @@ class _PodiumSlot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final height = place == 1 ? 120.0 : place == 2 ? 90.0 : 70.0;
+    final height = place == 1
+        ? 120.0
+        : place == 2
+        ? 90.0
+        : 70.0;
     final avatarSize = place == 1 ? 48.0 : 36.0;
     final medalColors = [
       const Color(0xFFFFD700),
@@ -174,9 +174,7 @@ class _PodiumSlot extends StatelessWidget {
           height: height,
           decoration: BoxDecoration(
             color: medalColors[place - 1].withAlpha(60),
-            borderRadius: const BorderRadius.vertical(
-              top: Radius.circular(8),
-            ),
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
           ),
           alignment: Alignment.center,
           child: Text(

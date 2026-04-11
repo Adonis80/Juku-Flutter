@@ -28,9 +28,12 @@ class ContentEditor extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: [
-              Text('Review & Edit',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              Text(
+                'Review & Edit',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               TextButton.icon(
                 onPressed: onRegenerate,
@@ -43,17 +46,22 @@ class ContentEditor extends StatelessWidget {
         Expanded(
           child: switch (templateType) {
             StudioTemplate.quiz => _QuizEditor(
-                config: config, onConfigChanged: onConfigChanged),
+              config: config,
+              onConfigChanged: onConfigChanged,
+            ),
             StudioTemplate.flashcard => _FlashcardEditor(
-                config: config, onConfigChanged: onConfigChanged),
+              config: config,
+              onConfigChanged: onConfigChanged,
+            ),
             StudioTemplate.calculator => _CalculatorEditor(
-                config: config, onConfigChanged: onConfigChanged),
-            StudioTemplate.conditionalCalculator =>
-              ConditionalCalculatorEditor(
-                config: config,
-                onConfigChanged: onConfigChanged,
-                onRegenerate: onRegenerate,
-              ),
+              config: config,
+              onConfigChanged: onConfigChanged,
+            ),
+            StudioTemplate.conditionalCalculator => ConditionalCalculatorEditor(
+              config: config,
+              onConfigChanged: onConfigChanged,
+              onRegenerate: onRegenerate,
+            ),
           },
         ),
       ],
@@ -110,7 +118,8 @@ class _QuizEditor extends StatelessWidget {
           itemBuilder: (context, index) {
             final q = questions[index];
             final options = List<String>.from(
-                q['options'] as List? ?? ['', '', '', '']);
+              q['options'] as List? ?? ['', '', '', ''],
+            );
             final correctIdx = q['answer'] as int? ?? 0;
 
             return Dismissible(
@@ -120,8 +129,7 @@ class _QuizEditor extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 padding: const EdgeInsets.only(right: 20),
                 color: theme.colorScheme.error,
-                child:
-                    const Icon(Icons.delete, color: Colors.white),
+                child: const Icon(Icons.delete, color: Colors.white),
               ),
               onDismissed: (_) => _deleteQuestion(index),
               child: Card(
@@ -133,16 +141,23 @@ class _QuizEditor extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text('Q${index + 1}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.primary,
-                              )),
+                          Text(
+                            'Q${index + 1}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.primary,
+                            ),
+                          ),
                           const Spacer(),
                           IconButton(
                             icon: const Icon(Icons.edit, size: 18),
                             onPressed: () => _showEditSheet(
-                                context, index, q, options, correctIdx),
+                              context,
+                              index,
+                              q,
+                              options,
+                              correctIdx,
+                            ),
                           ),
                         ],
                       ),
@@ -203,13 +218,18 @@ class _QuizEditor extends StatelessWidget {
     );
   }
 
-  void _showEditSheet(BuildContext context, int index,
-      Map<String, dynamic> q, List<String> options, int correctIdx) {
+  void _showEditSheet(
+    BuildContext context,
+    int index,
+    Map<String, dynamic> q,
+    List<String> options,
+    int correctIdx,
+  ) {
     final qCtrl = TextEditingController(text: q['q'] as String? ?? '');
-    final optCtrls =
-        options.map((o) => TextEditingController(text: o)).toList();
-    final hintCtrl =
-        TextEditingController(text: q['hint'] as String? ?? '');
+    final optCtrls = options
+        .map((o) => TextEditingController(text: o))
+        .toList();
+    final hintCtrl = TextEditingController(text: q['hint'] as String? ?? '');
     int selectedAnswer = correctIdx;
     String? imageUrl = q['image_url'] as String?;
 
@@ -219,30 +239,31 @@ class _QuizEditor extends StatelessWidget {
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setSheetState) => Padding(
           padding: EdgeInsets.fromLTRB(
-              16, 16, 16, MediaQuery.of(ctx).viewInsets.bottom + 16),
+            16,
+            16,
+            16,
+            MediaQuery.of(ctx).viewInsets.bottom + 16,
+          ),
           child: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 TextField(
                   controller: qCtrl,
-                  decoration:
-                      const InputDecoration(labelText: 'Question'),
+                  decoration: const InputDecoration(labelText: 'Question'),
                   maxLines: 2,
                 ),
                 const SizedBox(height: 12),
                 // Image upload for question
                 StudioImageUpload(
                   currentImageUrl: imageUrl,
-                  onImageChanged: (url) =>
-                      setSheetState(() => imageUrl = url),
+                  onImageChanged: (url) => setSheetState(() => imageUrl = url),
                   height: 100,
                 ),
                 const SizedBox(height: 12),
                 RadioGroup<int>(
                   groupValue: selectedAnswer,
-                  onChanged: (v) => setSheetState(
-                      () => selectedAnswer = v!),
+                  onChanged: (v) => setSheetState(() => selectedAnswer = v!),
                   child: Column(
                     children: List.generate(4, (i) {
                       return Padding(
@@ -254,7 +275,8 @@ class _QuizEditor extends StatelessWidget {
                               child: TextField(
                                 controller: optCtrls[i],
                                 decoration: InputDecoration(
-                                    labelText: 'Option ${i + 1}'),
+                                  labelText: 'Option ${i + 1}',
+                                ),
                               ),
                             ),
                           ],
@@ -265,16 +287,16 @@ class _QuizEditor extends StatelessWidget {
                 ),
                 TextField(
                   controller: hintCtrl,
-                  decoration:
-                      const InputDecoration(labelText: 'Hint (optional)'),
+                  decoration: const InputDecoration(
+                    labelText: 'Hint (optional)',
+                  ),
                 ),
                 const SizedBox(height: 16),
                 FilledButton(
                   onPressed: () {
                     _updateQuestion(index, {
                       'q': qCtrl.text,
-                      'options':
-                          optCtrls.map((c) => c.text).toList(),
+                      'options': optCtrls.map((c) => c.text).toList(),
                       'answer': selectedAnswer,
                       'hint': hintCtrl.text,
                       'image_url': ?imageUrl,
@@ -298,13 +320,11 @@ class _FlashcardEditor extends StatelessWidget {
   final Map<String, dynamic> config;
   final ValueChanged<Map<String, dynamic>> onConfigChanged;
 
-  const _FlashcardEditor(
-      {required this.config, required this.onConfigChanged});
+  const _FlashcardEditor({required this.config, required this.onConfigChanged});
 
-  List<Map<String, dynamic>> get _cards =>
-      (config['cards'] as List? ?? [])
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .toList();
+  List<Map<String, dynamic>> get _cards => (config['cards'] as List? ?? [])
+      .map((e) => Map<String, dynamic>.from(e as Map))
+      .toList();
 
   void _updateCard(int index, Map<String, dynamic> card) {
     final cs = _cards;
@@ -350,41 +370,40 @@ class _FlashcardEditor extends StatelessWidget {
               child: Card(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: InkWell(
-                  onTap: () =>
-                      _showEditSheet(context, index, c),
+                  onTap: () => _showEditSheet(context, index, c),
                   child: Padding(
                     padding: const EdgeInsets.all(12),
                     child: Row(
                       children: [
                         Expanded(
                           child: Column(
-                            crossAxisAlignment:
-                                CrossAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                (c['front'] as String?)?.isNotEmpty ==
-                                        true
+                                (c['front'] as String?)?.isNotEmpty == true
                                     ? c['front'] as String
                                     : '(front)',
                                 style: const TextStyle(
-                                    fontWeight: FontWeight.w600),
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                               const SizedBox(height: 2),
                               Text(
-                                (c['back'] as String?)?.isNotEmpty ==
-                                        true
+                                (c['back'] as String?)?.isNotEmpty == true
                                     ? c['back'] as String
                                     : '(back)',
                                 style: TextStyle(
-                                    color: theme
-                                        .colorScheme.onSurfaceVariant),
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
                               ),
                             ],
                           ),
                         ),
-                        Icon(Icons.edit,
-                            size: 16,
-                            color: theme.colorScheme.outline),
+                        Icon(
+                          Icons.edit,
+                          size: 16,
+                          color: theme.colorScheme.outline,
+                        ),
                       ],
                     ),
                   ),
@@ -405,21 +424,23 @@ class _FlashcardEditor extends StatelessWidget {
     );
   }
 
-  void _showEditSheet(
-      BuildContext context, int index, Map<String, dynamic> c) {
-    final frontCtrl =
-        TextEditingController(text: c['front'] as String? ?? '');
-    final backCtrl =
-        TextEditingController(text: c['back'] as String? ?? '');
-    final exampleCtrl =
-        TextEditingController(text: c['example'] as String? ?? '');
+  void _showEditSheet(BuildContext context, int index, Map<String, dynamic> c) {
+    final frontCtrl = TextEditingController(text: c['front'] as String? ?? '');
+    final backCtrl = TextEditingController(text: c['back'] as String? ?? '');
+    final exampleCtrl = TextEditingController(
+      text: c['example'] as String? ?? '',
+    );
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (ctx) => Padding(
         padding: EdgeInsets.fromLTRB(
-            16, 16, 16, MediaQuery.of(ctx).viewInsets.bottom + 16),
+          16,
+          16,
+          16,
+          MediaQuery.of(ctx).viewInsets.bottom + 16,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -436,8 +457,7 @@ class _FlashcardEditor extends StatelessWidget {
             const SizedBox(height: 12),
             TextField(
               controller: exampleCtrl,
-              decoration:
-                  const InputDecoration(labelText: 'Example sentence'),
+              decoration: const InputDecoration(labelText: 'Example sentence'),
             ),
             const SizedBox(height: 16),
             FilledButton(
@@ -464,13 +484,14 @@ class _CalculatorEditor extends StatelessWidget {
   final Map<String, dynamic> config;
   final ValueChanged<Map<String, dynamic>> onConfigChanged;
 
-  const _CalculatorEditor(
-      {required this.config, required this.onConfigChanged});
+  const _CalculatorEditor({
+    required this.config,
+    required this.onConfigChanged,
+  });
 
-  List<Map<String, dynamic>> get _inputs =>
-      (config['inputs'] as List? ?? [])
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .toList();
+  List<Map<String, dynamic>> get _inputs => (config['inputs'] as List? ?? [])
+      .map((e) => Map<String, dynamic>.from(e as Map))
+      .toList();
 
   void _updateInput(int index, Map<String, dynamic> input) {
     final ins = _inputs;
@@ -519,8 +540,7 @@ class _CalculatorEditor extends StatelessWidget {
             child: Card(
               margin: const EdgeInsets.only(bottom: 8),
               child: InkWell(
-                onTap: () =>
-                    _showEditInputSheet(context, index, inp),
+                onTap: () => _showEditInputSheet(context, index, inp),
                 child: Padding(
                   padding: const EdgeInsets.all(12),
                   child: Row(
@@ -531,9 +551,11 @@ class _CalculatorEditor extends StatelessWidget {
                           style: theme.textTheme.bodyMedium,
                         ),
                       ),
-                      Icon(Icons.edit,
-                          size: 16,
-                          color: theme.colorScheme.outline),
+                      Icon(
+                        Icons.edit,
+                        size: 16,
+                        color: theme.colorScheme.outline,
+                      ),
                     ],
                   ),
                 ),
@@ -557,32 +579,27 @@ class _CalculatorEditor extends StatelessWidget {
             fillColor: theme.colorScheme.surfaceContainerHighest,
           ),
           style: const TextStyle(fontFamily: 'monospace'),
-          onChanged: (v) =>
-              onConfigChanged({...config, 'formula': v}),
+          onChanged: (v) => onConfigChanged({...config, 'formula': v}),
         ),
         const SizedBox(height: 16),
         Row(
           children: [
             Expanded(
               child: TextField(
-                controller:
-                    TextEditingController(text: outputLabel),
-                decoration:
-                    const InputDecoration(labelText: 'Output Label'),
-                onChanged: (v) => onConfigChanged(
-                    {...config, 'output_label': v}),
+                controller: TextEditingController(text: outputLabel),
+                decoration: const InputDecoration(labelText: 'Output Label'),
+                onChanged: (v) =>
+                    onConfigChanged({...config, 'output_label': v}),
               ),
             ),
             const SizedBox(width: 12),
             SizedBox(
               width: 80,
               child: TextField(
-                controller:
-                    TextEditingController(text: outputUnit),
-                decoration:
-                    const InputDecoration(labelText: 'Unit'),
-                onChanged: (v) => onConfigChanged(
-                    {...config, 'output_unit': v}),
+                controller: TextEditingController(text: outputUnit),
+                decoration: const InputDecoration(labelText: 'Unit'),
+                onChanged: (v) =>
+                    onConfigChanged({...config, 'output_unit': v}),
               ),
             ),
           ],
@@ -598,27 +615,33 @@ class _CalculatorEditor extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ...inputs.map((inp) => Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          labelText: inp['label'] as String? ?? '',
-                          suffixText: inp['unit'] as String? ?? '',
-                        ),
-                        keyboardType: TextInputType.number,
-                        enabled: false,
+                ...inputs.map(
+                  (inp) => Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: TextField(
+                      decoration: InputDecoration(
+                        labelText: inp['label'] as String? ?? '',
+                        suffixText: inp['unit'] as String? ?? '',
                       ),
-                    )),
+                      keyboardType: TextInputType.number,
+                      enabled: false,
+                    ),
+                  ),
+                ),
                 const Divider(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(outputLabel,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold)),
-                    Text('0 $outputUnit',
-                        style: theme.textTheme.headlineSmall
-                            ?.copyWith(fontWeight: FontWeight.bold)),
+                    Text(
+                      outputLabel,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '0 $outputUnit',
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -629,21 +652,27 @@ class _CalculatorEditor extends StatelessWidget {
     );
   }
 
-  void _showEditInputSheet(BuildContext context, int index,
-      Map<String, dynamic> inp) {
-    final labelCtrl =
-        TextEditingController(text: inp['label'] as String? ?? '');
-    final keyCtrl =
-        TextEditingController(text: inp['key'] as String? ?? '');
-    final unitCtrl =
-        TextEditingController(text: inp['unit'] as String? ?? '');
+  void _showEditInputSheet(
+    BuildContext context,
+    int index,
+    Map<String, dynamic> inp,
+  ) {
+    final labelCtrl = TextEditingController(
+      text: inp['label'] as String? ?? '',
+    );
+    final keyCtrl = TextEditingController(text: inp['key'] as String? ?? '');
+    final unitCtrl = TextEditingController(text: inp['unit'] as String? ?? '');
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       builder: (ctx) => Padding(
         padding: EdgeInsets.fromLTRB(
-            16, 16, 16, MediaQuery.of(ctx).viewInsets.bottom + 16),
+          16,
+          16,
+          16,
+          MediaQuery.of(ctx).viewInsets.bottom + 16,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -656,7 +685,8 @@ class _CalculatorEditor extends StatelessWidget {
             TextField(
               controller: keyCtrl,
               decoration: const InputDecoration(
-                  labelText: 'Key (used in formula)'),
+                labelText: 'Key (used in formula)',
+              ),
             ),
             const SizedBox(height: 12),
             TextField(

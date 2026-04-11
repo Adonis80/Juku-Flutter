@@ -12,9 +12,14 @@ class SmRussianModule extends SmGrammarModule {
   String get languageName => 'Russian';
 
   @override
-  List<String> get conjugationLabels =>
-      ['\u044F', '\u0442\u044B', '\u043E\u043D/\u043E\u043D\u0430/\u043E\u043D\u043E',
-       '\u043C\u044B', '\u0432\u044B', '\u043E\u043D\u0438']; // я, ты, он/она/оно, мы, вы, они
+  List<String> get conjugationLabels => [
+    '\u044F',
+    '\u0442\u044B',
+    '\u043E\u043D/\u043E\u043D\u0430/\u043E\u043D\u043E',
+    '\u043C\u044B',
+    '\u0432\u044B',
+    '\u043E\u043D\u0438',
+  ]; // я, ты, он/она/оно, мы, вы, они
 
   // --- Gender colours ---
   static const _masculineColor = Color(0xFF3B82F6);
@@ -83,7 +88,8 @@ class SmRussianModule extends SmGrammarModule {
       }
       final isMotion = cardGrammar['is_motion_verb'] as bool? ?? false;
       if (isMotion) {
-        rule = '${rule ?? ''} Motion verb — directional/non-directional pair.'.trim();
+        rule = '${rule ?? ''} Motion verb — directional/non-directional pair.'
+            .trim();
       }
 
       return SmGrammarAnnotation(
@@ -118,18 +124,19 @@ class _RussianCaseTile extends StatelessWidget {
 
   static const _abbreviations = <String, String>{
     'nominative': '\u0418\u043C', // Им (именительный)
-    'genitive': '\u0420\u043E\u0434',   // Род (родительный)
-    'dative': '\u0414\u0430\u0442',     // Дат (дательный)
+    'genitive': '\u0420\u043E\u0434', // Род (родительный)
+    'dative': '\u0414\u0430\u0442', // Дат (дательный)
     'accusative': '\u0412\u0438\u043D', // Вин (винительный)
-    'instrumental': '\u0422\u0432',     // Тв (творительный)
-    'prepositional': '\u041F\u0440',    // Пр (предложный)
+    'instrumental': '\u0422\u0432', // Тв (творительный)
+    'prepositional': '\u041F\u0440', // Пр (предложный)
   };
 
   @override
   Widget build(BuildContext context) {
-    final color = SmRussianModule._caseColors[grammaticalCase] ??
-        const Color(0xFF6B7280);
-    final abbr = _abbreviations[grammaticalCase] ??
+    final color =
+        SmRussianModule._caseColors[grammaticalCase] ?? const Color(0xFF6B7280);
+    final abbr =
+        _abbreviations[grammaticalCase] ??
         grammaticalCase.substring(0, 3).toUpperCase();
 
     return Positioned(

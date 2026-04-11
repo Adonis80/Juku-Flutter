@@ -33,10 +33,10 @@ class PublishSuccessScreen extends ConsumerWidget {
                 children: [
                   // Confetti icon
                   Icon(
-                    Icons.celebration,
-                    size: 80,
-                    color: theme.colorScheme.primary,
-                  )
+                        Icons.celebration,
+                        size: 80,
+                        color: theme.colorScheme.primary,
+                      )
                       .animate()
                       .scale(
                         begin: const Offset(0, 0),
@@ -51,10 +51,7 @@ class PublishSuccessScreen extends ConsumerWidget {
                     style: theme.textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
-                  )
-                      .animate()
-                      .fadeIn(delay: 300.ms)
-                      .slideY(begin: 0.3, end: 0),
+                  ).animate().fadeIn(delay: 300.ms).slideY(begin: 0.3, end: 0),
                   const SizedBox(height: 8),
                   Text(
                     module.title,
@@ -66,7 +63,9 @@ class PublishSuccessScreen extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 3),
+                      horizontal: 8,
+                      vertical: 3,
+                    ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.secondaryContainer,
                       borderRadius: BorderRadius.circular(6),
@@ -82,25 +81,27 @@ class PublishSuccessScreen extends ConsumerWidget {
                   const SizedBox(height: 16),
                   // XP badge
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          theme.colorScheme.primary,
-                          theme.colorScheme.tertiary,
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      '+20 XP',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              theme.colorScheme.primary,
+                              theme.colorScheme.tertiary,
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: const Text(
+                          '+20 XP',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      )
                       .animate()
                       .fadeIn(delay: 700.ms)
                       .scale(
@@ -113,14 +114,11 @@ class PublishSuccessScreen extends ConsumerWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.play_arrow,
-                          color: theme.colorScheme.outline),
+                      Icon(Icons.play_arrow, color: theme.colorScheme.outline),
                       const SizedBox(width: 4),
                       Text(
                         '${module.playCount} plays',
-                        style: TextStyle(
-                          color: theme.colorScheme.outline,
-                        ),
+                        style: TextStyle(color: theme.colorScheme.outline),
                       ),
                     ],
                   ),
@@ -129,8 +127,7 @@ class PublishSuccessScreen extends ConsumerWidget {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton.icon(
-                      onPressed: () =>
-                          context.go('/studio/play/${module.id}'),
+                      onPressed: () => context.go('/studio/play/${module.id}'),
                       icon: const Icon(Icons.play_arrow),
                       label: const Text('Play it yourself'),
                     ),
@@ -142,7 +139,8 @@ class PublishSuccessScreen extends ConsumerWidget {
                       onPressed: () {
                         SharePlus.instance.share(
                           ShareParams(
-                            text: 'Check out my ${module.templateType.label} on Juku: '
+                            text:
+                                'Check out my ${module.templateType.label} on Juku: '
                                 'https://juku.pro/play/${module.id}',
                           ),
                         );

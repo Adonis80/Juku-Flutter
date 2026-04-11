@@ -32,8 +32,9 @@ class _SmCreatorProfileScreenState
 
   Future<void> _loadData() async {
     try {
-      final stats =
-          await SmCreatorService.instance.getCreatorStats(widget.userId);
+      final stats = await SmCreatorService.instance.getCreatorStats(
+        widget.userId,
+      );
 
       final profile = await supabase
           .from('profiles')
@@ -44,7 +45,8 @@ class _SmCreatorProfileScreenState
       final decks = await supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, language, difficulty, play_count, completion_count, card_skin')
+            'id, title, language, difficulty, play_count, completion_count, card_skin',
+          )
           .eq('creator_id', widget.userId)
           .eq('published', true)
           .order('play_count', ascending: false);

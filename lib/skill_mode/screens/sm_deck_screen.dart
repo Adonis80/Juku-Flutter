@@ -44,10 +44,9 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
 
     try {
       // Load deck
-      await ref.read(smDeckProvider.notifier).loadDeck(
-            userId: user.id,
-            language: 'de',
-          );
+      await ref
+          .read(smDeckProvider.notifier)
+          .loadDeck(userId: user.id, language: 'de');
 
       final cards = ref.read(smDeckProvider).value ?? [];
 
@@ -65,10 +64,9 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
         language: 'de',
       );
 
-      ref.read(smSessionProvider.notifier).startSession(
-            sessionId: sessionId,
-            totalCards: cards.length,
-          );
+      ref
+          .read(smSessionProvider.notifier)
+          .startSession(sessionId: sessionId, totalCards: cards.length);
 
       setState(() => _loading = false);
 
@@ -158,7 +156,9 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
             _summaryRow(Icons.star, '${session.currentXp} XP earned'),
             const SizedBox(height: 8),
             _summaryRow(
-                Icons.local_fire_department, '${session.comboPeak}x best combo'),
+              Icons.local_fire_department,
+              '${session.comboPeak}x best combo',
+            ),
           ],
         ),
         actions: [
@@ -176,11 +176,7 @@ class _SmDeckScreenState extends ConsumerState<SmDeckScreen> {
 
   Widget _summaryRow(IconData icon, String text) {
     return Row(
-      children: [
-        Icon(icon, size: 20),
-        const SizedBox(width: 8),
-        Text(text),
-      ],
+      children: [Icon(icon, size: 20), const SizedBox(width: 8), Text(text)],
     );
   }
 

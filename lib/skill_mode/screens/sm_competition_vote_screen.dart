@@ -31,8 +31,7 @@ class SmCompetitionVoteScreen extends ConsumerWidget {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(40),
           child: Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
               '${myVotes.length}/${entries.length} rated',
               style: theme.textTheme.labelMedium?.copyWith(
@@ -56,8 +55,10 @@ class SmCompetitionVoteScreen extends ConsumerWidget {
                   myScore: myScore,
                   songLanguage: comp?.songLanguage ?? 'de',
                   onVote: (score) {
-                    SmCompetitionDetailActions(ref, competitionId)
-                        .vote(entryId: entry.id, score: score);
+                    SmCompetitionDetailActions(
+                      ref,
+                      competitionId,
+                    ).vote(entryId: entry.id, score: score);
                   },
                 );
               },
@@ -103,9 +104,7 @@ class _VoteEntryCardState extends State<_VoteEntryCard> {
                   ? NetworkImage(entry.translatorPhotoUrl!)
                   : null,
               child: entry.translatorPhotoUrl == null
-                  ? Text(
-                      (entry.translatorUsername ?? '?')[0].toUpperCase(),
-                    )
+                  ? Text((entry.translatorUsername ?? '?')[0].toUpperCase())
                   : null,
             ),
             title: Text(
@@ -120,9 +119,7 @@ class _VoteEntryCardState extends State<_VoteEntryCard> {
                   )
                 : null,
             trailing: IconButton(
-              icon: Icon(_expanded
-                  ? Icons.expand_less
-                  : Icons.expand_more),
+              icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
               onPressed: () => setState(() => _expanded = !_expanded),
             ),
           ),
@@ -154,8 +151,7 @@ class _VoteEntryCardState extends State<_VoteEntryCard> {
                               Text(
                                 t.sourceText,
                                 style: theme.textTheme.bodySmall?.copyWith(
-                                  color:
-                                      theme.colorScheme.onSurfaceVariant,
+                                  color: theme.colorScheme.onSurfaceVariant,
                                 ),
                               ),
                               Text(
@@ -177,8 +173,7 @@ class _VoteEntryCardState extends State<_VoteEntryCard> {
           else if (entry.translations.isNotEmpty)
             // Show first line as preview.
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: Text(
                 '"${entry.translations.first.translatedText}"',
                 maxLines: 2,

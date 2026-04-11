@@ -16,8 +16,7 @@ class SmCreateDeckScreen extends ConsumerStatefulWidget {
   const SmCreateDeckScreen({super.key});
 
   @override
-  ConsumerState<SmCreateDeckScreen> createState() =>
-      _SmCreateDeckScreenState();
+  ConsumerState<SmCreateDeckScreen> createState() => _SmCreateDeckScreenState();
 }
 
 class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
@@ -90,8 +89,8 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
         'difficulty': _difficulty == 'beginner'
             ? 1
             : _difficulty == 'intermediate'
-                ? 2
-                : 3,
+            ? 2
+            : 3,
       });
       _foreignController.clear();
       _nativeController.clear();
@@ -122,19 +121,24 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
 
     try {
       // Create deck.
-      final deckData = await supabase.from('skill_mode_decks').insert({
-        'creator_id': user.id,
-        'title': _titleController.text.isNotEmpty
-            ? _titleController.text
-            : _topicController.text,
-        'description': _descriptionController.text,
-        'language': _language,
-        'difficulty': _difficulty,
-        'card_skin': _cardSkin,
-        'creator_target_score':
-            _creatorTargetScore > 0 ? _creatorTargetScore : null,
-        'published': true,
-      }).select('id').single();
+      final deckData = await supabase
+          .from('skill_mode_decks')
+          .insert({
+            'creator_id': user.id,
+            'title': _titleController.text.isNotEmpty
+                ? _titleController.text
+                : _topicController.text,
+            'description': _descriptionController.text,
+            'language': _language,
+            'difficulty': _difficulty,
+            'card_skin': _cardSkin,
+            'creator_target_score': _creatorTargetScore > 0
+                ? _creatorTargetScore
+                : null,
+            'published': true,
+          })
+          .select('id')
+          .single();
 
       final deckId = deckData['id'] as String;
 
@@ -168,9 +172,9 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to publish: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to publish: $e')));
         setState(() => _publishing = false);
       }
     }
@@ -200,13 +204,13 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
   }
 
   String get _stepTitle => switch (_step) {
-        0 => 'What are you teaching?',
-        1 => 'Add Cards',
-        2 => 'Forging...',
-        3 => 'Deck Identity',
-        4 => 'Published!',
-        _ => '',
-      };
+    0 => 'What are you teaching?',
+    1 => 'Add Cards',
+    2 => 'Forging...',
+    3 => 'Deck Identity',
+    4 => 'Published!',
+    _ => '',
+  };
 
   // Step 0: Topic + Language.
   Widget _buildTopicStep(ThemeData theme) {
@@ -229,8 +233,7 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
           SegmentedButton<String>(
             segments: const [
               ButtonSegment(value: 'beginner', label: Text('Beginner')),
-              ButtonSegment(
-                  value: 'intermediate', label: Text('Intermediate')),
+              ButtonSegment(value: 'intermediate', label: Text('Intermediate')),
               ButtonSegment(value: 'advanced', label: Text('Advanced')),
             ],
             selected: {_difficulty},
@@ -320,10 +323,11 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
                 items: const [
                   DropdownMenuItem(value: 'standard', child: Text('Standard')),
                   DropdownMenuItem(
-                      value: 'inflected', child: Text('Inflected')),
+                    value: 'inflected',
+                    child: Text('Inflected'),
+                  ),
                   DropdownMenuItem(value: 'ghost', child: Text('Ghost')),
-                  DropdownMenuItem(
-                      value: 'compound', child: Text('Compound')),
+                  DropdownMenuItem(value: 'compound', child: Text('Compound')),
                 ],
                 onChanged: (v) => setState(() => _tileType = v ?? 'standard'),
                 underline: const SizedBox.shrink(),
@@ -335,7 +339,9 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
                   DropdownMenuItem(value: 'noun', child: Text('Noun')),
                   DropdownMenuItem(value: 'verb', child: Text('Verb')),
                   DropdownMenuItem(
-                      value: 'adjective', child: Text('Adjective')),
+                    value: 'adjective',
+                    child: Text('Adjective'),
+                  ),
                   DropdownMenuItem(value: 'article', child: Text('Article')),
                   DropdownMenuItem(value: 'other', child: Text('Other')),
                 ],
@@ -393,12 +399,8 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
           AnimatedBuilder(
             animation: _forgeController,
             builder: (context, child) {
-              final angle =
-                  sin(_forgeController.value * pi * 2) * 0.3;
-              return Transform.rotate(
-                angle: angle,
-                child: child,
-              );
+              final angle = sin(_forgeController.value * pi * 2) * 0.3;
+              return Transform.rotate(angle: angle, child: child);
             },
             child: const Icon(
               Icons.hardware,
@@ -522,11 +524,7 @@ class _SmCreateDeckScreenState extends ConsumerState<SmCreateDeckScreen>
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
-            Icons.check_circle,
-            size: 80,
-            color: Color(0xFF10B981),
-          )
+          const Icon(Icons.check_circle, size: 80, color: Color(0xFF10B981))
               .animate()
               .scale(
                 begin: const Offset(0.0, 0.0),

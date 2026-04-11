@@ -87,7 +87,8 @@ class AiConversation {
           : null,
       scenario: json['ai_conversation_scenarios'] != null
           ? ConversationScenario.fromJson(
-              json['ai_conversation_scenarios'] as Map<String, dynamic>)
+              json['ai_conversation_scenarios'] as Map<String, dynamic>,
+            )
           : null,
     );
   }
@@ -148,7 +149,8 @@ class ConversationScores {
       fluency: (json['fluency'] as int?) ?? 0,
       vocabulary: (json['vocabulary'] as int?) ?? 0,
       grammar: (json['grammar'] as int?) ?? 0,
-      corrections: (json['corrections'] as List<dynamic>?)
+      corrections:
+          (json['corrections'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
           [],

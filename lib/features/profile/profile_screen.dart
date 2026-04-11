@@ -58,89 +58,88 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _profile == null
-              ? const Center(child: Text('Profile not found'))
-              : RefreshIndicator(
-                  onRefresh: _loadProfile,
-                  child: SingleChildScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        // Avatar
-                        CircleAvatar(
-                          radius: 48,
-                          backgroundColor: theme.colorScheme.primaryContainer,
-                          child: Text(
-                            (_profile!['username'] as String? ?? '?')[0]
-                                .toUpperCase(),
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onPrimaryContainer,
-                            ),
-                          ),
+          ? const Center(child: Text('Profile not found'))
+          : RefreshIndicator(
+              onRefresh: _loadProfile,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    // Avatar
+                    CircleAvatar(
+                      radius: 48,
+                      backgroundColor: theme.colorScheme.primaryContainer,
+                      child: Text(
+                        (_profile!['username'] as String? ?? '?')[0]
+                            .toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onPrimaryContainer,
                         ),
-                        const SizedBox(height: 12),
-
-                        // Display name
-                        Text(
-                          _profile!['display_name'] as String? ??
-                              _profile!['username'] as String? ??
-                              'Unknown',
-                          style: theme.textTheme.headlineSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '@${_profile!['username'] ?? ''}',
-                          style: TextStyle(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-
-                        // Level bar
-                        LevelBar(
-                          xp: _profile!['xp'] as int? ?? 0,
-                          level: _profile!['level'] as int? ?? 1,
-                          rank: _profile!['rank'] as String? ?? 'bronze',
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Streak card
-                        StreakCard(
-                          current:
-                              _profile!['streak_current'] as int? ?? 0,
-                          best: _profile!['streak_best'] as int? ?? 0,
-                        ),
-                        const SizedBox(height: 8),
-
-                        // Jukumon companion
-                        JukumonWidget(
-                          level: _profile!['level'] as int? ?? 1,
-                          rank: _profile!['rank'] as String? ?? 'bronze',
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Bio
-                        if (_profile!['bio'] != null &&
-                            (_profile!['bio'] as String).isNotEmpty)
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: SizedBox(
-                                width: double.infinity,
-                                child: Text(
-                                  _profile!['bio'] as String,
-                                  style: theme.textTheme.bodyMedium,
-                                ),
-                              ),
-                            ),
-                          ),
-                      ],
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 12),
+
+                    // Display name
+                    Text(
+                      _profile!['display_name'] as String? ??
+                          _profile!['username'] as String? ??
+                          'Unknown',
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '@${_profile!['username'] ?? ''}',
+                      style: TextStyle(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Level bar
+                    LevelBar(
+                      xp: _profile!['xp'] as int? ?? 0,
+                      level: _profile!['level'] as int? ?? 1,
+                      rank: _profile!['rank'] as String? ?? 'bronze',
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Streak card
+                    StreakCard(
+                      current: _profile!['streak_current'] as int? ?? 0,
+                      best: _profile!['streak_best'] as int? ?? 0,
+                    ),
+                    const SizedBox(height: 8),
+
+                    // Jukumon companion
+                    JukumonWidget(
+                      level: _profile!['level'] as int? ?? 1,
+                      rank: _profile!['rank'] as String? ?? 'bronze',
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Bio
+                    if (_profile!['bio'] != null &&
+                        (_profile!['bio'] as String).isNotEmpty)
+                      Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: Text(
+                              _profile!['bio'] as String,
+                              style: theme.textTheme.bodyMedium,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
+              ),
+            ),
     );
   }
 }

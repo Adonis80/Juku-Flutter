@@ -12,8 +12,7 @@ class SmDuoResultsScreen extends ConsumerStatefulWidget {
   const SmDuoResultsScreen({super.key, required this.battleId});
 
   @override
-  ConsumerState<SmDuoResultsScreen> createState() =>
-      _SmDuoResultsScreenState();
+  ConsumerState<SmDuoResultsScreen> createState() => _SmDuoResultsScreenState();
 }
 
 class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
@@ -82,14 +81,14 @@ class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
                 isDraw
                     ? Icons.handshake
                     : isWinner
-                        ? Icons.emoji_events
-                        : Icons.sentiment_neutral,
+                    ? Icons.emoji_events
+                    : Icons.sentiment_neutral,
                 size: 80,
                 color: isDraw
                     ? cs.tertiary
                     : isWinner
-                        ? Colors.amber
-                        : cs.onSurfaceVariant,
+                    ? Colors.amber
+                    : cs.onSurfaceVariant,
               ),
               const SizedBox(height: 16),
               // Result text
@@ -97,15 +96,15 @@ class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
                 isDraw
                     ? 'Draw!'
                     : isWinner
-                        ? 'Victory!'
-                        : 'Defeat',
+                    ? 'Victory!'
+                    : 'Defeat',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w900,
                   color: isDraw
                       ? cs.tertiary
                       : isWinner
-                          ? Colors.amber.shade700
-                          : cs.onSurfaceVariant,
+                      ? Colors.amber.shade700
+                      : cs.onSurfaceVariant,
                 ),
               ),
               const SizedBox(height: 8),
@@ -113,8 +112,8 @@ class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
                 isDraw
                     ? 'Evenly matched!'
                     : isWinner
-                        ? '+50 XP'
-                        : '+15 XP',
+                    ? '+50 XP'
+                    : '+15 XP',
                 style: theme.textTheme.titleMedium?.copyWith(
                   color: cs.primary,
                   fontWeight: FontWeight.w600,
@@ -164,9 +163,11 @@ class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
                           ),
                           _detailColumn(
                             'Time',
-                            _formatTime(battle.isPlayerA(userId)
-                                ? battle.playerATimeMs
-                                : battle.playerBTimeMs),
+                            _formatTime(
+                              battle.isPlayerA(userId)
+                                  ? battle.playerATimeMs
+                                  : battle.playerBTimeMs,
+                            ),
                             theme,
                           ),
                           _detailColumn(
@@ -213,12 +214,7 @@ class _SmDuoResultsScreenState extends ConsumerState<SmDuoResultsScreen> {
     );
   }
 
-  Widget _scoreColumn(
-    String label,
-    int score,
-    Color color,
-    ThemeData theme,
-  ) {
+  Widget _scoreColumn(String label, int score, Color color, ThemeData theme) {
     return Column(
       children: [
         Text(

@@ -73,7 +73,8 @@ class _RevenueDashboardScreenState extends State<RevenueDashboardScreen> {
       final moduleId = s['module_id'] as String? ?? '';
       final title =
           (s['skill_mode_modules'] as Map<String, dynamic>?)?['title']
-              as String? ?? 'Unknown';
+              as String? ??
+          'Unknown';
 
       if (modulePlays.containsKey(moduleId)) {
         modulePlays[moduleId]!['plays'] =
@@ -84,8 +85,7 @@ class _RevenueDashboardScreenState extends State<RevenueDashboardScreen> {
     }
 
     final breakdown = modulePlays.values.toList()
-      ..sort(
-          (a, b) => (b['plays'] as int).compareTo(a['plays'] as int));
+      ..sort((a, b) => (b['plays'] as int).compareTo(a['plays'] as int));
 
     // Get live gift earnings
     final liveGifts = await supabase
@@ -161,24 +161,25 @@ class _RevenueDashboardScreenState extends State<RevenueDashboardScreen> {
                         ),
                       ),
                     ],
-                  )
-                      .animate()
-                      .fadeIn(duration: 400.ms),
+                  ).animate().fadeIn(duration: 400.ms),
                   const SizedBox(height: 24),
 
                   // Module breakdown
                   if (_moduleBreakdown.isNotEmpty) ...[
                     Text(
                       'Module Plays',
-                      style: theme.textTheme.titleMedium
-                          ?.copyWith(fontWeight: FontWeight.bold),
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 8),
                     ..._moduleBreakdown.take(5).map((m) {
                       return Card(
                         child: ListTile(
-                          leading: Icon(Icons.play_circle,
-                              color: theme.colorScheme.primary),
+                          leading: Icon(
+                            Icons.play_circle,
+                            color: theme.colorScheme.primary,
+                          ),
                           title: Text(m['title'] as String? ?? 'Module'),
                           trailing: Text(
                             '${m['plays']} plays',
@@ -196,8 +197,9 @@ class _RevenueDashboardScreenState extends State<RevenueDashboardScreen> {
                   // Recent tips
                   Text(
                     'Recent Earnings',
-                    style: theme.textTheme.titleMedium
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 8),
                   if (_recentTips.isEmpty)
@@ -220,14 +222,16 @@ class _RevenueDashboardScreenState extends State<RevenueDashboardScreen> {
 
                       return Card(
                         child: ListTile(
-                          leading: const Icon(Icons.add_circle,
-                              color: Colors.green),
+                          leading: const Icon(
+                            Icons.add_circle,
+                            color: Colors.green,
+                          ),
                           title: Text(
                             ref.contains('live_gift')
                                 ? 'Live Gift'
                                 : ref.contains('tip')
-                                    ? 'Tip Received'
-                                    : 'Earning',
+                                ? 'Tip Received'
+                                : 'Earning',
                           ),
                           trailing: Text(
                             '+$amount Juice',

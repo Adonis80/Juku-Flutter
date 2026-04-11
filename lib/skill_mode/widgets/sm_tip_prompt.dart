@@ -78,19 +78,22 @@ class _SmTipPromptState extends State<SmTipPrompt>
 
     try {
       // Use existing tip RPC from Sprint 13.
-      await supabase.rpc('credit_tip', params: {
-        'sender_id': widget.tipperId,
-        'receiver_id': widget.creatorId,
-        'amount': _selectedAmount,
-        'content_type': 'skill_mode_deck',
-        'content_id': widget.deckId,
-      });
+      await supabase.rpc(
+        'credit_tip',
+        params: {
+          'sender_id': widget.tipperId,
+          'receiver_id': widget.creatorId,
+          'amount': _selectedAmount,
+          'content_type': 'skill_mode_deck',
+          'content_id': widget.deckId,
+        },
+      );
 
       // Update creator stats.
-      await supabase.rpc('spend_juice', params: {
-        'user_id': widget.tipperId,
-        'amount': _selectedAmount,
-      });
+      await supabase.rpc(
+        'spend_juice',
+        params: {'user_id': widget.tipperId, 'amount': _selectedAmount},
+      );
 
       // Coin animation.
       _coinController.forward();
@@ -108,9 +111,9 @@ class _SmTipPromptState extends State<SmTipPrompt>
     } catch (e) {
       if (mounted) {
         setState(() => _sending = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Tip failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Tip failed: $e')));
       }
     }
   }
@@ -142,13 +145,15 @@ class _SmTipPromptState extends State<SmTipPrompt>
 
           if (_sent) ...[
             // Sent confirmation.
-            const Icon(Icons.favorite, size: 48, color: Color(0xFFEF4444))
-                .animate()
-                .scale(
-                  begin: const Offset(0.0, 0.0),
-                  end: const Offset(1.0, 1.0),
-                  curve: Curves.elasticOut,
-                ),
+            const Icon(
+              Icons.favorite,
+              size: 48,
+              color: Color(0xFFEF4444),
+            ).animate().scale(
+              begin: const Offset(0.0, 0.0),
+              end: const Offset(1.0, 1.0),
+              curve: Curves.elasticOut,
+            ),
             const SizedBox(height: 12),
             Text(
               'Tip sent!',
@@ -190,8 +195,7 @@ class _SmTipPromptState extends State<SmTipPrompt>
                     label: Text('$amount'),
                     avatar: const Icon(Icons.water_drop, size: 16),
                     selected: selected,
-                    onSelected: (_) =>
-                        setState(() => _selectedAmount = amount),
+                    onSelected: (_) => setState(() => _selectedAmount = amount),
                   ),
                 );
               }).toList(),

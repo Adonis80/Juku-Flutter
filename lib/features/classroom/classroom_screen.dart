@@ -33,10 +33,7 @@ class ClassroomScreen extends ConsumerWidget {
           ],
         ),
         body: const TabBarView(
-          children: [
-            _TeacherTab(),
-            _StudentTab(),
-          ],
+          children: [_TeacherTab(), _StudentTab()],
         ).animate().fadeIn(duration: 300.ms),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () => _showCreateDialog(context, ref),
@@ -84,8 +81,7 @@ class ClassroomScreen extends ConsumerWidget {
                   DropdownMenuItem(value: 'french', child: Text('French')),
                   DropdownMenuItem(value: 'russian', child: Text('Russian')),
                   DropdownMenuItem(value: 'arabic', child: Text('Arabic')),
-                  DropdownMenuItem(
-                      value: 'mandarin', child: Text('Mandarin')),
+                  DropdownMenuItem(value: 'mandarin', child: Text('Mandarin')),
                 ],
                 onChanged: (v) => setDialogState(() => language = v!),
               ),
@@ -142,8 +138,9 @@ class ClassroomScreen extends ConsumerWidget {
             onPressed: () async {
               if (codeCtrl.text.trim().isEmpty) return;
               try {
-                await ClassroomService.instance
-                    .joinClassroom(codeCtrl.text.trim());
+                await ClassroomService.instance.joinClassroom(
+                  codeCtrl.text.trim(),
+                );
                 ref.invalidate(joinedClassroomsProvider);
                 if (ctx.mounted) {
                   Navigator.pop(ctx);
@@ -153,9 +150,9 @@ class ClassroomScreen extends ConsumerWidget {
                 }
               } catch (e) {
                 if (ctx.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Error: $e')),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Error: $e')));
                 }
               }
             },
@@ -184,14 +181,18 @@ class _TeacherTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.school_outlined,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.school_outlined,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
-                Text('No classrooms yet',
-                    style: theme.textTheme.titleMedium),
+                Text('No classrooms yet', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Create a class to get started.',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Create a class to get started.',
+                  style: theme.textTheme.bodySmall,
+                ),
               ],
             ),
           );
@@ -206,15 +207,15 @@ class _TeacherTab extends ConsumerWidget {
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: theme.colorScheme.primaryContainer,
-                  child: Icon(Icons.school,
-                      color: theme.colorScheme.primary),
+                  child: Icon(Icons.school, color: theme.colorScheme.primary),
                 ),
                 title: Text(c.name),
                 subtitle: Text(
                   '${c.studentCount}/${c.maxStudents} students · ${c.language} · Code: ${c.joinCode}',
                   style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colorScheme.onSurfaceVariant),
+                    fontSize: 12,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 trailing: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -223,25 +224,21 @@ class _TeacherTab extends ConsumerWidget {
                       icon: const Icon(Icons.copy, size: 20),
                       tooltip: 'Copy join code',
                       onPressed: () {
-                        Clipboard.setData(
-                            ClipboardData(text: c.joinCode));
+                        Clipboard.setData(ClipboardData(text: c.joinCode));
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                              content:
-                                  Text('Code "${c.joinCode}" copied')),
+                            content: Text('Code "${c.joinCode}" copied'),
+                          ),
                         );
                       },
                     ),
                     const Icon(Icons.chevron_right),
                   ],
                 ),
-                onTap: () => context.push('/classroom/${c.id}',
-                    extra: {'name': c.name}),
+                onTap: () =>
+                    context.push('/classroom/${c.id}', extra: {'name': c.name}),
               ),
-            )
-                .animate()
-                .fadeIn(delay: (index * 60).ms)
-                .slideX(begin: 0.05, end: 0);
+            ).animate().fadeIn(delay: (index * 60).ms).slideX(begin: 0.05, end: 0);
           },
         );
       },
@@ -266,14 +263,18 @@ class _StudentTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.groups_outlined,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.groups_outlined,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
-                Text('Not in any classes',
-                    style: theme.textTheme.titleMedium),
+                Text('Not in any classes', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Ask your teacher for a join code.',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Ask your teacher for a join code.',
+                  style: theme.textTheme.bodySmall,
+                ),
               ],
             ),
           );
@@ -285,24 +286,29 @@ class _StudentTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             final c = classes[index];
             return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor: theme.colorScheme.secondaryContainer,
-                  child: Icon(Icons.school,
-                      color: theme.colorScheme.secondary),
-                ),
-                title: Text(c.name),
-                subtitle: Text(
-                  c.language,
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colorScheme.onSurfaceVariant),
-                ),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () => context.push('/classroom/${c.id}',
-                    extra: {'name': c.name}),
-              ),
-            )
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: theme.colorScheme.secondaryContainer,
+                      child: Icon(
+                        Icons.school,
+                        color: theme.colorScheme.secondary,
+                      ),
+                    ),
+                    title: Text(c.name),
+                    subtitle: Text(
+                      c.language,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    trailing: const Icon(Icons.chevron_right),
+                    onTap: () => context.push(
+                      '/classroom/${c.id}',
+                      extra: {'name': c.name},
+                    ),
+                  ),
+                )
                 .animate()
                 .fadeIn(delay: (index * 60).ms)
                 .slideX(begin: 0.05, end: 0);

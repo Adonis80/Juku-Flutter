@@ -42,28 +42,26 @@ enum EvolutionBranch {
 
 /// Evolution stage names.
 const evolutionStageNames = [
-  'Egg',      // 0
+  'Egg', // 0
   'Hatchling', // 1 (L5)
   'Fledgling', // 2 (L15)
-  'Guardian',  // 3 (L30)
-  'Champion',  // 4 (L50)
-  'Mythic',    // 5 (L100)
+  'Guardian', // 3 (L30)
+  'Champion', // 4 (L50)
+  'Mythic', // 5 (L100)
 ];
 
 const evolutionStageLevels = [0, 5, 15, 30, 50, 100];
 
 /// User's evolution state.
 class EvolutionState {
-  const EvolutionState({
-    required this.branch,
-    required this.stage,
-  });
+  const EvolutionState({required this.branch, required this.stage});
 
   final EvolutionBranch branch;
   final int stage;
 
-  String get stageName =>
-      stage < evolutionStageNames.length ? evolutionStageNames[stage] : 'Unknown';
+  String get stageName => stage < evolutionStageNames.length
+      ? evolutionStageNames[stage]
+      : 'Unknown';
 }
 
 /// Cosmetic variant model.
@@ -81,8 +79,11 @@ class JukumonVariant {
     this.equipped = false,
   });
 
-  factory JukumonVariant.fromMap(Map<String, dynamic> map,
-      {bool owned = false, bool equipped = false}) {
+  factory JukumonVariant.fromMap(
+    Map<String, dynamic> map, {
+    bool owned = false,
+    bool equipped = false,
+  }) {
     return JukumonVariant(
       id: map['id'] as String,
       name: map['name'] as String? ?? '',
@@ -142,10 +143,10 @@ class EvolutionService {
     final user = supabase.auth.currentUser;
     if (user == null) return null;
 
-    final result = await supabase.rpc('check_evolution', params: {
-      'p_user_id': user.id,
-      'p_level': level,
-    });
+    final result = await supabase.rpc(
+      'check_evolution',
+      params: {'p_user_id': user.id, 'p_level': level},
+    );
 
     return result as Map<String, dynamic>?;
   }
@@ -155,7 +156,10 @@ class EvolutionService {
     final user = supabase.auth.currentUser;
     if (user == null) return [];
 
-    final variants = await supabase.from('jukumon_variants').select().order('rarity');
+    final variants = await supabase
+        .from('jukumon_variants')
+        .select()
+        .order('rarity');
 
     // Get user's owned variants
     final owned = await supabase
@@ -180,9 +184,10 @@ class EvolutionService {
 
   /// Purchase a variant with Juice.
   Future<bool> purchaseVariant(String variantId) async {
-    final result = await supabase.rpc('purchase_variant', params: {
-      'p_variant_id': variantId,
-    });
+    final result = await supabase.rpc(
+      'purchase_variant',
+      params: {'p_variant_id': variantId},
+    );
     return result == true;
   }
 

@@ -17,8 +17,7 @@ class SmSongPlayerScreen extends ConsumerStatefulWidget {
   const SmSongPlayerScreen({super.key, required this.songId});
 
   @override
-  ConsumerState<SmSongPlayerScreen> createState() =>
-      _SmSongPlayerScreenState();
+  ConsumerState<SmSongPlayerScreen> createState() => _SmSongPlayerScreenState();
 }
 
 class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
@@ -140,18 +139,18 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
   }
 
   void _seek(double value) {
-    _player.seek(Duration(
-      milliseconds: (value * _duration.inMilliseconds).round(),
-    ));
+    _player.seek(
+      Duration(milliseconds: (value * _duration.inMilliseconds).round()),
+    );
   }
 
   void _onLineTapped(int index) {
     // Pause and show puzzle for this line.
     _player.pause();
     // TODO(SM-5.4): Launch tile puzzle for this lyric line.
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Puzzle: "${_lyrics[index].text}"')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('Puzzle: "${_lyrics[index].text}"')));
   }
 
   void _switchAudioSource(String source) {
@@ -240,17 +239,17 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
           // Audio source toggle (if stems available).
           if (song.vocalsUrl != null || song.instrumentalUrl != null)
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               child: SegmentedButton<String>(
                 segments: [
                   const ButtonSegment(value: 'full', label: Text('Full')),
                   if (song.vocalsUrl != null)
-                    const ButtonSegment(
-                        value: 'vocals', label: Text('Vocals')),
+                    const ButtonSegment(value: 'vocals', label: Text('Vocals')),
                   if (song.instrumentalUrl != null)
                     const ButtonSegment(
-                        value: 'accompaniment', label: Text('Music')),
+                      value: 'accompaniment',
+                      label: Text('Music'),
+                    ),
                 ],
                 selected: {_audioSource},
                 onSelectionChanged: (v) => _switchAudioSource(v.first),
@@ -271,7 +270,9 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
                 : ListView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     itemCount: _lyrics.length,
                     itemBuilder: (_, i) {
                       final line = _lyrics[i];
@@ -302,9 +303,10 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
                                   color: isCurrent
                                       ? theme.colorScheme.primary
                                       : isPast
-                                          ? theme.colorScheme.onSurface
-                                              .withAlpha(100)
-                                          : theme.colorScheme.onSurface,
+                                      ? theme.colorScheme.onSurface.withAlpha(
+                                          100,
+                                        )
+                                      : theme.colorScheme.onSurface,
                                 ),
                               ),
                               if (line.translation != null)
@@ -326,16 +328,14 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
 
           // Controls.
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Column(
               children: [
                 // Seek bar.
                 Slider(
                   value: _duration.inMilliseconds > 0
-                      ? (_position.inMilliseconds /
-                              _duration.inMilliseconds)
-                          .clamp(0.0, 1.0)
+                      ? (_position.inMilliseconds / _duration.inMilliseconds)
+                            .clamp(0.0, 1.0)
                       : 0.0,
                   onChanged: _seek,
                 ),
@@ -361,25 +361,28 @@ class _SmSongPlayerScreenState extends ConsumerState<SmSongPlayerScreen> {
                     IconButton(
                       icon: const Icon(Icons.replay_10),
                       onPressed: () {
-                        _player.seek(Duration(
-                          milliseconds:
-                              (_position.inMilliseconds - 10000).clamp(0, _duration.inMilliseconds),
-                        ));
+                        _player.seek(
+                          Duration(
+                            milliseconds: (_position.inMilliseconds - 10000)
+                                .clamp(0, _duration.inMilliseconds),
+                          ),
+                        );
                       },
                     ),
                     IconButton.filled(
                       iconSize: 48,
-                      icon: Icon(
-                          _isPlaying ? Icons.pause : Icons.play_arrow),
+                      icon: Icon(_isPlaying ? Icons.pause : Icons.play_arrow),
                       onPressed: _togglePlayPause,
                     ),
                     IconButton(
                       icon: const Icon(Icons.forward_10),
                       onPressed: () {
-                        _player.seek(Duration(
-                          milliseconds:
-                              (_position.inMilliseconds + 10000).clamp(0, _duration.inMilliseconds),
-                        ));
+                        _player.seek(
+                          Duration(
+                            milliseconds: (_position.inMilliseconds + 10000)
+                                .clamp(0, _duration.inMilliseconds),
+                          ),
+                        );
                       },
                     ),
                   ],

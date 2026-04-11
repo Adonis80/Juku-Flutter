@@ -78,10 +78,10 @@ class SmXpEngine {
       if (newLevel > currentLevel) {
         // Update profile.
         final newRank = rankForLevel(newLevel);
-        await supabase.from('profiles').update({
-          'level': newLevel,
-          'rank': newRank,
-        }).eq('id', userId);
+        await supabase
+            .from('profiles')
+            .update({'level': newLevel, 'rank': newRank})
+            .eq('id', userId);
 
         return SmLevelUp(
           oldLevel: currentLevel,

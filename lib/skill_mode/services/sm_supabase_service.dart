@@ -20,8 +20,9 @@ class SmSupabaseService {
         .order('next_review_at')
         .limit(limit);
 
-    final cardIds =
-        (userCards as List).map((uc) => uc['card_id'] as String).toList();
+    final cardIds = (userCards as List)
+        .map((uc) => uc['card_id'] as String)
+        .toList();
 
     if (cardIds.isEmpty) {
       // New user — fetch unseen cards
@@ -113,10 +114,11 @@ class SmSupabaseService {
     required String userId,
     required String language,
   }) async {
-    final data = await supabase.from('skill_mode_sessions').insert({
-      'user_id': userId,
-      'language': language,
-    }).select('id').single();
+    final data = await supabase
+        .from('skill_mode_sessions')
+        .insert({'user_id': userId, 'language': language})
+        .select('id')
+        .single();
 
     return data['id'] as String;
   }
@@ -128,11 +130,14 @@ class SmSupabaseService {
     required int xpEarned,
     required int comboPeak,
   }) async {
-    await supabase.from('skill_mode_sessions').update({
-      'cards_reviewed': cardsReviewed,
-      'xp_earned': xpEarned,
-      'combo_peak': comboPeak,
-      'ended_at': DateTime.now().toIso8601String(),
-    }).eq('id', sessionId);
+    await supabase
+        .from('skill_mode_sessions')
+        .update({
+          'cards_reviewed': cardsReviewed,
+          'xp_earned': xpEarned,
+          'combo_peak': comboPeak,
+          'ended_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', sessionId);
   }
 }

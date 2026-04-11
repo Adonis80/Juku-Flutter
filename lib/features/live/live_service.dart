@@ -51,8 +51,9 @@ class LiveSession {
       startedAt: map['started_at'] != null
           ? DateTime.tryParse(map['started_at'] as String)
           : null,
-      hostName: (map['profiles'] as Map<String, dynamic>?)?['display_name']
-          as String?,
+      hostName:
+          (map['profiles'] as Map<String, dynamic>?)?['display_name']
+              as String?,
     );
   }
 
@@ -86,23 +87,30 @@ class LiveService {
     final user = supabase.auth.currentUser;
     if (user == null) return null;
 
-    final data = await supabase.from('live_sessions').insert({
-      'host_id': user.id,
-      'title': title,
-      'language': language,
-      'module_id': moduleId,
-      'status': 'live',
-    }).select().single();
+    final data = await supabase
+        .from('live_sessions')
+        .insert({
+          'host_id': user.id,
+          'title': title,
+          'language': language,
+          'module_id': moduleId,
+          'status': 'live',
+        })
+        .select()
+        .single();
 
     return LiveSession.fromMap(data);
   }
 
   /// End a live session.
   Future<void> endSession(String sessionId) async {
-    await supabase.from('live_sessions').update({
-      'status': 'ended',
-      'ended_at': DateTime.now().toUtc().toIso8601String(),
-    }).eq('id', sessionId);
+    await supabase
+        .from('live_sessions')
+        .update({
+          'status': 'ended',
+          'ended_at': DateTime.now().toUtc().toIso8601String(),
+        })
+        .eq('id', sessionId);
 
     _sessionChannel?.unsubscribe();
     _presenceChannel?.unsubscribe();
@@ -112,9 +120,10 @@ class LiveService {
 
   /// Advance the current card (host only).
   Future<void> advanceCard(String sessionId, int newIndex) async {
-    await supabase.from('live_sessions').update({
-      'current_card_index': newIndex,
-    }).eq('id', sessionId);
+    await supabase
+        .from('live_sessions')
+        .update({'current_card_index': newIndex})
+        .eq('id', sessionId);
 
     // Broadcast via Realtime
     _sessionChannel?.sendBroadcastMessage(
@@ -129,12 +138,15 @@ class LiveService {
     required String hostId,
     required LiveGiftType giftType,
   }) async {
-    final result = await supabase.rpc('send_live_gift', params: {
-      'p_session_id': sessionId,
-      'p_host_id': hostId,
-      'p_gift_type': giftType.name,
-      'p_juice_amount': giftType.juice,
-    });
+    final result = await supabase.rpc(
+      'send_live_gift',
+      params: {
+        'p_session_id': sessionId,
+        'p_host_id': hostId,
+        'p_gift_type': giftType.name,
+        'p_juice_amount': giftType.juice,
+      },
+    );
 
     if (result == true) {
       // Broadcast gift to all viewers
@@ -157,7 +169,8 @@ class LiveService {
     Stream<int> cardAdvances,
     Stream<Map<String, dynamic>> gifts,
     Stream<int> viewerCount,
-  }) joinSession(String sessionId) {
+  })
+  joinSession(String sessionId) {
     final cardController = StreamController<int>.broadcast();
     final giftController = StreamController<Map<String, dynamic>>.broadcast();
     final viewerController = StreamController<int>.broadcast();
@@ -188,9 +201,10 @@ class LiveService {
           viewerController.add(count);
 
           // Update viewer count in DB
-          supabase.from('live_sessions').update({
-            'viewer_count': count,
-          }).eq('id', sessionId);
+          supabase
+              .from('live_sessions')
+              .update({'viewer_count': count})
+              .eq('id', sessionId);
         })
         .subscribe((status, _) {
           if (status == RealtimeSubscribeStatus.subscribed) {
@@ -238,8 +252,10 @@ class LiveService {
     final totals = <String, Map<String, dynamic>>{};
     for (final row in data) {
       final senderId = row['sender_id'] as String;
-      final name = (row['profiles']
-          as Map<String, dynamic>?)?['display_name'] as String? ?? 'Unknown';
+      final name =
+          (row['profiles'] as Map<String, dynamic>?)?['display_name']
+              as String? ??
+          'Unknown';
       final amount = row['juice_amount'] as int? ?? 0;
 
       if (totals.containsKey(senderId)) {
@@ -251,12 +267,10 @@ class LiveService {
     }
 
     final sorted = totals.entries.toList()
-      ..sort((a, b) =>
-          (b.value['total'] as int).compareTo(a.value['total'] as int));
+      ..sort(
+        (a, b) => (b.value['total'] as int).compareTo(a.value['total'] as int),
+      );
 
-    return sorted
-        .take(3)
-        .map((e) => {'sender_id': e.key, ...e.value})
-        .toList();
+    return sorted.take(3).map((e) => {'sender_id': e.key, ...e.value}).toList();
   }
 }

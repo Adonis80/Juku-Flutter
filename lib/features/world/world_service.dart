@@ -21,8 +21,7 @@ class WorldZone {
     this.presentCount = 0,
   });
 
-  factory WorldZone.fromJson(Map<String, dynamic> json,
-          {int present = 0}) =>
+  factory WorldZone.fromJson(Map<String, dynamic> json, {int present = 0}) =>
       WorldZone(
         id: json['id'] as String,
         name: json['name'] as String,
@@ -52,15 +51,15 @@ class PodMember {
   });
 
   factory PodMember.fromJson(Map<String, dynamic> json) => PodMember(
-        userId: json['user_id'] as String,
-        username:
-            (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
-        displayName: (json['profiles'] as Map<String, dynamic>?)?['display_name']
-            as String?,
-        posX: (json['position_x'] as num?)?.toDouble() ?? 0,
-        posY: (json['position_y'] as num?)?.toDouble() ?? 0,
-        joinedAt: DateTime.parse(json['joined_at'] as String),
-      );
+    userId: json['user_id'] as String,
+    username:
+        (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
+    displayName:
+        (json['profiles'] as Map<String, dynamic>?)?['display_name'] as String?,
+    posX: (json['position_x'] as num?)?.toDouble() ?? 0,
+    posY: (json['position_y'] as num?)?.toDouble() ?? 0,
+    joinedAt: DateTime.parse(json['joined_at'] as String),
+  );
 }
 
 class WorldObject {
@@ -85,17 +84,17 @@ class WorldObject {
   });
 
   factory WorldObject.fromJson(Map<String, dynamic> json) => WorldObject(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        description: json['description'] as String?,
-        category: json['category'] as String? ?? 'decoration',
-        juiceCost: json['juice_cost'] as int? ?? 0,
-        iconUrl: json['icon_url'] as String?,
-        seasonal: json['seasonal'] as bool? ?? false,
-        availableUntil: json['available_until'] != null
-            ? DateTime.parse(json['available_until'] as String)
-            : null,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    description: json['description'] as String?,
+    category: json['category'] as String? ?? 'decoration',
+    juiceCost: json['juice_cost'] as int? ?? 0,
+    iconUrl: json['icon_url'] as String?,
+    seasonal: json['seasonal'] as bool? ?? false,
+    availableUntil: json['available_until'] != null
+        ? DateTime.parse(json['available_until'] as String)
+        : null,
+  );
 }
 
 class CardDrop {
@@ -128,20 +127,20 @@ class CardDrop {
   });
 
   factory CardDrop.fromJson(Map<String, dynamic> json) => CardDrop(
-        id: json['id'] as String,
-        zoneId: json['zone_id'] as String,
-        droppedBy: json['dropped_by'] as String,
-        dropperName:
-            (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
-        cardId: json['card_id'] as String,
-        cardTitle: json['card_title'] as String,
-        cardType: json['card_type'] as String? ?? 'flash',
-        posX: (json['position_x'] as num?)?.toDouble() ?? 0.5,
-        posY: (json['position_y'] as num?)?.toDouble() ?? 0.5,
-        playCount: json['play_count'] as int? ?? 0,
-        expiresAt: DateTime.parse(json['expires_at'] as String),
-        createdAt: DateTime.parse(json['created_at'] as String),
-      );
+    id: json['id'] as String,
+    zoneId: json['zone_id'] as String,
+    droppedBy: json['dropped_by'] as String,
+    dropperName:
+        (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
+    cardId: json['card_id'] as String,
+    cardTitle: json['card_title'] as String,
+    cardType: json['card_type'] as String? ?? 'flash',
+    posX: (json['position_x'] as num?)?.toDouble() ?? 0.5,
+    posY: (json['position_y'] as num?)?.toDouble() ?? 0.5,
+    playCount: json['play_count'] as int? ?? 0,
+    expiresAt: DateTime.parse(json['expires_at'] as String),
+    createdAt: DateTime.parse(json['created_at'] as String),
+  );
 
   Duration get timeRemaining => expiresAt.difference(DateTime.now());
   bool get isExpired => DateTime.now().isAfter(expiresAt);
@@ -169,17 +168,16 @@ class ObjectGift {
   });
 
   factory ObjectGift.fromJson(Map<String, dynamic> json) => ObjectGift(
-        id: json['id'] as String,
-        objectId: json['object_id'] as String,
-        fromUserId: json['from_user_id'] as String,
-        toUserId: json['to_user_id'] as String,
-        fromUsername:
-            (json['from_profile'] as Map<String, dynamic>?)?['username']
-                as String?,
-        message: json['message'] as String?,
-        claimed: json['claimed'] as bool? ?? false,
-        createdAt: DateTime.parse(json['created_at'] as String),
-      );
+    id: json['id'] as String,
+    objectId: json['object_id'] as String,
+    fromUserId: json['from_user_id'] as String,
+    toUserId: json['to_user_id'] as String,
+    fromUsername:
+        (json['from_profile'] as Map<String, dynamic>?)?['username'] as String?,
+    message: json['message'] as String?,
+    claimed: json['claimed'] as bool? ?? false,
+    createdAt: DateTime.parse(json['created_at'] as String),
+  );
 }
 
 /// Service for all World v2 operations.
@@ -203,8 +201,10 @@ class WorldService {
     }
 
     return zones
-        .map((z) => WorldZone.fromJson(z,
-            present: countMap[z['id'] as String] ?? 0))
+        .map(
+          (z) =>
+              WorldZone.fromJson(z, present: countMap[z['id'] as String] ?? 0),
+        )
         .toList();
   }
 
@@ -257,10 +257,10 @@ class WorldService {
   }
 
   Future<void> purchaseObject(String catalogId, int cost) async {
-    await _sb.rpc('spend_juice', params: {
-      'p_amount': cost,
-      'p_reference': 'world_object:$catalogId',
-    });
+    await _sb.rpc(
+      'spend_juice',
+      params: {'p_amount': cost, 'p_reference': 'world_object:$catalogId'},
+    );
 
     await _sb.from('world_objects').insert({
       'catalog_id': catalogId,
@@ -268,9 +268,10 @@ class WorldService {
     });
 
     // Increment purchase count
-    await _sb.rpc('increment_world_object_count', params: {
-      'p_catalog_id': catalogId,
-    });
+    await _sb.rpc(
+      'increment_world_object_count',
+      params: {'p_catalog_id': catalogId},
+    );
   }
 
   // --- Card Drops ---
@@ -304,9 +305,12 @@ class WorldService {
   }
 
   Future<void> playCardDrop(String dropId) async {
-    await _sb.from('world_card_drops').update({
-      'play_count': _sb.from('world_card_drops').select('play_count'),
-    }).eq('id', dropId);
+    await _sb
+        .from('world_card_drops')
+        .update({
+          'play_count': _sb.from('world_card_drops').select('play_count'),
+        })
+        .eq('id', dropId);
     // Simple increment — in production use an RPC
   }
 
@@ -327,7 +331,8 @@ class WorldService {
     // Transfer ownership
     await _sb
         .from('world_objects')
-        .update({'owner_id': toUserId}).eq('id', objectId);
+        .update({'owner_id': toUserId})
+        .eq('id', objectId);
   }
 
   Future<List<ObjectGift>> getMyGifts() async {
@@ -344,7 +349,8 @@ class WorldService {
   Future<void> claimGift(String giftId) async {
     await _sb
         .from('world_object_gifts')
-        .update({'claimed': true}).eq('id', giftId);
+        .update({'claimed': true})
+        .eq('id', giftId);
   }
 
   // --- Juice Balance ---

@@ -161,9 +161,7 @@ class SmBadgeService {
           .maybeSingle();
 
       if (data == null) return [];
-      return List<String>.from(
-        (data['unlocked_badges'] as List?) ?? [],
-      );
+      return List<String>.from((data['unlocked_badges'] as List?) ?? []);
     } catch (_) {
       return [];
     }

@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'tenant_service.dart';
 
 /// Current user's tenant (null if not a tenant admin).
-final tenantProvider =
-    AsyncNotifierProvider<TenantNotifier, Tenant?>(TenantNotifier.new);
+final tenantProvider = AsyncNotifierProvider<TenantNotifier, Tenant?>(
+  TenantNotifier.new,
+);
 
 class TenantNotifier extends AsyncNotifier<Tenant?> {
   @override
@@ -30,7 +31,10 @@ class TenantNotifier extends AsyncNotifier<Tenant?> {
     String? secondaryColor,
     String? welcomeMessage,
   }) async {
-    final tenant = switch (state) { AsyncData(:final value) => value, _ => null };
+    final tenant = switch (state) {
+      AsyncData(:final value) => value,
+      _ => null,
+    };
     if (tenant == null) return;
     await TenantService.instance.updateBranding(
       tenantId: tenant.id,
@@ -43,7 +47,10 @@ class TenantNotifier extends AsyncNotifier<Tenant?> {
   }
 
   Future<void> completeSetup() async {
-    final tenant = switch (state) { AsyncData(:final value) => value, _ => null };
+    final tenant = switch (state) {
+      AsyncData(:final value) => value,
+      _ => null,
+    };
     if (tenant == null) return;
     await TenantService.instance.completeSetup(tenant.id);
     ref.invalidateSelf();
@@ -63,11 +70,11 @@ final tenantInvitesProvider = FutureProvider.family<List<TenantInvite>, String>(
 /// Moderation queue.
 final moderationQueueProvider =
     FutureProvider.family<List<ModerationItem>, String>(
-  (ref, tenantId) => TenantService.instance.getModerationQueue(tenantId),
-);
+      (ref, tenantId) => TenantService.instance.getModerationQueue(tenantId),
+    );
 
 /// Analytics (last 30 days).
 final tenantAnalyticsProvider =
     FutureProvider.family<List<TenantAnalytics>, String>(
-  (ref, tenantId) => TenantService.instance.getAnalytics(tenantId),
-);
+      (ref, tenantId) => TenantService.instance.getAnalytics(tenantId),
+    );

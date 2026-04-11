@@ -39,8 +39,9 @@ class _BrandingTabState extends ConsumerState<BrandingTab> {
     super.initState();
     _primaryColor = widget.tenant.branding.primaryColor;
     _secondaryColor = widget.tenant.branding.secondaryColor;
-    _welcomeCtrl =
-        TextEditingController(text: widget.tenant.branding.welcomeMessage);
+    _welcomeCtrl = TextEditingController(
+      text: widget.tenant.branding.welcomeMessage,
+    );
   }
 
   @override
@@ -56,7 +57,9 @@ class _BrandingTabState extends ConsumerState<BrandingTab> {
 
   Future<void> _save() async {
     setState(() => _saving = true);
-    await ref.read(tenantProvider.notifier).updateBranding(
+    await ref
+        .read(tenantProvider.notifier)
+        .updateBranding(
           primaryColor: _primaryColor,
           secondaryColor: _secondaryColor,
           welcomeMessage: _welcomeCtrl.text.trim().isNotEmpty
@@ -65,9 +68,9 @@ class _BrandingTabState extends ConsumerState<BrandingTab> {
         );
     setState(() => _saving = false);
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Branding saved')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Branding saved')));
     }
   }
 
@@ -212,7 +215,9 @@ class _BrandingTabState extends ConsumerState<BrandingTab> {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                              color: _parse(hex).withAlpha(128), blurRadius: 8)
+                            color: _parse(hex).withAlpha(128),
+                            blurRadius: 8,
+                          ),
                         ]
                       : null,
                 ),
@@ -249,7 +254,9 @@ class _BrandingTabState extends ConsumerState<BrandingTab> {
                   boxShadow: isSelected
                       ? [
                           BoxShadow(
-                              color: _parse(hex).withAlpha(128), blurRadius: 8)
+                            color: _parse(hex).withAlpha(128),
+                            blurRadius: 8,
+                          ),
                         ]
                       : null,
                 ),

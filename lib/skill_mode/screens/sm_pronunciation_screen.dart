@@ -114,20 +114,18 @@ class _SmPronunciationScreenState extends ConsumerState<SmPronunciationScreen>
     );
 
     // Poll amplitude every 50ms.
-    _amplitudeTimer = Timer.periodic(
-      const Duration(milliseconds: 50),
-      (_) async {
-        final amp = await _recorder.getAmplitude();
-        if (mounted && _isRecording) {
-          setState(() {
-            // Normalize dBFS to 0–1. -60dB = silence, 0dB = max.
-            final normalized =
-                ((amp.current + 60) / 60).clamp(0.0, 1.0);
-            _userAmplitudes.add(normalized);
-          });
-        }
-      },
-    );
+    _amplitudeTimer = Timer.periodic(const Duration(milliseconds: 50), (
+      _,
+    ) async {
+      final amp = await _recorder.getAmplitude();
+      if (mounted && _isRecording) {
+        setState(() {
+          // Normalize dBFS to 0–1. -60dB = silence, 0dB = max.
+          final normalized = ((amp.current + 60) / 60).clamp(0.0, 1.0);
+          _userAmplitudes.add(normalized);
+        });
+      }
+    });
   }
 
   Future<void> _stopRecording() async {
@@ -253,8 +251,8 @@ class _SmPronunciationScreenState extends ConsumerState<SmPronunciationScreen>
               _isRecording
                   ? 'Release to stop'
                   : _isScoring
-                      ? 'Scoring...'
-                      : 'Hold to record',
+                  ? 'Scoring...'
+                  : 'Hold to record',
               style: theme.textTheme.bodySmall?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -333,11 +331,11 @@ class _SmPronunciationScreenState extends ConsumerState<SmPronunciationScreen>
             color: gradeColor,
           ),
         ).animate().scale(
-              begin: const Offset(0.5, 0.5),
-              end: const Offset(1.0, 1.0),
-              duration: const Duration(milliseconds: 400),
-              curve: Curves.elasticOut,
-            ),
+          begin: const Offset(0.5, 0.5),
+          end: const Offset(1.0, 1.0),
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.elasticOut,
+        ),
         const SizedBox(height: 4),
         Text(
           gradeLabel,

@@ -12,8 +12,14 @@ class SmFrenchModule extends SmGrammarModule {
   String get languageName => 'French';
 
   @override
-  List<String> get conjugationLabels =>
-      ['je', 'tu', 'il/elle/on', 'nous', 'vous', 'ils/elles'];
+  List<String> get conjugationLabels => [
+    'je',
+    'tu',
+    'il/elle/on',
+    'nous',
+    'vous',
+    'ils/elles',
+  ];
 
   // --- Gender colours ---
   static const _masculineColor = Color(0xFF3B82F6); // blue — le
@@ -92,16 +98,16 @@ class _FrenchGenderTile extends StatelessWidget {
   const _FrenchGenderTile({required this.gender});
 
   Color get _color => switch (gender) {
-        'masculine' => SmFrenchModule._masculineColor,
-        'feminine' => SmFrenchModule._feminineColor,
-        _ => const Color(0xFF6B7280),
-      };
+    'masculine' => SmFrenchModule._masculineColor,
+    'feminine' => SmFrenchModule._feminineColor,
+    _ => const Color(0xFF6B7280),
+  };
 
   String get _label => switch (gender) {
-        'masculine' => 'le',
-        'feminine' => 'la',
-        _ => '?',
-      };
+    'masculine' => 'le',
+    'feminine' => 'la',
+    _ => '?',
+  };
 
   @override
   Widget build(BuildContext context) {

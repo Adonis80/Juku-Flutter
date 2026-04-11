@@ -35,8 +35,9 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
       return;
     }
 
-    final attempted =
-        await ChallengeService.instance.hasAttemptedToday(challenge.id);
+    final attempted = await ChallengeService.instance.hasAttemptedToday(
+      challenge.id,
+    );
 
     if (mounted) {
       setState(() {
@@ -62,8 +63,9 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     final cardData = challenge.cardData;
     final correctAnswer = cardData['answer'] as int? ?? 0;
     final isCorrect = _selectedOption == correctAnswer;
-    final score =
-        isCorrect ? _calculateScore(_stopwatch.elapsedMilliseconds) : 0;
+    final score = isCorrect
+        ? _calculateScore(_stopwatch.elapsedMilliseconds)
+        : 0;
 
     final result = await ChallengeService.instance.submitAttempt(
       challengeId: challenge.id,
@@ -102,12 +104,12 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _challenge == null
-              ? _buildNoChallenge(theme)
-              : _alreadyAttempted
-                  ? _buildAlreadyDone(theme)
-                  : _answering
-                      ? _buildQuestionView(theme)
-                      : _buildRevealView(theme),
+          ? _buildNoChallenge(theme)
+          : _alreadyAttempted
+          ? _buildAlreadyDone(theme)
+          : _answering
+          ? _buildQuestionView(theme)
+          : _buildRevealView(theme),
     );
   }
 
@@ -123,10 +125,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
             style: TextStyle(color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 4),
-          const Text(
-            'Check back tomorrow!',
-            style: TextStyle(fontSize: 13),
-          ),
+          const Text('Check back tomorrow!', style: TextStyle(fontSize: 13)),
         ],
       ),
     );
@@ -146,10 +145,9 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
           ),
           const SizedBox(height: 16),
           FilledButton.icon(
-            onPressed: () => GoRouter.of(context).push(
-              '/challenge/result',
-              extra: {'challengeId': _challenge!.id},
-            ),
+            onPressed: () => GoRouter.of(
+              context,
+            ).push('/challenge/result', extra: {'challengeId': _challenge!.id}),
             icon: const Icon(Icons.leaderboard),
             label: const Text('View Leaderboard'),
           ),
@@ -165,60 +163,60 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
         children: [
           // Reveal animation
           Container(
-            width: 200,
-            height: 280,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  theme.colorScheme.primary,
-                  theme.colorScheme.tertiary,
-                ],
-              ),
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.3),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
+                width: 200,
+                height: 280,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      theme.colorScheme.primary,
+                      theme.colorScheme.tertiary,
+                    ],
+                  ),
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.3),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '\u{1F4E8}',
-                    style: const TextStyle(fontSize: 48),
-                  ).animate(onPlay: (c) => c.repeat(reverse: true)).scale(
-                        begin: const Offset(1, 1),
-                        end: const Offset(1.1, 1.1),
-                        duration: 1.seconds,
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('\u{1F4E8}', style: const TextStyle(fontSize: 48))
+                          .animate(onPlay: (c) => c.repeat(reverse: true))
+                          .scale(
+                            begin: const Offset(1, 1),
+                            end: const Offset(1.1, 1.1),
+                            duration: 1.seconds,
+                          ),
+                      const SizedBox(height: 12),
+                      Text(
+                        "Today's Challenge",
+                        style: TextStyle(
+                          color: theme.colorScheme.onPrimary,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
-                  const SizedBox(height: 12),
-                  Text(
-                    "Today's Challenge",
-                    style: TextStyle(
-                      color: theme.colorScheme.onPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
+                      const SizedBox(height: 4),
+                      Text(
+                        _challenge!.language.toUpperCase(),
+                        style: TextStyle(
+                          color: theme.colorScheme.onPrimary.withValues(
+                            alpha: 0.7,
+                          ),
+                          fontSize: 13,
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    _challenge!.language.toUpperCase(),
-                    style: TextStyle(
-                      color: theme.colorScheme.onPrimary
-                          .withValues(alpha: 0.7),
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )
+                ),
+              )
               .animate()
               .scale(
                 begin: const Offset(0.8, 0.8),
@@ -235,10 +233,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
           const SizedBox(height: 8),
           Text(
             'One attempt only — no retries!',
-            style: TextStyle(
-              fontSize: 12,
-              color: theme.colorScheme.outline,
-            ),
+            style: TextStyle(fontSize: 12, color: theme.colorScheme.outline),
           ),
         ],
       ),
@@ -269,10 +264,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
-          )
-              .animate()
-              .fadeIn(duration: 300.ms)
-              .slideY(begin: 0.1),
+          ).animate().fadeIn(duration: 300.ms).slideY(begin: 0.1),
           const SizedBox(height: 32),
 
           // Options
@@ -282,35 +274,37 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
 
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: SizedBox(
-                width: double.infinity,
-                child: OutlinedButton(
-                  onPressed: () => setState(() => _selectedOption = i),
-                  style: OutlinedButton.styleFrom(
-                    padding: const EdgeInsets.all(16),
-                    backgroundColor: isSelected
-                        ? theme.colorScheme.primaryContainer
-                        : null,
-                    side: BorderSide(
-                      color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.outline,
-                      width: isSelected ? 2 : 1,
-                    ),
-                  ),
-                  child: Text(
-                    option,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
-                    ),
-                  ),
-                ),
-              )
-                  .animate()
-                  .fadeIn(delay: Duration(milliseconds: 100 * i))
-                  .slideX(begin: 0.1),
+              child:
+                  SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton(
+                          onPressed: () => setState(() => _selectedOption = i),
+                          style: OutlinedButton.styleFrom(
+                            padding: const EdgeInsets.all(16),
+                            backgroundColor: isSelected
+                                ? theme.colorScheme.primaryContainer
+                                : null,
+                            side: BorderSide(
+                              color: isSelected
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.outline,
+                              width: isSelected ? 2 : 1,
+                            ),
+                          ),
+                          child: Text(
+                            option,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
+                            ),
+                          ),
+                        ),
+                      )
+                      .animate()
+                      .fadeIn(delay: Duration(milliseconds: 100 * i))
+                      .slideX(begin: 0.1),
             );
           }),
 

@@ -45,9 +45,7 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text('Buy ${variant.name}?'),
-        content: Text(
-          'This will cost ${variant.juiceCost} Juice.',
-        ),
+        content: Text('This will cost ${variant.juiceCost} Juice.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
@@ -63,8 +61,7 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
 
     if (confirm != true) return;
 
-    final success =
-        await EvolutionService.instance.purchaseVariant(variant.id);
+    final success = await EvolutionService.instance.purchaseVariant(variant.id);
     if (mounted) {
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -75,9 +72,9 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
         );
         _load();
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Not enough Juice')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Not enough Juice')));
       }
     }
   }
@@ -122,30 +119,32 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
           children: [
             // Jukumon display
             Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  colors: [Color(branch.color1), Color(branch.color2)],
-                ),
-                boxShadow: stage >= 3
-                    ? [
-                        BoxShadow(
-                          color: Color(branch.color1).withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          spreadRadius: 4,
-                        ),
-                      ]
-                    : null,
-              ),
-              child: Center(
-                child: Text(
-                  branch.emoji,
-                  style: const TextStyle(fontSize: 48),
-                ),
-              ),
-            )
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(
+                      colors: [Color(branch.color1), Color(branch.color2)],
+                    ),
+                    boxShadow: stage >= 3
+                        ? [
+                            BoxShadow(
+                              color: Color(
+                                branch.color1,
+                              ).withValues(alpha: 0.4),
+                              blurRadius: 20,
+                              spreadRadius: 4,
+                            ),
+                          ]
+                        : null,
+                  ),
+                  child: Center(
+                    child: Text(
+                      branch.emoji,
+                      style: const TextStyle(fontSize: 48),
+                    ),
+                  ),
+                )
                 .animate(onPlay: (c) => c.repeat(reverse: true))
                 .moveY(begin: 0, end: -8, duration: 1500.ms),
             const SizedBox(height: 16),
@@ -174,10 +173,7 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
             const SizedBox(height: 4),
             Text(
               'Stage $stage / 5',
-              style: TextStyle(
-                fontSize: 12,
-                color: theme.colorScheme.outline,
-              ),
+              style: TextStyle(fontSize: 12, color: theme.colorScheme.outline),
             ),
           ],
         ),
@@ -193,8 +189,9 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
       children: [
         Text(
           'Evolution Path',
-          style: theme.textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 12),
         Row(
@@ -217,13 +214,18 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
                           : theme.colorScheme.surfaceContainerHighest,
                       border: isCurrent
                           ? Border.all(
-                              color: theme.colorScheme.primary, width: 3)
+                              color: theme.colorScheme.primary,
+                              width: 3,
+                            )
                           : null,
                     ),
                     child: Center(
                       child: isReached
-                          ? const Icon(Icons.check,
-                              size: 18, color: Colors.white)
+                          ? const Icon(
+                              Icons.check,
+                              size: 18,
+                              color: Colors.white,
+                            )
                           : Text(
                               '$level',
                               style: TextStyle(
@@ -238,8 +240,9 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
                     name,
                     style: TextStyle(
                       fontSize: 9,
-                      fontWeight:
-                          isCurrent ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isCurrent
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                       color: isReached
                           ? theme.colorScheme.primary
                           : theme.colorScheme.outline,
@@ -263,8 +266,9 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
       children: [
         Text(
           'Variant Shop',
-          style: theme.textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 4),
         Text(
@@ -302,8 +306,10 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
                   Text(variant.name),
                   const SizedBox(width: 8),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: rarityColor.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(4),
@@ -327,26 +333,30 @@ class _EvolutionScreenState extends State<EvolutionScreen> {
               ),
               trailing: variant.owned
                   ? variant.equipped
-                      ? Chip(
-                          label: const Text('Equipped',
-                              style: TextStyle(fontSize: 11)),
-                          padding: EdgeInsets.zero,
-                          visualDensity: VisualDensity.compact,
-                        )
-                      : TextButton(
-                          onPressed: () => _equipVariant(variant),
-                          child: const Text('Equip',
-                              style: TextStyle(fontSize: 12)),
-                        )
+                        ? Chip(
+                            label: const Text(
+                              'Equipped',
+                              style: TextStyle(fontSize: 11),
+                            ),
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                          )
+                        : TextButton(
+                            onPressed: () => _equipVariant(variant),
+                            child: const Text(
+                              'Equip',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          )
                   : variant.juiceCost > 0
-                      ? FilledButton.tonal(
-                          onPressed: () => _purchaseVariant(variant),
-                          child: Text(
-                            '${variant.juiceCost}J',
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                        )
-                      : const SizedBox.shrink(),
+                  ? FilledButton.tonal(
+                      onPressed: () => _purchaseVariant(variant),
+                      child: Text(
+                        '${variant.juiceCost}J',
+                        style: const TextStyle(fontSize: 12),
+                      ),
+                    )
+                  : const SizedBox.shrink(),
             ),
           );
         }),
@@ -427,14 +437,12 @@ class _EvolutionCinematicScreenState extends State<EvolutionCinematicScreen> {
                         style: const TextStyle(fontSize: 56),
                       ),
                     ),
-                  )
-                      .animate()
-                      .scale(
-                        begin: const Offset(0, 0),
-                        end: const Offset(1, 1),
-                        duration: 800.ms,
-                        curve: Curves.elasticOut,
-                      ),
+                  ).animate().scale(
+                    begin: const Offset(0, 0),
+                    end: const Offset(1, 1),
+                    duration: 800.ms,
+                    curve: Curves.elasticOut,
+                  ),
                   const SizedBox(height: 24),
                   Text(
                     newName,
@@ -442,38 +450,31 @@ class _EvolutionCinematicScreenState extends State<EvolutionCinematicScreen> {
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
-                  )
-                      .animate()
-                      .fadeIn(delay: 300.ms, duration: 500.ms),
+                  ).animate().fadeIn(delay: 300.ms, duration: 500.ms),
                   const SizedBox(height: 8),
                   Text(
                     '${branch.label} Branch',
-                    style: TextStyle(
-                      color: Color(branch.color2),
-                      fontSize: 16,
-                    ),
-                  )
-                      .animate()
-                      .fadeIn(delay: 500.ms, duration: 500.ms),
+                    style: TextStyle(color: Color(branch.color2), fontSize: 16),
+                  ).animate().fadeIn(delay: 500.ms, duration: 500.ms),
                 ],
               )
             : // Build-up: white light expanding
-            Container(
-                width: 40,
-                height: 40,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                ),
-              )
-                .animate()
-                .scale(
-                  begin: const Offset(0.5, 0.5),
-                  end: const Offset(8, 8),
-                  duration: 1800.ms,
-                  curve: Curves.easeIn,
-                )
-                .fadeOut(delay: 1600.ms, duration: 200.ms),
+              Container(
+                    width: 40,
+                    height: 40,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.white,
+                    ),
+                  )
+                  .animate()
+                  .scale(
+                    begin: const Offset(0.5, 0.5),
+                    end: const Offset(8, 8),
+                    duration: 1800.ms,
+                    curve: Curves.easeIn,
+                  )
+                  .fadeOut(delay: 1600.ms, duration: 200.ms),
       ),
     );
   }

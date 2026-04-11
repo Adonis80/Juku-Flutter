@@ -76,19 +76,17 @@ class _SmCardAudioRecorderState extends State<SmCardAudioRecorder> {
       path: '',
     );
 
-    _amplitudeTimer = Timer.periodic(
-      const Duration(milliseconds: 50),
-      (_) async {
-        final amp = await _recorder.getAmplitude();
-        if (mounted && _isRecording) {
-          setState(() {
-            final normalized =
-                ((amp.current + 60) / 60).clamp(0.0, 1.0);
-            _amplitudes.add(normalized);
-          });
-        }
-      },
-    );
+    _amplitudeTimer = Timer.periodic(const Duration(milliseconds: 50), (
+      _,
+    ) async {
+      final amp = await _recorder.getAmplitude();
+      if (mounted && _isRecording) {
+        setState(() {
+          final normalized = ((amp.current + 60) / 60).clamp(0.0, 1.0);
+          _amplitudes.add(normalized);
+        });
+      }
+    });
   }
 
   Future<void> _stopRecording() async {

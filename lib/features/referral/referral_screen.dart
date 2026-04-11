@@ -26,11 +26,7 @@ class ReferralScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _ShareTab(),
-            _MyReferralsTab(),
-            _LeaderboardTab(),
-          ],
+          children: [_ShareTab(), _MyReferralsTab(), _LeaderboardTab()],
         ).animate().fadeIn(duration: 300.ms),
       ),
     );
@@ -54,10 +50,7 @@ class _ShareTab extends ConsumerWidget {
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [
-                theme.colorScheme.primary,
-                theme.colorScheme.tertiary,
-              ],
+              colors: [theme.colorScheme.primary, theme.colorScheme.tertiary],
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -82,20 +75,21 @@ class _ShareTab extends ConsumerWidget {
 
               // Referral code
               codeAsync.when(
-                loading: () => const CircularProgressIndicator(
-                    color: Colors.white),
+                loading: () =>
+                    const CircularProgressIndicator(color: Colors.white),
                 error: (_, _) =>
                     const Text('Error', style: TextStyle(color: Colors.white)),
                 data: (code) => Column(
                   children: [
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 12),
+                        horizontal: 20,
+                        vertical: 12,
+                      ),
                       decoration: BoxDecoration(
                         color: Colors.white.withAlpha(30),
                         borderRadius: BorderRadius.circular(12),
-                        border:
-                            Border.all(color: Colors.white.withAlpha(50)),
+                        border: Border.all(color: Colors.white.withAlpha(50)),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -114,12 +108,10 @@ class _ShareTab extends ConsumerWidget {
                             onPressed: () {
                               Clipboard.setData(ClipboardData(text: code));
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Code copied!')),
+                                const SnackBar(content: Text('Code copied!')),
                               );
                             },
-                            icon: const Icon(Icons.copy,
-                                color: Colors.white),
+                            icon: const Icon(Icons.copy, color: Colors.white),
                           ),
                         ],
                       ),
@@ -129,13 +121,12 @@ class _ShareTab extends ConsumerWidget {
                       width: double.infinity,
                       child: FilledButton.icon(
                         onPressed: () {
-                          final text =
-                              ReferralService.shareText(code);
+                          final text = ReferralService.shareText(code);
                           Clipboard.setData(ClipboardData(text: text));
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
-                                content:
-                                    Text('Share text copied to clipboard!')),
+                              content: Text('Share text copied to clipboard!'),
+                            ),
                           );
                         },
                         icon: const Icon(Icons.share),
@@ -171,8 +162,9 @@ class _ShareTab extends ConsumerWidget {
                         children: [
                           Text(
                             '$count',
-                            style: theme.textTheme.headlineMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: theme.textTheme.headlineMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             'Friends invited',
@@ -181,8 +173,7 @@ class _ShareTab extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    Container(
-                        width: 1, height: 40, color: theme.dividerColor),
+                    Container(width: 1, height: 40, color: theme.dividerColor),
                     Expanded(
                       child: Column(
                         children: [
@@ -214,13 +205,21 @@ class _ShareTab extends ConsumerWidget {
         const SizedBox(height: 8),
         _MilestoneRow(label: 'First referral', target: 1, icon: Icons.star),
         _MilestoneRow(
-            label: '5 referrals', target: 5, icon: Icons.local_fire_department),
+          label: '5 referrals',
+          target: 5,
+          icon: Icons.local_fire_department,
+        ),
         _MilestoneRow(label: '10 referrals', target: 10, icon: Icons.diamond),
-        _MilestoneRow(label: '25 referrals', target: 25, icon: Icons.military_tech),
         _MilestoneRow(
-            label: '50 referrals — Mythic cosmetic',
-            target: 50,
-            icon: Icons.auto_awesome),
+          label: '25 referrals',
+          target: 25,
+          icon: Icons.military_tech,
+        ),
+        _MilestoneRow(
+          label: '50 referrals — Mythic cosmetic',
+          target: 50,
+          icon: Icons.auto_awesome,
+        ),
       ],
     );
   }
@@ -284,14 +283,18 @@ class _MyReferralsTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.people_outline,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.people_outline,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
-                Text('No referrals yet',
-                    style: theme.textTheme.titleMedium),
+                Text('No referrals yet', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Share your code to get started!',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Share your code to get started!',
+                  style: theme.textTheme.bodySmall,
+                ),
               ],
             ),
           );
@@ -303,41 +306,40 @@ class _MyReferralsTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             final r = referrals[index];
             return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text(
-                    (r.referredUsername ?? '?')[0].toUpperCase(),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text((r.referredUsername ?? '?')[0].toUpperCase()),
+                    ),
+                    title: Text(r.referredUsername ?? 'User'),
+                    subtitle: Text(
+                      'Joined ${_formatDate(r.createdAt)}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (r.juiceRewarded)
+                          Chip(
+                            label: const Text('+50 Juice'),
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            labelStyle: const TextStyle(fontSize: 10),
+                          ),
+                        const SizedBox(width: 4),
+                        if (r.xpRewarded)
+                          Chip(
+                            label: const Text('+100 XP'),
+                            padding: EdgeInsets.zero,
+                            visualDensity: VisualDensity.compact,
+                            labelStyle: const TextStyle(fontSize: 10),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                title: Text(r.referredUsername ?? 'User'),
-                subtitle: Text(
-                  'Joined ${_formatDate(r.createdAt)}',
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colorScheme.onSurfaceVariant),
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (r.juiceRewarded)
-                      Chip(
-                        label: const Text('+50 Juice'),
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
-                        labelStyle: const TextStyle(fontSize: 10),
-                      ),
-                    const SizedBox(width: 4),
-                    if (r.xpRewarded)
-                      Chip(
-                        label: const Text('+100 XP'),
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
-                        labelStyle: const TextStyle(fontSize: 10),
-                      ),
-                  ],
-                ),
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(delay: (index * 60).ms)
                 .slideX(begin: 0.05, end: 0);
@@ -389,25 +391,27 @@ class _LeaderboardTab extends ConsumerWidget {
             };
 
             return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor:
-                      rank <= 3 ? rankColor.withAlpha(50) : null,
-                  child: rankIcon != null
-                      ? Icon(rankIcon, color: rankColor, size: 20)
-                      : Text('#$rank'),
-                ),
-                title: Text(
-                    entry.displayName ?? entry.username ?? 'Unknown'),
-                trailing: Text(
-                  '${entry.totalReferrals} referrals',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: theme.colorScheme.primary,
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: rank <= 3
+                          ? rankColor.withAlpha(50)
+                          : null,
+                      child: rankIcon != null
+                          ? Icon(rankIcon, color: rankColor, size: 20)
+                          : Text('#$rank'),
+                    ),
+                    title: Text(
+                      entry.displayName ?? entry.username ?? 'Unknown',
+                    ),
+                    trailing: Text(
+                      '${entry.totalReferrals} referrals',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.primary,
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(delay: (index * 40).ms)
                 .slideX(begin: 0.03, end: 0);

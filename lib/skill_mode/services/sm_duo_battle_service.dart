@@ -36,10 +36,7 @@ class SmDuoBattleService {
 
     if (waiting != null) {
       // Join existing battle
-      return _joinBattle(
-        battleId: waiting['id'] as String,
-        userId: userId,
-      );
+      return _joinBattle(battleId: waiting['id'] as String, userId: userId);
     }
 
     // Create a new battle
@@ -61,13 +58,17 @@ class SmDuoBattleService {
       count: cardCount,
     );
 
-    final data = await supabase.from('skill_mode_duo_battles').insert({
-      'player_a_id': userId,
-      'language': language,
-      'card_count': cardCount,
-      'card_ids': cardIds,
-      'status': 'waiting',
-    }).select().single();
+    final data = await supabase
+        .from('skill_mode_duo_battles')
+        .insert({
+          'player_a_id': userId,
+          'language': language,
+          'card_count': cardCount,
+          'card_ids': cardIds,
+          'status': 'waiting',
+        })
+        .select()
+        .single();
 
     return SmDuoBattle.fromJson(data);
   }
@@ -134,10 +135,13 @@ class SmDuoBattleService {
 
   /// Start the battle (transition from matched/countdown to active).
   Future<void> startBattle(String battleId) async {
-    await supabase.from('skill_mode_duo_battles').update({
-      'status': 'active',
-      'started_at': DateTime.now().toIso8601String(),
-    }).eq('id', battleId);
+    await supabase
+        .from('skill_mode_duo_battles')
+        .update({
+          'status': 'active',
+          'started_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', battleId);
   }
 
   /// Submit a round result (one card answered).
@@ -178,11 +182,14 @@ class SmDuoBattleService {
     final currentTime = battle[timeKey] as int? ?? 0;
     final currentDone = battle[doneKey] as int? ?? 0;
 
-    await supabase.from('skill_mode_duo_battles').update({
-      scoreKey: currentScore + score,
-      timeKey: currentTime + timeMs,
-      doneKey: currentDone + 1,
-    }).eq('id', battleId);
+    await supabase
+        .from('skill_mode_duo_battles')
+        .update({
+          scoreKey: currentScore + score,
+          timeKey: currentTime + timeMs,
+          doneKey: currentDone + 1,
+        })
+        .eq('id', battleId);
   }
 
   /// Finish the battle — calculate winner.
@@ -216,12 +223,17 @@ class SmDuoBattleService {
       }
     }
 
-    final data = await supabase.from('skill_mode_duo_battles').update({
-      'status': 'finished',
-      'finished_at': DateTime.now().toIso8601String(),
-      'winner_id': winnerId,
-      'is_draw': isDraw,
-    }).eq('id', battleId).select().single();
+    final data = await supabase
+        .from('skill_mode_duo_battles')
+        .update({
+          'status': 'finished',
+          'finished_at': DateTime.now().toIso8601String(),
+          'winner_id': winnerId,
+          'is_draw': isDraw,
+        })
+        .eq('id', battleId)
+        .select()
+        .single();
 
     // Update stats for both players
     final playerAId = battle['player_a_id'] as String;
@@ -259,10 +271,13 @@ class SmDuoBattleService {
 
   /// Abandon a waiting/active battle.
   Future<void> abandonBattle(String battleId) async {
-    await supabase.from('skill_mode_duo_battles').update({
-      'status': 'abandoned',
-      'finished_at': DateTime.now().toIso8601String(),
-    }).eq('id', battleId);
+    await supabase
+        .from('skill_mode_duo_battles')
+        .update({
+          'status': 'abandoned',
+          'finished_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', battleId);
   }
 
   // ── Stats ──
@@ -336,15 +351,19 @@ class SmDuoBattleService {
       final bestStreak = existing['best_win_streak'] as int? ?? 0;
       final newStreak = won ? currentStreak + 1 : 0;
 
-      await supabase.from('skill_mode_duo_stats').update({
-        'total_battles': (existing['total_battles'] as int? ?? 0) + 1,
-        'wins': (existing['wins'] as int? ?? 0) + (won ? 1 : 0),
-        'losses': (existing['losses'] as int? ?? 0) + ((!won && !isDraw) ? 1 : 0),
-        'draws': (existing['draws'] as int? ?? 0) + (isDraw ? 1 : 0),
-        'win_streak': newStreak,
-        'best_win_streak': max(newStreak, bestStreak),
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('user_id', userId);
+      await supabase
+          .from('skill_mode_duo_stats')
+          .update({
+            'total_battles': (existing['total_battles'] as int? ?? 0) + 1,
+            'wins': (existing['wins'] as int? ?? 0) + (won ? 1 : 0),
+            'losses':
+                (existing['losses'] as int? ?? 0) + ((!won && !isDraw) ? 1 : 0),
+            'draws': (existing['draws'] as int? ?? 0) + (isDraw ? 1 : 0),
+            'win_streak': newStreak,
+            'best_win_streak': max(newStreak, bestStreak),
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('user_id', userId);
     }
   }
 

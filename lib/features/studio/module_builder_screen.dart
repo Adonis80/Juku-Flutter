@@ -99,14 +99,15 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
           ? null
           : SafeArea(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Row(
                   children: [
                     if (_currentStep > 0)
                       OutlinedButton(
-                        onPressed: () =>
-                            setState(() => _currentStep--),
+                        onPressed: () => setState(() => _currentStep--),
                         child: const Text('Back'),
                       ),
                     const Spacer(),
@@ -114,9 +115,10 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
                       FilledButton(
                         onPressed: _canProceed() ? _onNext : null,
                         child: Text(
-                            _currentStep == _stepLabels.indexOf('Generate')
-                                ? 'Generate'
-                                : 'Next'),
+                          _currentStep == _stepLabels.indexOf('Generate')
+                              ? 'Generate'
+                              : 'Next',
+                        ),
                       )
                     else
                       FilledButton(
@@ -146,8 +148,9 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
           const SizedBox(height: 24),
           Text(
             'Brewing your module...',
-            style: theme.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.w600),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(height: 8),
           Text(
@@ -166,8 +169,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.error_outline,
-                size: 48, color: theme.colorScheme.error),
+            Icon(Icons.error_outline, size: 48, color: theme.colorScheme.error),
             const SizedBox(height: 16),
             Text(_error!, textAlign: TextAlign.center),
             const SizedBox(height: 16),
@@ -234,9 +236,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('What is your module about?',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'What is your module about?',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           TextField(
             controller: _topicCtrl,
@@ -258,9 +263,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Who is this for?',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Who is this for?',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           Wrap(
             spacing: 8,
@@ -284,9 +292,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('How many items?',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'How many items?',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           SegmentedButton<int>(
             segments: const [
@@ -295,8 +306,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
               ButtonSegment(value: 20, label: Text('20')),
             ],
             selected: {_itemCount},
-            onSelectionChanged: (v) =>
-                setState(() => _itemCount = v.first),
+            onSelectionChanged: (v) => setState(() => _itemCount = v.first),
           ),
         ],
       ),
@@ -309,9 +319,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Describe your pricing or calculation',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Describe your pricing or calculation',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             'Explain how you calculate your prices. AI will turn this into a calculator.',
@@ -339,12 +352,14 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Quiz Settings',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Quiz Settings',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 20),
-          Text('Time limit per question',
-              style: theme.textTheme.titleSmall),
+          Text('Time limit per question', style: theme.textTheme.titleSmall),
           const SizedBox(height: 8),
           SegmentedButton<int>(
             segments: const [
@@ -354,8 +369,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
               ButtonSegment(value: 0, label: Text('None')),
             ],
             selected: {_timeLimitSecs},
-            onSelectionChanged: (v) =>
-                setState(() => _timeLimitSecs = v.first),
+            onSelectionChanged: (v) => setState(() => _timeLimitSecs = v.first),
           ),
           const SizedBox(height: 20),
           Text('Pass score', style: theme.textTheme.titleSmall),
@@ -367,8 +381,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
               ButtonSegment(value: 90, label: Text('90%')),
             ],
             selected: {_passScorePct},
-            onSelectionChanged: (v) =>
-                setState(() => _passScorePct = v.first),
+            onSelectionChanged: (v) => setState(() => _passScorePct = v.first),
           ),
         ],
       ),
@@ -390,9 +403,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Language Pair',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Language Pair',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           Wrap(
             spacing: 8,
@@ -417,9 +433,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Generate Content',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Generate Content',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 8),
           Text(
             'Use your AI key to auto-generate ${_template.label.toLowerCase()} content, or enter it manually.',
@@ -482,9 +501,12 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Almost there!',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold)),
+          Text(
+            'Almost there!',
+            style: theme.textTheme.headlineSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(height: 16),
           TextField(
             controller: _titleCtrl,
@@ -516,9 +538,11 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
           const SizedBox(height: 16),
           SwitchListTile(
             title: const Text('Public'),
-            subtitle: Text(_isPublic
-                ? 'Anyone can discover and play'
-                : 'Only playable via direct link'),
+            subtitle: Text(
+              _isPublic
+                  ? 'Anyone can discover and play'
+                  : 'Only playable via direct link',
+            ),
             value: _isPublic,
             onChanged: (v) => setState(() => _isPublic = v),
           ),
@@ -553,8 +577,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
     }
 
     // Auto-fill title from topic if entering publish step
-    if (_stepLabels[_currentStep + 1] == 'Publish' &&
-        _titleCtrl.text.isEmpty) {
+    if (_stepLabels[_currentStep + 1] == 'Publish' && _titleCtrl.text.isEmpty) {
       _titleCtrl.text = _topicCtrl.text.trim();
     }
 
@@ -574,12 +597,11 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
         level: _level,
         itemCount: _itemCount,
         calculatorDescription: _calcDescCtrl.text.trim(),
-        timeLimitSecs:
-            _template == StudioTemplate.quiz ? _timeLimitSecs : null,
-        passScorePct:
-            _template == StudioTemplate.quiz ? _passScorePct : null,
-        languagePair:
-            _template == StudioTemplate.flashcard ? _languagePair : null,
+        timeLimitSecs: _template == StudioTemplate.quiz ? _timeLimitSecs : null,
+        passScorePct: _template == StudioTemplate.quiz ? _passScorePct : null,
+        languagePair: _template == StudioTemplate.flashcard
+            ? _languagePair
+            : null,
       );
 
       if (mounted) {
@@ -620,9 +642,9 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error publishing: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error publishing: $e')));
       }
     }
   }
@@ -637,7 +659,7 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
               'options': ['', '', '', ''],
               'answer': 0,
               'hint': '',
-            }
+            },
           ],
           'time_limit_secs': _timeLimitSecs > 0 ? _timeLimitSecs : null,
           'pass_score_pct': _passScorePct,
@@ -645,14 +667,14 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
       case StudioTemplate.flashcard:
         return {
           'cards': [
-            {'front': '', 'back': '', 'example': ''}
+            {'front': '', 'back': '', 'example': ''},
           ],
           'language_pair': _languagePair,
         };
       case StudioTemplate.calculator:
         return {
           'inputs': [
-            {'label': '', 'key': 'input_1', 'unit': '', 'type': 'number'}
+            {'label': '', 'key': 'input_1', 'unit': '', 'type': 'number'},
           ],
           'formula': '',
           'output_label': 'Result',
@@ -666,9 +688,9 @@ class _ModuleBuilderScreenState extends ConsumerState<ModuleBuilderScreen> {
               'question': '',
               'type': 'choice',
               'options': [
-                {'label': '', 'next': 'result', 'value': ''}
+                {'label': '', 'next': 'result', 'value': ''},
               ],
-            }
+            },
           ],
           'result_template': '',
           'currency': '',

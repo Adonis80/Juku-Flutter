@@ -77,11 +77,11 @@ class _SmVaultScreenState extends ConsumerState<SmVaultScreen> {
                     child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 12,
-                        crossAxisSpacing: 12,
-                        childAspectRatio: 0.85,
-                      ),
+                            crossAxisCount: 3,
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            childAspectRatio: 0.85,
+                          ),
                       itemCount: SmBadgeService.badges.length,
                       itemBuilder: (context, index) {
                         final badge = SmBadgeService.badges[index];
@@ -90,10 +90,7 @@ class _SmVaultScreenState extends ConsumerState<SmVaultScreen> {
                           onTap: unlocked
                               ? () => SmBadgeUnlock.show(context, badge)
                               : null,
-                          child: SmBadgeCard(
-                            badge: badge,
-                            unlocked: unlocked,
-                          ),
+                          child: SmBadgeCard(badge: badge, unlocked: unlocked),
                         );
                       },
                     ),

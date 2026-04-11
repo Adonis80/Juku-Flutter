@@ -97,13 +97,13 @@ class _SmMasteryCertificateState extends State<SmMasteryCertificate>
 
   Future<void> _shareCertificate() async {
     try {
-      final boundary = _certificateKey.currentContext?.findRenderObject()
-          as RenderRepaintBoundary?;
+      final boundary =
+          _certificateKey.currentContext?.findRenderObject()
+              as RenderRepaintBoundary?;
       if (boundary == null) return;
 
       final image = await boundary.toImage(pixelRatio: 3.0);
-      final byteData =
-          await image.toByteData(format: ui.ImageByteFormat.png);
+      final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
       if (byteData == null) return;
 
       final bytes = byteData.buffer.asUint8List();
@@ -157,115 +157,114 @@ class _SmMasteryCertificateState extends State<SmMasteryCertificate>
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   RepaintBoundary(
-                    key: _certificateKey,
-                    child: Container(
-                      width: 320,
-                      padding: const EdgeInsets.all(28),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFFFBEB),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: const Color(0xFFFFD700),
-                          width: 3,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFFFFD700).withAlpha(60),
-                            blurRadius: 30,
-                            spreadRadius: 5,
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Crown.
-                          const Text('👑', style: TextStyle(fontSize: 40)),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'MASTERY CERTIFICATE',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w900,
-                              color: Color(0xFFB8860B),
-                              letterSpacing: 3,
+                        key: _certificateKey,
+                        child: Container(
+                          width: 320,
+                          padding: const EdgeInsets.all(28),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFFBEB),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: const Color(0xFFFFD700),
+                              width: 3,
                             ),
-                          ),
-                          const SizedBox(height: 16),
-                          // Divider.
-                          Container(
-                            height: 1,
-                            color: const Color(0xFFFFD700).withAlpha(80),
-                          ),
-                          const SizedBox(height: 16),
-                          // Player name.
-                          Text(
-                            widget.playerName,
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: Color(0xFF1E293B),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                          const Text(
-                            'mastered',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF64748B),
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          // Deck title.
-                          Text(
-                            widget.deckTitle,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF1E293B),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            'by ${widget.creatorName}',
-                            style: const TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF64748B),
-                            ),
-                          ),
-                          const SizedBox(height: 16),
-                          Container(
-                            height: 1,
-                            color: const Color(0xFFFFD700).withAlpha(80),
-                          ),
-                          const SizedBox(height: 12),
-                          // Stats row.
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              _certStat(
-                                  '${widget.scorePct}%', 'Score'),
-                              _certStat(
-                                  '${widget.daysToMaster}', 'Days'),
-                              _certStat(dateStr, 'Date'),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(0xFFFFD700).withAlpha(60),
+                                blurRadius: 30,
+                                spreadRadius: 5,
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 12),
-                          // Juku brand.
-                          const Text(
-                            'juku.pro',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(0xFF94A3B8),
-                              letterSpacing: 1,
-                            ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              // Crown.
+                              const Text('👑', style: TextStyle(fontSize: 40)),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'MASTERY CERTIFICATE',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(0xFFB8860B),
+                                  letterSpacing: 3,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              // Divider.
+                              Container(
+                                height: 1,
+                                color: const Color(0xFFFFD700).withAlpha(80),
+                              ),
+                              const SizedBox(height: 16),
+                              // Player name.
+                              Text(
+                                widget.playerName,
+                                style: const TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF1E293B),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              const Text(
+                                'mastered',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              // Deck title.
+                              Text(
+                                widget.deckTitle,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xFF1E293B),
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                'by ${widget.creatorName}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF64748B),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Container(
+                                height: 1,
+                                color: const Color(0xFFFFD700).withAlpha(80),
+                              ),
+                              const SizedBox(height: 12),
+                              // Stats row.
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  _certStat('${widget.scorePct}%', 'Score'),
+                                  _certStat('${widget.daysToMaster}', 'Days'),
+                                  _certStat(dateStr, 'Date'),
+                                ],
+                              ),
+                              const SizedBox(height: 12),
+                              // Juku brand.
+                              const Text(
+                                'juku.pro',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Color(0xFF94A3B8),
+                                  letterSpacing: 1,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-                  )
+                        ),
+                      )
                       .animate()
                       .scale(
                         begin: const Offset(0.3, 0.3),
@@ -284,9 +283,7 @@ class _SmMasteryCertificateState extends State<SmMasteryCertificate>
                       backgroundColor: const Color(0xFFFFD700),
                       foregroundColor: const Color(0xFF1E293B),
                     ),
-                  )
-                      .animate()
-                      .fadeIn(delay: const Duration(milliseconds: 800)),
+                  ).animate().fadeIn(delay: const Duration(milliseconds: 800)),
                 ],
               ),
             ),
@@ -309,10 +306,7 @@ class _SmMasteryCertificateState extends State<SmMasteryCertificate>
         ),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 10,
-            color: Color(0xFF64748B),
-          ),
+          style: const TextStyle(fontSize: 10, color: Color(0xFF64748B)),
         ),
       ],
     );
@@ -350,7 +344,10 @@ class _CertConfettiPainter extends CustomPainter {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
           Rect.fromCenter(
-              center: Offset.zero, width: p.size, height: p.size * 0.5),
+            center: Offset.zero,
+            width: p.size,
+            height: p.size * 0.5,
+          ),
           const Radius.circular(1),
         ),
         paint,

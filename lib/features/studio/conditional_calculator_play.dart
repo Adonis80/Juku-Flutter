@@ -15,8 +15,7 @@ class ConditionalCalculatorPlay extends StatefulWidget {
       _ConditionalCalculatorPlayState();
 }
 
-class _ConditionalCalculatorPlayState
-    extends State<ConditionalCalculatorPlay> {
+class _ConditionalCalculatorPlayState extends State<ConditionalCalculatorPlay> {
   late List<Map<String, dynamic>> _steps;
   String _currentStepId = 'step_1';
   final Map<String, dynamic> _answers = {};
@@ -38,15 +37,15 @@ class _ConditionalCalculatorPlayState
 
   Map<String, dynamic>? get _currentStep {
     try {
-      return _steps.firstWhere(
-          (s) => s['id'] == _currentStepId);
+      return _steps.firstWhere((s) => s['id'] == _currentStepId);
     } catch (_) {
       return null;
     }
   }
 
   void _selectOption(Map<String, dynamic> option) {
-    final value = option['value'] as String? ?? option['label'] as String? ?? '';
+    final value =
+        option['value'] as String? ?? option['label'] as String? ?? '';
     final price = (option['price'] as num?)?.toDouble() ?? 0;
     final next = option['next'] as String? ?? 'result';
 
@@ -55,8 +54,7 @@ class _ConditionalCalculatorPlayState
 
     if (next == 'result' || !_steps.any((s) => s['id'] == next)) {
       // Build result text
-      final template =
-          widget.module.config['result_template'] as String? ?? '';
+      final template = widget.module.config['result_template'] as String? ?? '';
       var result = template;
       for (final entry in _answers.entries) {
         result = result.replaceAll('{${entry.key}}', entry.value.toString());
@@ -83,14 +81,17 @@ class _ConditionalCalculatorPlayState
       _totalPrice += value * ((step?['multiplier'] as num?)?.toDouble() ?? 1);
       setState(() {
         _showResult = true;
-        var template =
-            widget.module.config['result_template'] as String? ?? '';
+        var template = widget.module.config['result_template'] as String? ?? '';
         for (final entry in _answers.entries) {
           template = template.replaceAll(
-              '{${entry.key}}', entry.value.toString());
+            '{${entry.key}}',
+            entry.value.toString(),
+          );
         }
         template = template.replaceAll(
-            '{price}', _totalPrice.toStringAsFixed(2));
+          '{price}',
+          _totalPrice.toStringAsFixed(2),
+        );
         _resultText = template;
       });
       recordPlay(moduleId: widget.module.id, completed: true);
@@ -102,8 +103,7 @@ class _ConditionalCalculatorPlayState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final currency =
-        widget.module.config['currency'] as String? ?? '';
+    final currency = widget.module.config['currency'] as String? ?? '';
 
     if (_showResult) {
       return _buildResultScreen(theme, currency);
@@ -145,12 +145,10 @@ class _ConditionalCalculatorPlayState
           children: [
             Text(
               question,
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.w600),
-            )
-                .animate()
-                .fadeIn()
-                .slideX(begin: 0.05, end: 0),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ).animate().fadeIn().slideX(begin: 0.05, end: 0),
             const SizedBox(height: 24),
             if (stepType == 'choice')
               ..._buildChoiceOptions(theme, step)
@@ -162,8 +160,7 @@ class _ConditionalCalculatorPlayState
     );
   }
 
-  List<Widget> _buildChoiceOptions(
-      ThemeData theme, Map<String, dynamic> step) {
+  List<Widget> _buildChoiceOptions(ThemeData theme, Map<String, dynamic> step) {
     final options = (step['options'] as List? ?? [])
         .map((e) => Map<String, dynamic>.from(e as Map))
         .toList();
@@ -186,14 +183,17 @@ class _ConditionalCalculatorPlayState
               borderRadius: BorderRadius.circular(12),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 16, vertical: 16),
+                  horizontal: 16,
+                  vertical: 16,
+                ),
                 child: Row(
                   children: [
                     Expanded(
                       child: Text(
                         label,
-                        style: theme.textTheme.bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.w500),
+                        style: theme.textTheme.bodyLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                     if (price != null)
@@ -205,18 +205,18 @@ class _ConditionalCalculatorPlayState
                         ),
                       ),
                     const SizedBox(width: 8),
-                    Icon(Icons.arrow_forward_ios,
-                        size: 14, color: theme.colorScheme.outline),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                      color: theme.colorScheme.outline,
+                    ),
                   ],
                 ),
               ),
             ),
           ),
         ),
-      )
-          .animate()
-          .fadeIn(delay: (idx * 100).ms)
-          .slideX(begin: 0.1, end: 0);
+      ).animate().fadeIn(delay: (idx * 100).ms).slideX(begin: 0.1, end: 0);
     }).toList();
   }
 
@@ -229,8 +229,7 @@ class _ConditionalCalculatorPlayState
       children: [
         TextField(
           controller: ctrl,
-          keyboardType:
-              const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
           decoration: InputDecoration(
             suffixText: unit,
             hintText: 'Enter a number',
@@ -262,14 +261,12 @@ class _ConditionalCalculatorPlayState
                   Icons.receipt_long,
                   size: 64,
                   color: theme.colorScheme.primary,
-                )
-                    .animate()
-                    .scale(
-                      begin: const Offset(0, 0),
-                      end: const Offset(1, 1),
-                      duration: 600.ms,
-                      curve: Curves.elasticOut,
-                    ),
+                ).animate().scale(
+                  begin: const Offset(0, 0),
+                  end: const Offset(1, 1),
+                  duration: 600.ms,
+                  curve: Curves.elasticOut,
+                ),
                 const SizedBox(height: 24),
                 Card(
                   color: theme.colorScheme.primaryContainer,
@@ -281,8 +278,7 @@ class _ConditionalCalculatorPlayState
                           Text(
                             _resultText,
                             style: theme.textTheme.bodyLarge?.copyWith(
-                              color: theme
-                                  .colorScheme.onPrimaryContainer,
+                              color: theme.colorScheme.onPrimaryContainer,
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -290,11 +286,9 @@ class _ConditionalCalculatorPlayState
                         ],
                         Text(
                           '$currency${_totalPrice.toStringAsFixed(2)}',
-                          style:
-                              theme.textTheme.displaySmall?.copyWith(
+                          style: theme.textTheme.displaySmall?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color:
-                                theme.colorScheme.onPrimaryContainer,
+                            color: theme.colorScheme.onPrimaryContainer,
                           ),
                         ),
                       ],
@@ -304,12 +298,16 @@ class _ConditionalCalculatorPlayState
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      theme.colorScheme.primary,
-                      theme.colorScheme.tertiary,
-                    ]),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.tertiary,
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
@@ -327,7 +325,8 @@ class _ConditionalCalculatorPlayState
                     onPressed: () {
                       SharePlus.instance.share(
                         ShareParams(
-                          text: 'My quote from ${widget.module.title}: '
+                          text:
+                              'My quote from ${widget.module.title}: '
                               '$currency${_totalPrice.toStringAsFixed(2)} '
                               '— https://juku.pro/play/${widget.module.id}',
                         ),

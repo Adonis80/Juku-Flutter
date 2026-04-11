@@ -50,8 +50,7 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
             children: [
               const CircularProgressIndicator(),
               const SizedBox(height: 16),
-              Text('Joining game...',
-                  style: theme.textTheme.titleMedium),
+              Text('Joining game...', style: theme.textTheme.titleMedium),
             ],
           ),
         ),
@@ -64,13 +63,14 @@ class _JoinGameScreenState extends State<JoinGameScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.error_outline,
-                size: 48, color: theme.colorScheme.error),
+            Icon(Icons.error_outline, size: 48, color: theme.colorScheme.error),
             const SizedBox(height: 16),
-            Text('Could not join game',
-                style: theme.textTheme.titleMedium),
+            Text('Could not join game', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
-            Text(_error ?? '', style: TextStyle(color: theme.colorScheme.outline)),
+            Text(
+              _error ?? '',
+              style: TextStyle(color: theme.colorScheme.outline),
+            ),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: () {

@@ -16,11 +16,11 @@ class TenantBranding {
   });
 
   factory TenantBranding.fromJson(Map<String, dynamic> json) => TenantBranding(
-        logoUrl: json['logo_url'] as String?,
-        primaryColor: json['primary_color'] as String? ?? '#7C3AED',
-        secondaryColor: json['secondary_color'] as String? ?? '#EC4899',
-        welcomeMessage: json['welcome_message'] as String?,
-      );
+    logoUrl: json['logo_url'] as String?,
+    primaryColor: json['primary_color'] as String? ?? '#7C3AED',
+    secondaryColor: json['secondary_color'] as String? ?? '#EC4899',
+    welcomeMessage: json['welcome_message'] as String?,
+  );
 }
 
 class Tenant {
@@ -45,15 +45,15 @@ class Tenant {
   });
 
   factory Tenant.fromJson(Map<String, dynamic> json) => Tenant(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        slug: json['slug'] as String?,
-        plan: json['plan'] as String? ?? 'starter',
-        setupComplete: json['setup_complete'] as bool? ?? false,
-        customDomain: json['custom_domain'] as String?,
-        branding: TenantBranding.fromJson(json),
-        createdAt: DateTime.parse(json['created_at'] as String),
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    slug: json['slug'] as String?,
+    plan: json['plan'] as String? ?? 'starter',
+    setupComplete: json['setup_complete'] as bool? ?? false,
+    customDomain: json['custom_domain'] as String?,
+    branding: TenantBranding.fromJson(json),
+    createdAt: DateTime.parse(json['created_at'] as String),
+  );
 }
 
 class TenantAdmin {
@@ -76,17 +76,16 @@ class TenantAdmin {
   });
 
   factory TenantAdmin.fromJson(Map<String, dynamic> json) => TenantAdmin(
-        id: json['id'] as String,
-        tenantId: json['tenant_id'] as String,
-        userId: json['user_id'] as String,
-        role: json['role'] as String,
-        createdAt: DateTime.parse(json['created_at'] as String),
-        username: (json['profiles'] as Map<String, dynamic>?)?['username']
-            as String?,
-        displayName:
-            (json['profiles'] as Map<String, dynamic>?)?['display_name']
-                as String?,
-      );
+    id: json['id'] as String,
+    tenantId: json['tenant_id'] as String,
+    userId: json['user_id'] as String,
+    role: json['role'] as String,
+    createdAt: DateTime.parse(json['created_at'] as String),
+    username:
+        (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
+    displayName:
+        (json['profiles'] as Map<String, dynamic>?)?['display_name'] as String?,
+  );
 }
 
 class TenantInvite {
@@ -111,17 +110,17 @@ class TenantInvite {
   });
 
   factory TenantInvite.fromJson(Map<String, dynamic> json) => TenantInvite(
-        id: json['id'] as String,
-        tenantId: json['tenant_id'] as String,
-        email: json['email'] as String?,
-        inviteCode: json['invite_code'] as String,
-        role: json['role'] as String,
-        status: json['status'] as String,
-        createdAt: DateTime.parse(json['created_at'] as String),
-        acceptedAt: json['accepted_at'] != null
-            ? DateTime.parse(json['accepted_at'] as String)
-            : null,
-      );
+    id: json['id'] as String,
+    tenantId: json['tenant_id'] as String,
+    email: json['email'] as String?,
+    inviteCode: json['invite_code'] as String,
+    role: json['role'] as String,
+    status: json['status'] as String,
+    createdAt: DateTime.parse(json['created_at'] as String),
+    acceptedAt: json['accepted_at'] != null
+        ? DateTime.parse(json['accepted_at'] as String)
+        : null,
+  );
 }
 
 class TenantAnalytics {
@@ -184,19 +183,18 @@ class ModerationItem {
   });
 
   factory ModerationItem.fromJson(Map<String, dynamic> json) => ModerationItem(
-        id: json['id'] as String,
-        tenantId: json['tenant_id'] as String,
-        cardId: json['card_id'] as String,
-        cardType: json['card_type'] as String,
-        cardTitle: json['card_title'] as String,
-        submittedBy: json['submitted_by'] as String,
-        status: json['status'] as String,
-        rejectionReason: json['rejection_reason'] as String?,
-        createdAt: DateTime.parse(json['created_at'] as String),
-        submitterName:
-            (json['profiles'] as Map<String, dynamic>?)?['username']
-                as String?,
-      );
+    id: json['id'] as String,
+    tenantId: json['tenant_id'] as String,
+    cardId: json['card_id'] as String,
+    cardType: json['card_type'] as String,
+    cardTitle: json['card_title'] as String,
+    submittedBy: json['submitted_by'] as String,
+    status: json['status'] as String,
+    rejectionReason: json['rejection_reason'] as String?,
+    createdAt: DateTime.parse(json['created_at'] as String),
+    submitterName:
+        (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
+  );
 }
 
 /// Service layer for all tenant dashboard operations.
@@ -220,8 +218,11 @@ class TenantService {
     if (adminRow == null) return null;
 
     final tenantId = adminRow['tenant_id'] as String;
-    final row =
-        await _sb.from('tenants').select().eq('id', tenantId).maybeSingle();
+    final row = await _sb
+        .from('tenants')
+        .select()
+        .eq('id', tenantId)
+        .maybeSingle();
     if (row == null) return null;
     return Tenant.fromJson(row);
   }
@@ -232,11 +233,11 @@ class TenantService {
     required String plan,
   }) async {
     final uid = _sb.auth.currentUser!.id;
-    final row = await _sb.from('tenants').insert({
-      'name': name,
-      'slug': slug,
-      'plan': plan,
-    }).select().single();
+    final row = await _sb
+        .from('tenants')
+        .insert({'name': name, 'slug': slug, 'plan': plan})
+        .select()
+        .single();
 
     // Make creator the owner
     await _sb.from('tenant_admins').insert({
@@ -268,7 +269,8 @@ class TenantService {
   Future<void> completeSetup(String tenantId) async {
     await _sb
         .from('tenants')
-        .update({'setup_complete': true}).eq('id', tenantId);
+        .update({'setup_complete': true})
+        .eq('id', tenantId);
   }
 
   // --- User Management ---
@@ -288,12 +290,16 @@ class TenantService {
     String role = 'member',
   }) async {
     final uid = _sb.auth.currentUser!.id;
-    final row = await _sb.from('tenant_invites').insert({
-      'tenant_id': tenantId,
-      'email': email,
-      'role': role,
-      'invited_by': uid,
-    }).select().single();
+    final row = await _sb
+        .from('tenant_invites')
+        .insert({
+          'tenant_id': tenantId,
+          'email': email,
+          'role': role,
+          'invited_by': uid,
+        })
+        .select()
+        .single();
     return TenantInvite.fromJson(row);
   }
 
@@ -309,7 +315,8 @@ class TenantService {
   Future<void> revokeInvite(String inviteId) async {
     await _sb
         .from('tenant_invites')
-        .update({'status': 'revoked'}).eq('id', inviteId);
+        .update({'status': 'revoked'})
+        .eq('id', inviteId);
   }
 
   Future<void> removeUser(String tenantId, String userId) async {
@@ -321,9 +328,10 @@ class TenantService {
   }
 
   Future<String> acceptInvite(String inviteCode) async {
-    final result = await _sb.rpc('accept_tenant_invite', params: {
-      'p_invite_code': inviteCode,
-    });
+    final result = await _sb.rpc(
+      'accept_tenant_invite',
+      params: {'p_invite_code': inviteCode},
+    );
     return result as String;
   }
 
@@ -345,12 +353,15 @@ class TenantService {
     String? reason,
   }) async {
     final uid = _sb.auth.currentUser!.id;
-    await _sb.from('tenant_moderation_queue').update({
-      'status': approve ? 'approved' : 'rejected',
-      'reviewed_by': uid,
-      'reviewed_at': DateTime.now().toIso8601String(),
-      'rejection_reason': reason,
-    }).eq('id', itemId);
+    await _sb
+        .from('tenant_moderation_queue')
+        .update({
+          'status': approve ? 'approved' : 'rejected',
+          'reviewed_by': uid,
+          'reviewed_at': DateTime.now().toIso8601String(),
+          'rejection_reason': reason,
+        })
+        .eq('id', itemId);
   }
 
   // --- Analytics ---
@@ -359,8 +370,9 @@ class TenantService {
     String tenantId, {
     int days = 30,
   }) async {
-    final since =
-        DateTime.now().subtract(Duration(days: days)).toIso8601String();
+    final since = DateTime.now()
+        .subtract(Duration(days: days))
+        .toIso8601String();
     final rows = await _sb
         .from('tenant_analytics_snapshots')
         .select()

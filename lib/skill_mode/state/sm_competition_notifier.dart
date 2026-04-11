@@ -78,8 +78,8 @@ class SmCompetitionHubNotifier extends Notifier<SmCompetitionHubState> {
 
 final smCompetitionHubProvider =
     NotifierProvider<SmCompetitionHubNotifier, SmCompetitionHubState>(
-  SmCompetitionHubNotifier.new,
-);
+      SmCompetitionHubNotifier.new,
+    );
 
 // ---------------------------------------------------------------------------
 // Competition Detail (single competition + entries + votes)
@@ -123,36 +123,38 @@ class SmCompetitionDetailState {
 
 /// Loads competition detail as a FutureProvider.family — auto-disposes.
 final _smCompetitionDetailLoader =
-    FutureProvider.family<SmCompetitionDetailState, String>(
-        (ref, competitionId) async {
-  final service = SmCompetitionService();
-  final results = await Future.wait([
-    service.fetchCompetition(competitionId),
-    service.fetchEntries(competitionId),
-    service.fetchMyEntry(competitionId),
-    service.fetchMyVotes(competitionId),
-  ]);
+    FutureProvider.family<SmCompetitionDetailState, String>((
+      ref,
+      competitionId,
+    ) async {
+      final service = SmCompetitionService();
+      final results = await Future.wait([
+        service.fetchCompetition(competitionId),
+        service.fetchEntries(competitionId),
+        service.fetchMyEntry(competitionId),
+        service.fetchMyVotes(competitionId),
+      ]);
 
-  return SmCompetitionDetailState(
-    competition: results[0] as SmCompetition,
-    entries: results[1] as List<SmCompetitionEntry>,
-    myEntry: results[2] as SmCompetitionEntry?,
-    myVotes: results[3] as Map<String, int>,
-    loading: false,
-  );
-});
+      return SmCompetitionDetailState(
+        competition: results[0] as SmCompetition,
+        entries: results[1] as List<SmCompetitionEntry>,
+        myEntry: results[2] as SmCompetitionEntry?,
+        myVotes: results[3] as Map<String, int>,
+        loading: false,
+      );
+    });
 
 /// Combines loader + mutable override. Read this in widgets.
 final smCompetitionDetailProvider =
     Provider.family<SmCompetitionDetailState, String>((ref, competitionId) {
-  final async = ref.watch(_smCompetitionDetailLoader(competitionId));
-  return async.when(
-    data: (state) => state,
-    loading: () => const SmCompetitionDetailState(),
-    error: (e, _) =>
-        SmCompetitionDetailState(loading: false, error: e.toString()),
-  );
-});
+      final async = ref.watch(_smCompetitionDetailLoader(competitionId));
+      return async.when(
+        data: (state) => state,
+        loading: () => const SmCompetitionDetailState(),
+        error: (e, _) =>
+            SmCompetitionDetailState(loading: false, error: e.toString()),
+      );
+    });
 
 /// Helper for mutations (submit entry, vote). Invalidates the loader
 /// after each mutation so the provider re-fetches.
@@ -175,10 +177,7 @@ class SmCompetitionDetailActions {
     _ref.invalidate(_smCompetitionDetailLoader(competitionId));
   }
 
-  Future<void> vote({
-    required String entryId,
-    required int score,
-  }) async {
+  Future<void> vote({required String entryId, required int score}) async {
     await _service.vote(
       competitionId: competitionId,
       entryId: entryId,

@@ -73,19 +73,21 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
           .stream(primaryKey: ['id'])
           .eq('session_id', widget.sessionId)
           .listen((_) async {
-        final fresh = await supabase
-            .from('game_players')
-            .select('*, profiles!game_players_player_id_fkey(username, rank)')
-            .eq('session_id', widget.sessionId)
-            .order('joined_at');
-        if (mounted) {
-          setState(() {
-            _players = (fresh as List)
-                .map((e) => GamePlayer.fromJson(e as Map<String, dynamic>))
-                .toList();
+            final fresh = await supabase
+                .from('game_players')
+                .select(
+                  '*, profiles!game_players_player_id_fkey(username, rank)',
+                )
+                .eq('session_id', widget.sessionId)
+                .order('joined_at');
+            if (mounted) {
+              setState(() {
+                _players = (fresh as List)
+                    .map((e) => GamePlayer.fromJson(e as Map<String, dynamic>))
+                    .toList();
+              });
+            }
           });
-        }
-      });
 
       // Real-time session subscription
       _sessionSub = supabase
@@ -93,10 +95,10 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
           .stream(primaryKey: ['id'])
           .eq('id', widget.sessionId)
           .listen((data) {
-        if (data.isNotEmpty && mounted) {
-          setState(() => _session = GameSession.fromJson(data.first));
-        }
-      });
+            if (data.isNotEmpty && mounted) {
+              setState(() => _session = GameSession.fromJson(data.first));
+            }
+          });
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -120,9 +122,7 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
     }
 
     if (_loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (_error != null) {
@@ -146,7 +146,8 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
             onPressed: () {
               SharePlus.instance.share(
                 ShareParams(
-                  text: 'Join my quiz game on Juku! '
+                  text:
+                      'Join my quiz game on Juku! '
                       'https://juku.pro/join/${widget.sessionId}',
                 ),
               );
@@ -165,8 +166,11 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                 padding: const EdgeInsets.all(16),
                 child: Row(
                   children: [
-                    Icon(Icons.group,
-                        size: 32, color: theme.colorScheme.primary),
+                    Icon(
+                      Icons.group,
+                      size: 32,
+                      color: theme.colorScheme.primary,
+                    ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(
@@ -174,8 +178,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                         children: [
                           Text(
                             '$playerCount / ${session.maxPlayers} players',
-                            style: theme.textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           Text(
                             'Waiting for players...',
@@ -193,45 +198,46 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
             const SizedBox(height: 16),
 
             // Player list
-            Text('Players',
-                style: theme.textTheme.titleSmall
-                    ?.copyWith(fontWeight: FontWeight.bold)),
+            Text(
+              'Players',
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 8),
             Expanded(
               child: ListView.builder(
                 itemCount: _players.length,
                 itemBuilder: (context, index) {
                   final player = _players[index];
-                  final isPlayerHost =
-                      player.playerId == session.hostId;
+                  final isPlayerHost = player.playerId == session.hostId;
 
                   return Card(
-                    margin: const EdgeInsets.only(bottom: 6),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundColor:
-                            theme.colorScheme.primaryContainer,
-                        child: Text(
-                          (player.username ?? '?')[0].toUpperCase(),
-                          style: TextStyle(
-                            color:
-                                theme.colorScheme.onPrimaryContainer,
-                            fontWeight: FontWeight.bold,
+                        margin: const EdgeInsets.only(bottom: 6),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: theme.colorScheme.primaryContainer,
+                            child: Text(
+                              (player.username ?? '?')[0].toUpperCase(),
+                              style: TextStyle(
+                                color: theme.colorScheme.onPrimaryContainer,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
+                          title: Text(
+                            '@${player.username ?? 'player'}',
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          trailing: isPlayerHost
+                              ? Icon(
+                                  Icons.star,
+                                  color: Colors.amber.shade600,
+                                  size: 20,
+                                )
+                              : null,
                         ),
-                      ),
-                      title: Text(
-                        '@${player.username ?? 'player'}',
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500),
-                      ),
-                      trailing: isPlayerHost
-                          ? Icon(Icons.star,
-                              color: Colors.amber.shade600,
-                              size: 20)
-                          : null,
-                    ),
-                  )
+                      )
                       .animate()
                       .fadeIn(delay: (index * 100).ms)
                       .slideX(begin: 0.1, end: 0);
@@ -250,9 +256,9 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                           ? () => startGame(widget.sessionId)
                           : null,
                       icon: const Icon(Icons.play_arrow),
-                      label: Text(canStart
-                          ? 'Start Game'
-                          : 'Need at least 2 players'),
+                      label: Text(
+                        canStart ? 'Start Game' : 'Need at least 2 players',
+                      ),
                     )
                   else
                     Card(
@@ -265,8 +271,7 @@ class _LobbyScreenState extends ConsumerState<LobbyScreen> {
                             SizedBox(
                               width: 16,
                               height: 16,
-                              child: CircularProgressIndicator(
-                                  strokeWidth: 2),
+                              child: CircularProgressIndicator(strokeWidth: 2),
                             ),
                             SizedBox(width: 8),
                             Text('Waiting for host to start...'),

@@ -30,97 +30,94 @@ class SmCompetitionHubScreen extends ConsumerWidget {
       body: hub.loading
           ? const Center(child: CircularProgressIndicator())
           : hub.error != null
-              ? Center(child: Text('Error: ${hub.error}'))
-              : RefreshIndicator(
-                  onRefresh: () =>
-                      ref.read(smCompetitionHubProvider.notifier).refresh(),
-                  child: ListView(
-                    padding: const EdgeInsets.all(16),
-                    children: [
-                      if (hub.active.isNotEmpty) ...[
-                        _SectionHeader(
-                          title: 'Live Now',
-                          icon: Icons.bolt,
-                          color: theme.colorScheme.error,
-                        ),
-                        const SizedBox(height: 8),
-                        ...hub.active
-                            .map((c) => _CompetitionCard(competition: c)),
-                        const SizedBox(height: 24),
-                      ],
-                      if (hub.voting.isNotEmpty) ...[
-                        _SectionHeader(
-                          title: 'Voting Open',
-                          icon: Icons.how_to_vote,
-                          color: theme.colorScheme.tertiary,
-                        ),
-                        const SizedBox(height: 8),
-                        ...hub.voting
-                            .map((c) => _CompetitionCard(competition: c)),
-                        const SizedBox(height: 24),
-                      ],
-                      if (hub.upcoming.isNotEmpty) ...[
-                        _SectionHeader(
-                          title: 'Coming Soon',
-                          icon: Icons.schedule,
-                          color: theme.colorScheme.secondary,
-                        ),
-                        const SizedBox(height: 8),
-                        ...hub.upcoming
-                            .map((c) => _CompetitionCard(competition: c)),
-                        const SizedBox(height: 24),
-                      ],
-                      if (hub.completed.isNotEmpty) ...[
-                        _SectionHeader(
-                          title: 'Past Battles',
-                          icon: Icons.emoji_events,
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                        const SizedBox(height: 8),
-                        ...hub.completed
-                            .map((c) => _CompetitionCard(competition: c)),
-                      ],
-                      if (hub.active.isEmpty &&
-                          hub.voting.isEmpty &&
-                          hub.upcoming.isEmpty &&
-                          hub.completed.isEmpty)
-                        Center(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 80),
-                            child: Column(
-                              children: [
-                                Icon(
-                                  Icons.translate,
-                                  size: 64,
-                                  color: theme.colorScheme.onSurfaceVariant
-                                      .withAlpha(100),
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  'No competitions yet',
-                                  style:
-                                      theme.textTheme.titleMedium?.copyWith(
-                                    color:
-                                        theme.colorScheme.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Translation battles will appear here\nwhen creators launch them.',
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      theme.textTheme.bodyMedium?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant
-                                        .withAlpha(150),
-                                  ),
-                                ),
-                              ],
+          ? Center(child: Text('Error: ${hub.error}'))
+          : RefreshIndicator(
+              onRefresh: () =>
+                  ref.read(smCompetitionHubProvider.notifier).refresh(),
+              child: ListView(
+                padding: const EdgeInsets.all(16),
+                children: [
+                  if (hub.active.isNotEmpty) ...[
+                    _SectionHeader(
+                      title: 'Live Now',
+                      icon: Icons.bolt,
+                      color: theme.colorScheme.error,
+                    ),
+                    const SizedBox(height: 8),
+                    ...hub.active.map((c) => _CompetitionCard(competition: c)),
+                    const SizedBox(height: 24),
+                  ],
+                  if (hub.voting.isNotEmpty) ...[
+                    _SectionHeader(
+                      title: 'Voting Open',
+                      icon: Icons.how_to_vote,
+                      color: theme.colorScheme.tertiary,
+                    ),
+                    const SizedBox(height: 8),
+                    ...hub.voting.map((c) => _CompetitionCard(competition: c)),
+                    const SizedBox(height: 24),
+                  ],
+                  if (hub.upcoming.isNotEmpty) ...[
+                    _SectionHeader(
+                      title: 'Coming Soon',
+                      icon: Icons.schedule,
+                      color: theme.colorScheme.secondary,
+                    ),
+                    const SizedBox(height: 8),
+                    ...hub.upcoming.map(
+                      (c) => _CompetitionCard(competition: c),
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                  if (hub.completed.isNotEmpty) ...[
+                    _SectionHeader(
+                      title: 'Past Battles',
+                      icon: Icons.emoji_events,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(height: 8),
+                    ...hub.completed.map(
+                      (c) => _CompetitionCard(competition: c),
+                    ),
+                  ],
+                  if (hub.active.isEmpty &&
+                      hub.voting.isEmpty &&
+                      hub.upcoming.isEmpty &&
+                      hub.completed.isEmpty)
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 80),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.translate,
+                              size: 64,
+                              color: theme.colorScheme.onSurfaceVariant
+                                  .withAlpha(100),
                             ),
-                          ),
+                            const SizedBox(height: 16),
+                            Text(
+                              'No competitions yet',
+                              style: theme.textTheme.titleMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Translation battles will appear here\nwhen creators launch them.',
+                              textAlign: TextAlign.center,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant
+                                    .withAlpha(150),
+                              ),
+                            ),
+                          ],
                         ),
-                    ],
-                  ),
-                ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
     );
   }
 }
@@ -145,9 +142,9 @@ class _SectionHeader extends StatelessWidget {
         Text(
           title,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w700,
-                color: color,
-              ),
+            fontWeight: FontWeight.w700,
+            color: color,
+          ),
         ),
       ],
     );
@@ -194,9 +191,11 @@ class _CompetitionCard extends StatelessWidget {
               if (c.songTitle != null)
                 Row(
                   children: [
-                    Icon(Icons.music_note,
-                        size: 16,
-                        color: theme.colorScheme.onSurfaceVariant),
+                    Icon(
+                      Icons.music_note,
+                      size: 16,
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
@@ -342,8 +341,8 @@ class _CountdownTextState extends State<_CountdownText> {
     final text = hours > 24
         ? '${_remaining.inDays}d left'
         : hours > 0
-            ? '${hours}h ${minutes}m'
-            : '${minutes}m';
+        ? '${hours}h ${minutes}m'
+        : '${minutes}m';
 
     return Text(
       text,

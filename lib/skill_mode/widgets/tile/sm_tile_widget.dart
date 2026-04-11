@@ -64,19 +64,20 @@ class SmTileWidget extends StatelessWidget {
           Container(
             constraints: const BoxConstraints(minWidth: 48),
             height: 56,
-            padding: const EdgeInsets.only(left: 16, right: 12, top: 4, bottom: 4),
+            padding: const EdgeInsets.only(
+              left: 16,
+              right: 12,
+              top: 4,
+              bottom: 4,
+            ),
             decoration: BoxDecoration(
               color: _isGhostLike
                   ? theme.colorScheme.surfaceContainerHighest.withAlpha(153)
                   : theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(12),
               border: _isGhostLike
-                  ? Border.all(
-                      color: theme.colorScheme.outline.withAlpha(100),
-                    )
-                  : Border(
-                      left: BorderSide(color: posColor, width: 4),
-                    ),
+                  ? Border.all(color: theme.colorScheme.outline.withAlpha(100))
+                  : Border(left: BorderSide(color: posColor, width: 4)),
             ),
             child: _buildContent(theme),
           ),
@@ -94,9 +95,7 @@ class SmTileWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHigh,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: theme.colorScheme.outline.withAlpha(60),
-        ),
+        border: Border.all(color: theme.colorScheme.outline.withAlpha(60)),
       ),
       child: Center(
         child: Icon(
@@ -220,10 +219,7 @@ class SmTileWidget extends StatelessWidget {
           ),
           Text(
             '+',
-            style: TextStyle(
-              fontSize: 10,
-              color: theme.colorScheme.outline,
-            ),
+            style: TextStyle(fontSize: 10, color: theme.colorScheme.outline),
           ),
           Text(
             parts.sublist(1).join(' '),

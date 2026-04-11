@@ -74,5 +74,6 @@ class SmSessionNotifier extends Notifier<SmSessionState> {
   }
 }
 
-final smSessionProvider =
-    NotifierProvider<SmSessionNotifier, SmSessionState>(SmSessionNotifier.new);
+final smSessionProvider = NotifierProvider<SmSessionNotifier, SmSessionState>(
+  SmSessionNotifier.new,
+);

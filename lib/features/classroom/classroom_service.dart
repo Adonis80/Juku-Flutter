@@ -27,8 +27,7 @@ class Classroom {
     this.studentCount = 0,
   });
 
-  factory Classroom.fromJson(Map<String, dynamic> json,
-          {int students = 0}) =>
+  factory Classroom.fromJson(Map<String, dynamic> json, {int students = 0}) =>
       Classroom(
         id: json['id'] as String,
         teacherId: json['teacher_id'] as String,
@@ -72,8 +71,9 @@ class ClassroomMember {
         joinedAt: DateTime.parse(json['joined_at'] as String),
         username:
             (json['profiles'] as Map<String, dynamic>?)?['username'] as String?,
-        displayName: (json['profiles'] as Map<String, dynamic>?)?['display_name']
-            as String?,
+        displayName:
+            (json['profiles'] as Map<String, dynamic>?)?['display_name']
+                as String?,
       );
 }
 
@@ -140,8 +140,10 @@ class ClassroomService {
     }
 
     return rows
-        .map((r) => Classroom.fromJson(r,
-            students: countMap[r['id'] as String] ?? 0))
+        .map(
+          (r) =>
+              Classroom.fromJson(r, students: countMap[r['id'] as String] ?? 0),
+        )
         .toList();
   }
 
@@ -151,12 +153,16 @@ class ClassroomService {
     String language = 'german',
   }) async {
     final uid = _sb.auth.currentUser!.id;
-    final row = await _sb.from('classrooms').insert({
-      'teacher_id': uid,
-      'name': name,
-      'description': description,
-      'language': language,
-    }).select().single();
+    final row = await _sb
+        .from('classrooms')
+        .insert({
+          'teacher_id': uid,
+          'name': name,
+          'description': description,
+          'language': language,
+        })
+        .select()
+        .single();
     return Classroom.fromJson(row);
   }
 
@@ -198,8 +204,7 @@ class ClassroomService {
     });
   }
 
-  Future<List<ClassroomContent>> getAssignedContent(
-      String classroomId) async {
+  Future<List<ClassroomContent>> getAssignedContent(String classroomId) async {
     final rows = await _sb
         .from('classroom_content')
         .select()
@@ -211,9 +216,10 @@ class ClassroomService {
   // --- Student Operations ---
 
   Future<String> joinClassroom(String joinCode) async {
-    final result = await _sb.rpc('join_classroom', params: {
-      'p_join_code': joinCode,
-    });
+    final result = await _sb.rpc(
+      'join_classroom',
+      params: {'p_join_code': joinCode},
+    );
     return result as String;
   }
 
@@ -228,8 +234,9 @@ class ClassroomService {
 
     if (memberships.isEmpty) return [];
 
-    final classIds =
-        memberships.map((m) => m['classroom_id'] as String).toList();
+    final classIds = memberships
+        .map((m) => m['classroom_id'] as String)
+        .toList();
 
     final rows = await _sb
         .from('classrooms')

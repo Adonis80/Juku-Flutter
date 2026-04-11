@@ -27,7 +27,8 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
     final data = await supabase
         .from('bookmarks')
         .select(
-            'id, lesson_id, created_at, lessons(id, title, topic, language_pair, score, profiles!lessons_author_id_fkey(username))')
+          'id, lesson_id, created_at, lessons(id, title, topic, language_pair, score, profiles!lessons_author_id_fkey(username))',
+        )
         .eq('user_id', user.id)
         .order('created_at', ascending: false);
 
@@ -61,103 +62,108 @@ class _BookmarksScreenState extends State<BookmarksScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _bookmarks.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.bookmark_border,
-                          size: 64, color: theme.colorScheme.outline),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No saved lessons yet',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Bookmark lessons from the feed to save them here',
-                        style: TextStyle(
-                            fontSize: 13, color: theme.colorScheme.outline),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.bookmark_border,
+                    size: 64,
+                    color: theme.colorScheme.outline,
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(12),
-                    itemCount: _bookmarks.length,
-                    separatorBuilder: (_, _) => const SizedBox(height: 6),
-                    itemBuilder: (context, index) {
-                      final bm = _bookmarks[index];
-                      final lesson =
-                          bm['lessons'] as Map<String, dynamic>? ?? {};
-                      final author =
-                          lesson['profiles'] as Map<String, dynamic>?;
+                  const SizedBox(height: 16),
+                  Text(
+                    'No saved lessons yet',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Bookmark lessons from the feed to save them here',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.separated(
+                padding: const EdgeInsets.all(12),
+                itemCount: _bookmarks.length,
+                separatorBuilder: (_, _) => const SizedBox(height: 6),
+                itemBuilder: (context, index) {
+                  final bm = _bookmarks[index];
+                  final lesson = bm['lessons'] as Map<String, dynamic>? ?? {};
+                  final author = lesson['profiles'] as Map<String, dynamic>?;
 
-                      return Dismissible(
-                        key: ValueKey(bm['id']),
-                        direction: DismissDirection.endToStart,
-                        background: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 20),
-                          color: theme.colorScheme.error,
-                          child: Icon(Icons.delete,
-                              color: theme.colorScheme.onError),
+                  return Dismissible(
+                    key: ValueKey(bm['id']),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 20),
+                      color: theme.colorScheme.error,
+                      child: Icon(
+                        Icons.delete,
+                        color: theme.colorScheme.onError,
+                      ),
+                    ),
+                    onDismissed: (_) =>
+                        _removeBookmark(bm['id'] as String, index),
+                    child: Card(
+                      child: ListTile(
+                        title: Text(
+                          lesson['title'] as String? ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        onDismissed: (_) =>
-                            _removeBookmark(bm['id'] as String, index),
-                        child: Card(
-                          child: ListTile(
-                            title: Text(
-                              lesson['title'] as String? ?? '',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 6, vertical: 1),
-                                  decoration: BoxDecoration(
-                                    color: theme.colorScheme.primaryContainer,
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    lesson['topic'] as String? ?? '',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      color: theme
-                                          .colorScheme.onPrimaryContainer,
-                                    ),
-                                  ),
+                        subtitle: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 1,
+                              ),
+                              decoration: BoxDecoration(
+                                color: theme.colorScheme.primaryContainer,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                lesson['topic'] as String? ?? '',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: theme.colorScheme.onPrimaryContainer,
                                 ),
-                                const SizedBox(width: 8),
-                                Text(
-                                  '@${author?['username'] ?? 'unknown'}',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: theme.colorScheme.outline,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            trailing: Text(
-                              '${lesson['score'] ?? 0}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.primary,
                               ),
                             ),
-                            onTap: () => context
-                                .push('/lesson/${lesson['id']}'),
+                            const SizedBox(width: 8),
+                            Text(
+                              '@${author?['username'] ?? 'unknown'}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: theme.colorScheme.outline,
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: Text(
+                          '${lesson['score'] ?? 0}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                        onTap: () => context.push('/lesson/${lesson['id']}'),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

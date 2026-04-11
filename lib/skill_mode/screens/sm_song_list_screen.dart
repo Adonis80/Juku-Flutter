@@ -42,8 +42,7 @@ class _SmSongListScreenState extends ConsumerState<SmSongListScreen> {
 
       if (mounted) {
         setState(() {
-          _songs =
-              (data as List).map((e) => SmSong.fromJson(e)).toList();
+          _songs = (data as List).map((e) => SmSong.fromJson(e)).toList();
           _loading = false;
         });
       }
@@ -57,9 +56,7 @@ class _SmSongListScreenState extends ConsumerState<SmSongListScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Music Mode'),
-      ),
+      appBar: AppBar(title: const Text('Music Mode')),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.push('/skill-mode/songs/upload'),
         child: const Icon(Icons.add),
@@ -70,8 +67,10 @@ class _SmSongListScreenState extends ConsumerState<SmSongListScreen> {
               children: [
                 // Search bar.
                 Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: TextField(
                     controller: _searchController,
                     decoration: InputDecoration(
@@ -93,8 +92,11 @@ class _SmSongListScreenState extends ConsumerState<SmSongListScreen> {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.music_note,
-                                  size: 48, color: theme.colorScheme.outline),
+                              Icon(
+                                Icons.music_note,
+                                size: 48,
+                                color: theme.colorScheme.outline,
+                              ),
                               const SizedBox(height: 8),
                               Text(
                                 'No songs yet',
@@ -130,9 +132,11 @@ class _SmSongListScreenState extends ConsumerState<SmSongListScreen> {
     final query = _searchController.text.toLowerCase();
     if (query.isEmpty) return _songs;
     return _songs
-        .where((s) =>
-            s.title.toLowerCase().contains(query) ||
-            s.artist.toLowerCase().contains(query))
+        .where(
+          (s) =>
+              s.title.toLowerCase().contains(query) ||
+              s.artist.toLowerCase().contains(query),
+        )
         .toList();
   }
 

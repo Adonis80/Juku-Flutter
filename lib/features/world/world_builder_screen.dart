@@ -27,8 +27,7 @@ class WorldBuilderScreen extends ConsumerWidget {
           title: const Text('Juku World'),
           actions: [
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               margin: const EdgeInsets.only(right: 12),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primaryContainer,
@@ -37,8 +36,11 @@ class WorldBuilderScreen extends ConsumerWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.water_drop,
-                      size: 16, color: theme.colorScheme.primary),
+                  Icon(
+                    Icons.water_drop,
+                    size: 16,
+                    color: theme.colorScheme.primary,
+                  ),
                   const SizedBox(width: 4),
                   Text(
                     '$balance',
@@ -62,12 +64,7 @@ class WorldBuilderScreen extends ConsumerWidget {
           ),
         ),
         body: const TabBarView(
-          children: [
-            _PodsTab(),
-            _ObjectsTab(),
-            _CardDropsTab(),
-            _GiftsTab(),
-          ],
+          children: [_PodsTab(), _ObjectsTab(), _CardDropsTab(), _GiftsTab()],
         ).animate().fadeIn(duration: 300.ms),
       ),
     );
@@ -121,10 +118,12 @@ class _PodsTab extends ConsumerWidget {
                   backgroundColor: isInThisPod
                       ? theme.colorScheme.primary
                       : theme.colorScheme.surfaceContainerHighest,
-                  child: Icon(ambientIcon,
-                      color: isInThisPod
-                          ? Colors.white
-                          : theme.colorScheme.onSurfaceVariant),
+                  child: Icon(
+                    ambientIcon,
+                    color: isInThisPod
+                        ? Colors.white
+                        : theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 title: Text(zone.name),
                 subtitle: Text(
@@ -145,16 +144,15 @@ class _PodsTab extends ConsumerWidget {
                       )
                     : FilledButton(
                         onPressed: () {
-                          context.push('/world/pod/${zone.id}',
-                              extra: {'zoneName': zone.name});
+                          context.push(
+                            '/world/pod/${zone.id}',
+                            extra: {'zoneName': zone.name},
+                          );
                         },
                         child: const Text('Enter'),
                       ),
               ),
-            )
-                .animate()
-                .fadeIn(delay: (index * 60).ms)
-                .slideX(begin: 0.05, end: 0);
+            ).animate().fadeIn(delay: (index * 60).ms).slideX(begin: 0.05, end: 0);
           },
         );
       },
@@ -198,99 +196,115 @@ class _ObjectsTab extends ConsumerWidget {
             final canAfford = balance >= obj.juiceCost;
 
             return Card(
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: obj.seasonal
-                            ? Colors.amber.withAlpha(50)
-                            : theme.colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        obj.seasonal ? 'SEASONAL' : obj.category,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: obj.seasonal
-                              ? Colors.amber[800]
-                              : theme.colorScheme.onSecondaryContainer,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      obj.name,
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.w600),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (obj.description != null) ...[
-                      const SizedBox(height: 4),
-                      Text(
-                        obj.description!,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: theme.colorScheme.outline,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                    const Spacer(),
-                    Row(
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.water_drop,
-                            size: 14, color: theme.colorScheme.primary),
-                        const SizedBox(width: 4),
-                        Text(
-                          '${obj.juiceCost}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.primary,
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 6,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: obj.seasonal
+                                ? Colors.amber.withAlpha(50)
+                                : theme.colorScheme.secondaryContainer,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            obj.seasonal ? 'SEASONAL' : obj.category,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: obj.seasonal
+                                  ? Colors.amber[800]
+                                  : theme.colorScheme.onSecondaryContainer,
+                            ),
                           ),
                         ),
-                        const Spacer(),
-                        SizedBox(
-                          height: 28,
-                          child: FilledButton(
-                            onPressed: canAfford
-                                ? () async {
-                                    await WorldService.instance.purchaseObject(
-                                        obj.id, obj.juiceCost);
-                                    ref.invalidate(worldJuiceProvider);
-                                    if (context.mounted) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content: Text(
-                                                'Purchased ${obj.name}!')),
-                                      );
-                                    }
-                                  }
-                                : null,
-                            style: FilledButton.styleFrom(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              textStyle: const TextStyle(fontSize: 12),
-                            ),
-                            child: const Text('Buy'),
+                        const SizedBox(height: 8),
+                        Text(
+                          obj.name,
+                          style: theme.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
                           ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        if (obj.description != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            obj.description!,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: theme.colorScheme.outline,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                        const Spacer(),
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.water_drop,
+                              size: 14,
+                              color: theme.colorScheme.primary,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              '${obj.juiceCost}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.primary,
+                              ),
+                            ),
+                            const Spacer(),
+                            SizedBox(
+                              height: 28,
+                              child: FilledButton(
+                                onPressed: canAfford
+                                    ? () async {
+                                        await WorldService.instance
+                                            .purchaseObject(
+                                              obj.id,
+                                              obj.juiceCost,
+                                            );
+                                        ref.invalidate(worldJuiceProvider);
+                                        if (context.mounted) {
+                                          ScaffoldMessenger.of(
+                                            context,
+                                          ).showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Purchased ${obj.name}!',
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    : null,
+                                style: FilledButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                  ),
+                                  textStyle: const TextStyle(fontSize: 12),
+                                ),
+                                child: const Text('Buy'),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-            )
+                  ),
+                )
                 .animate()
                 .fadeIn(delay: (index * 50).ms)
-                .scale(begin: const Offset(0.95, 0.95), end: const Offset(1, 1));
+                .scale(
+                  begin: const Offset(0.95, 0.95),
+                  end: const Offset(1, 1),
+                );
           },
         );
       },
@@ -317,8 +331,11 @@ class _CardDropsTab extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.auto_awesome,
-                size: 64, color: theme.colorScheme.onSurfaceVariant),
+            Icon(
+              Icons.auto_awesome,
+              size: 64,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
             const SizedBox(height: 16),
             Text('Enter a pod first', style: theme.textTheme.titleMedium),
             const SizedBox(height: 8),
@@ -342,13 +359,18 @@ class _CardDropsTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.auto_awesome,
-                    size: 48, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.auto_awesome,
+                  size: 48,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(height: 16),
                 Text('No card drops yet', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Be the first to drop a card!',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Be the first to drop a card!',
+                  style: theme.textTheme.bodySmall,
+                ),
               ],
             ),
           );
@@ -376,14 +398,19 @@ class _CardDropsTab extends ConsumerWidget {
                     ),
                     shape: BoxShape.circle,
                   ),
-                  child:
-                      const Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+                  child: const Icon(
+                    Icons.auto_awesome,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
                 title: Text(drop.cardTitle),
                 subtitle: Text(
                   'By ${drop.dropperName ?? 'Unknown'} · ${drop.playCount} plays · ${hoursLeft}h left',
                   style: TextStyle(
-                      fontSize: 12, color: theme.colorScheme.onSurfaceVariant),
+                    fontSize: 12,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
                 trailing: FilledButton(
                   onPressed: () {
@@ -394,10 +421,7 @@ class _CardDropsTab extends ConsumerWidget {
                   child: const Text('Play'),
                 ),
               ),
-            )
-                .animate()
-                .fadeIn(delay: (index * 60).ms)
-                .slideX(begin: 0.05, end: 0);
+            ).animate().fadeIn(delay: (index * 60).ms).slideX(begin: 0.05, end: 0);
           },
         );
       },
@@ -427,8 +451,11 @@ class _GiftsTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.card_giftcard,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.card_giftcard,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
                 Text('No gifts yet', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
@@ -447,27 +474,27 @@ class _GiftsTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             final gift = gifts[index];
             return Card(
-              child: ListTile(
-                leading: const CircleAvatar(
-                  child: Icon(Icons.card_giftcard),
-                ),
-                title: Text('Gift from ${gift.fromUsername ?? 'Someone'}'),
-                subtitle: gift.message != null
-                    ? Text(gift.message!)
-                    : const Text('A world object gift!'),
-                trailing: FilledButton(
-                  onPressed: () async {
-                    await WorldService.instance.claimGift(gift.id);
-                    if (context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Gift claimed!')),
-                      );
-                    }
-                  },
-                  child: const Text('Claim'),
-                ),
-              ),
-            )
+                  child: ListTile(
+                    leading: const CircleAvatar(
+                      child: Icon(Icons.card_giftcard),
+                    ),
+                    title: Text('Gift from ${gift.fromUsername ?? 'Someone'}'),
+                    subtitle: gift.message != null
+                        ? Text(gift.message!)
+                        : const Text('A world object gift!'),
+                    trailing: FilledButton(
+                      onPressed: () async {
+                        await WorldService.instance.claimGift(gift.id);
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Gift claimed!')),
+                          );
+                        }
+                      },
+                      child: const Text('Claim'),
+                    ),
+                  ),
+                )
                 .animate()
                 .fadeIn(delay: (index * 60).ms)
                 .slideX(begin: 0.05, end: 0);

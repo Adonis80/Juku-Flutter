@@ -27,17 +27,17 @@ class ModuleBranding {
   });
 
   Map<String, dynamic> toJson() => {
-        'primary_color': primaryColor,
-        'accent_color': accentColor,
-        'bg_type': bgType,
-        'bg_color': bgColor,
-        if (bgGradientStart != null) 'bg_gradient_start': bgGradientStart,
-        if (bgGradientEnd != null) 'bg_gradient_end': bgGradientEnd,
-        if (bgImageUrl != null) 'bg_image_url': bgImageUrl,
-        'font_family': fontFamily,
-        'sound_pack': soundPack,
-        if (coverUrl != null) 'cover_url': coverUrl,
-      };
+    'primary_color': primaryColor,
+    'accent_color': accentColor,
+    'bg_type': bgType,
+    'bg_color': bgColor,
+    if (bgGradientStart != null) 'bg_gradient_start': bgGradientStart,
+    if (bgGradientEnd != null) 'bg_gradient_end': bgGradientEnd,
+    if (bgImageUrl != null) 'bg_image_url': bgImageUrl,
+    'font_family': fontFamily,
+    'sound_pack': soundPack,
+    if (coverUrl != null) 'cover_url': coverUrl,
+  };
 
   factory ModuleBranding.fromJson(Map<String, dynamic> json) {
     return ModuleBranding(
@@ -201,19 +201,20 @@ class BrandingEditor extends StatelessWidget {
           Wrap(
             spacing: 8,
             runSpacing: 8,
-            children: [
-              ('arcade', 'Arcade'),
-              ('minimal', 'Minimal'),
-              ('nature', 'Nature'),
-              ('silent', 'Silent'),
-            ].map((pack) {
-              return ChoiceChip(
-                label: Text(pack.$2),
-                selected: branding.soundPack == pack.$1,
-                onSelected: (_) =>
-                    onChanged(branding.copyWith(soundPack: pack.$1)),
-              );
-            }).toList(),
+            children:
+                [
+                  ('arcade', 'Arcade'),
+                  ('minimal', 'Minimal'),
+                  ('nature', 'Nature'),
+                  ('silent', 'Silent'),
+                ].map((pack) {
+                  return ChoiceChip(
+                    label: Text(pack.$2),
+                    selected: branding.soundPack == pack.$1,
+                    onSelected: (_) =>
+                        onChanged(branding.copyWith(soundPack: pack.$1)),
+                  );
+                }).toList(),
           ),
           const SizedBox(height: 40),
         ],
@@ -253,9 +254,7 @@ class _PreviewCard extends StatelessWidget {
       bg = BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         color: _parseColor(branding.bgColor),
-        border: Border.all(
-          color: Theme.of(context).colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
       );
     }
 
@@ -312,15 +311,21 @@ class _ColorPicker extends StatelessWidget {
   final String currentColor;
   final ValueChanged<String> onChanged;
 
-  const _ColorPicker({
-    required this.currentColor,
-    required this.onChanged,
-  });
+  const _ColorPicker({required this.currentColor, required this.onChanged});
 
   static const _presets = [
-    '#8B5CF6', '#3B82F6', '#10B981', '#F59E0B',
-    '#EF4444', '#EC4899', '#06B6D4', '#84CC16',
-    '#F97316', '#6366F1', '#0F172A', '#FFFFFF',
+    '#8B5CF6',
+    '#3B82F6',
+    '#10B981',
+    '#F59E0B',
+    '#EF4444',
+    '#EC4899',
+    '#06B6D4',
+    '#84CC16',
+    '#F97316',
+    '#6366F1',
+    '#0F172A',
+    '#FFFFFF',
   ];
 
   Color _parseColor(String hex) {
@@ -334,8 +339,7 @@ class _ColorPicker extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: _presets.map((hex) {
-        final isSelected =
-            hex.toUpperCase() == currentColor.toUpperCase();
+        final isSelected = hex.toUpperCase() == currentColor.toUpperCase();
         final color = _parseColor(hex);
 
         return GestureDetector(
@@ -354,11 +358,13 @@ class _ColorPicker extends StatelessWidget {
               ),
             ),
             child: isSelected
-                ? Icon(Icons.check,
+                ? Icon(
+                    Icons.check,
                     size: 16,
                     color: color.computeLuminance() > 0.5
                         ? Colors.black
-                        : Colors.white)
+                        : Colors.white,
+                  )
                 : null,
           ),
         );

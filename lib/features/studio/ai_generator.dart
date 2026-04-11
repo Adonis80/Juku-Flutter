@@ -60,8 +60,7 @@ class AiGenerator {
       throw Exception('AI returned invalid format. Please try again.');
     }
 
-    final parsed =
-        jsonDecode(jsonMatch.group(0)!) as Map<String, dynamic>;
+    final parsed = jsonDecode(jsonMatch.group(0)!) as Map<String, dynamic>;
 
     // Merge template-specific settings
     switch (templateType) {
@@ -146,7 +145,11 @@ class AiGenerator {
       body: jsonEncode({
         'model': 'gpt-4o-mini',
         'messages': [
-          {'role': 'system', 'content': 'You are a helpful content generator. Return only valid JSON.'},
+          {
+            'role': 'system',
+            'content':
+                'You are a helpful content generator. Return only valid JSON.',
+          },
           {'role': 'user', 'content': prompt},
         ],
         'temperature': 0.7,
@@ -154,7 +157,9 @@ class AiGenerator {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('OpenAI error: ${response.statusCode} — ${response.body}');
+      throw Exception(
+        'OpenAI error: ${response.statusCode} — ${response.body}',
+      );
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -180,7 +185,9 @@ class AiGenerator {
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Anthropic error: ${response.statusCode} — ${response.body}');
+      throw Exception(
+        'Anthropic error: ${response.statusCode} — ${response.body}',
+      );
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -191,21 +198,24 @@ class AiGenerator {
   static Future<String> _callGoogle(String apiKey, String prompt) async {
     final response = await http.post(
       Uri.parse(
-          'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey'),
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$apiKey',
+      ),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({
         'contents': [
           {
             'parts': [
-              {'text': prompt}
-            ]
-          }
+              {'text': prompt},
+            ],
+          },
         ],
       }),
     );
 
     if (response.statusCode != 200) {
-      throw Exception('Google AI error: ${response.statusCode} — ${response.body}');
+      throw Exception(
+        'Google AI error: ${response.statusCode} — ${response.body}',
+      );
     }
 
     final data = jsonDecode(response.body) as Map<String, dynamic>;

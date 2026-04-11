@@ -18,12 +18,12 @@ class SmDeckNotifier extends AsyncNotifier<List<SmCard>> {
     required String language,
   }) async {
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _service.fetchDueCards(
-          userId: userId,
-          language: language,
-        ));
+    state = await AsyncValue.guard(
+      () => _service.fetchDueCards(userId: userId, language: language),
+    );
   }
 }
 
-final smDeckProvider =
-    AsyncNotifierProvider<SmDeckNotifier, List<SmCard>>(SmDeckNotifier.new);
+final smDeckProvider = AsyncNotifierProvider<SmDeckNotifier, List<SmCard>>(
+  SmDeckNotifier.new,
+);

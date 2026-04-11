@@ -136,8 +136,8 @@ class _SmChallengeScreenState extends ConsumerState<SmChallengeScreen>
               type == 'received'
                   ? 'No pending challenges'
                   : type == 'sent'
-                      ? 'No sent challenges'
-                      : 'No challenge history',
+                  ? 'No sent challenges'
+                  : 'No challenge history',
               style: theme.textTheme.bodyLarge?.copyWith(
                 color: cs.onSurfaceVariant,
               ),
@@ -150,7 +150,8 @@ class _SmChallengeScreenState extends ConsumerState<SmChallengeScreen>
     return ListView.builder(
       padding: const EdgeInsets.all(16),
       itemCount: challenges.length,
-      itemBuilder: (_, i) => _buildChallengeCard(challenges[i], type, theme, cs),
+      itemBuilder: (_, i) =>
+          _buildChallengeCard(challenges[i], type, theme, cs),
     );
   }
 
@@ -173,11 +174,7 @@ class _SmChallengeScreenState extends ConsumerState<SmChallengeScreen>
             // Header
             Row(
               children: [
-                Icon(
-                  Icons.sports_kabaddi,
-                  color: cs.primary,
-                  size: 20,
-                ),
+                Icon(Icons.sports_kabaddi, color: cs.primary, size: 20),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
@@ -396,7 +393,12 @@ class _SendChallengeSheetState extends State<_SendChallengeSheet> {
 
     try {
       final friends = await _service.getChallengeFriends(userId);
-      if (mounted) setState(() { _friends = friends; _loading = false; });
+      if (mounted) {
+        setState(() {
+          _friends = friends;
+          _loading = false;
+        });
+      }
     } catch (_) {
       if (mounted) setState(() => _loading = false);
     }
@@ -419,10 +421,7 @@ class _SendChallengeSheetState extends State<_SendChallengeSheet> {
         children: [
           Text('Send Challenge', style: theme.textTheme.titleMedium),
           const SizedBox(height: 4),
-          Text(
-            'Pick a friend to challenge:',
-            style: theme.textTheme.bodySmall,
-          ),
+          Text('Pick a friend to challenge:', style: theme.textTheme.bodySmall),
           const SizedBox(height: 12),
           if (_loading)
             const Center(child: CircularProgressIndicator())

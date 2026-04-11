@@ -60,8 +60,7 @@ class SmCompetitionDetailScreen extends ConsumerWidget {
                   child: Icon(
                     Icons.translate,
                     size: 64,
-                    color:
-                        theme.colorScheme.onPrimaryContainer.withAlpha(60),
+                    color: theme.colorScheme.onPrimaryContainer.withAlpha(60),
                   ),
                 ),
               ),
@@ -75,8 +74,10 @@ class SmCompetitionDetailScreen extends ConsumerWidget {
                 // Song info card.
                 Card(
                   child: ListTile(
-                    leading: Icon(Icons.music_note,
-                        color: theme.colorScheme.primary),
+                    leading: Icon(
+                      Icons.music_note,
+                      color: theme.colorScheme.primary,
+                    ),
                     title: Text(comp.songTitle ?? 'Unknown Song'),
                     subtitle: Text(comp.songArtist ?? ''),
                     trailing: Text(
@@ -92,8 +93,7 @@ class SmCompetitionDetailScreen extends ConsumerWidget {
 
                 // Description.
                 if (comp.description != null) ...[
-                  Text(comp.description!,
-                      style: theme.textTheme.bodyMedium),
+                  Text(comp.description!, style: theme.textTheme.bodyMedium),
                   const SizedBox(height: 16),
                 ],
 
@@ -135,9 +135,8 @@ class SmCompetitionDetailScreen extends ConsumerWidget {
                   )
                 else if (comp.isVoting)
                   FilledButton.icon(
-                    onPressed: () => context.push(
-                      '/skill-mode/competition/${comp.id}/vote',
-                    ),
+                    onPressed: () =>
+                        context.push('/skill-mode/competition/${comp.id}/vote'),
                     icon: const Icon(Icons.how_to_vote),
                     label: const Text('Vote on Entries'),
                     style: FilledButton.styleFrom(
@@ -158,15 +157,14 @@ class SmCompetitionDetailScreen extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  ...entries
-                      .asMap()
-                      .entries
-                      .map((e) => _EntryRow(
-                            entry: e.value,
-                            position: e.key + 1,
-                            isCompleted: comp.isCompleted,
-                            myVoteScore: detail.myVotes[e.value.id],
-                          )),
+                  ...entries.asMap().entries.map(
+                    (e) => _EntryRow(
+                      entry: e.value,
+                      position: e.key + 1,
+                      isCompleted: comp.isCompleted,
+                      myVoteScore: detail.myVotes[e.value.id],
+                    ),
+                  ),
                 ],
               ]),
             ),
@@ -204,15 +202,20 @@ class _PrizeCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 _PrizePill(
-                    label: '1st', xp: c.xpFirst, juice: c.prizePoolJuice ~/ 2),
+                  label: '1st',
+                  xp: c.xpFirst,
+                  juice: c.prizePoolJuice ~/ 2,
+                ),
                 _PrizePill(
-                    label: '2nd',
-                    xp: c.xpSecond,
-                    juice: c.prizePoolJuice ~/ 3),
+                  label: '2nd',
+                  xp: c.xpSecond,
+                  juice: c.prizePoolJuice ~/ 3,
+                ),
                 _PrizePill(
-                    label: '3rd',
-                    xp: c.xpThird,
-                    juice: c.prizePoolJuice ~/ 6),
+                  label: '3rd',
+                  xp: c.xpThird,
+                  juice: c.prizePoolJuice ~/ 6,
+                ),
               ],
             ),
             const SizedBox(height: 8),
@@ -235,23 +238,31 @@ class _PrizePill extends StatelessWidget {
   final String label;
   final int xp;
   final int juice;
-  const _PrizePill(
-      {required this.label, required this.xp, required this.juice});
+  const _PrizePill({
+    required this.label,
+    required this.xp,
+    required this.juice,
+  });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
       children: [
-        Text(label,
-            style: theme.textTheme.titleSmall
-                ?.copyWith(fontWeight: FontWeight.w800)),
+        Text(
+          label,
+          style: theme.textTheme.titleSmall?.copyWith(
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         const SizedBox(height: 4),
         Text('+$xp XP', style: theme.textTheme.labelSmall),
-        Text('+$juice Juice',
-            style: theme.textTheme.labelSmall?.copyWith(
-              color: theme.colorScheme.tertiary,
-            )),
+        Text(
+          '+$juice Juice',
+          style: theme.textTheme.labelSmall?.copyWith(
+            color: theme.colorScheme.tertiary,
+          ),
+        ),
       ],
     );
   }
@@ -274,8 +285,9 @@ class _PhaseTimeline extends StatelessWidget {
           children: [
             Text(
               'Timeline',
-              style: theme.textTheme.titleSmall
-                  ?.copyWith(fontWeight: FontWeight.w700),
+              style: theme.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.w700,
+              ),
             ),
             const SizedBox(height: 12),
             _TimelineRow(
@@ -331,8 +343,8 @@ class _TimelineRow extends StatelessWidget {
     final color = isActive
         ? theme.colorScheme.primary
         : isPast
-            ? theme.colorScheme.onSurfaceVariant
-            : theme.colorScheme.outline;
+        ? theme.colorScheme.onSurfaceVariant
+        : theme.colorScheme.outline;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -342,8 +354,8 @@ class _TimelineRow extends StatelessWidget {
             isPast
                 ? Icons.check_circle
                 : isActive
-                    ? Icons.radio_button_checked
-                    : Icons.radio_button_unchecked,
+                ? Icons.radio_button_checked
+                : Icons.radio_button_unchecked,
             size: 16,
             color: color,
           ),
@@ -368,8 +380,18 @@ class _TimelineRow extends StatelessWidget {
 
   String _formatDate(DateTime dt) {
     final months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[dt.month - 1]} ${dt.day}, ${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
   }

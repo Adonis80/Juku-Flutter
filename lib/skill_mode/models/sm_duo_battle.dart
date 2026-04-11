@@ -6,7 +6,8 @@ class SmDuoBattle {
   final String language;
   final int cardCount;
   final String? deckId;
-  final String status; // 'waiting' | 'matched' | 'countdown' | 'active' | 'finished' | 'abandoned'
+  final String
+  status; // 'waiting' | 'matched' | 'countdown' | 'active' | 'finished' | 'abandoned'
   final int playerAScore;
   final int playerBScore;
   final int playerATimeMs;
@@ -63,10 +64,8 @@ class SmDuoBattle {
       playerBCardsDone: json['player_b_cards_done'] as int? ?? 0,
       winnerId: json['winner_id'] as String?,
       isDraw: json['is_draw'] as bool? ?? false,
-      cardIds: (json['card_ids'] as List?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
+      cardIds:
+          (json['card_ids'] as List?)?.map((e) => e as String).toList() ?? [],
       matchedAt: json['matched_at'] != null
           ? DateTime.parse(json['matched_at'] as String)
           : null,
@@ -91,8 +90,7 @@ class SmDuoBattle {
 
   bool isPlayerA(String userId) => playerAId == userId;
 
-  int myScore(String userId) =>
-      isPlayerA(userId) ? playerAScore : playerBScore;
+  int myScore(String userId) => isPlayerA(userId) ? playerAScore : playerBScore;
 
   int opponentScore(String userId) =>
       isPlayerA(userId) ? playerBScore : playerAScore;
@@ -181,6 +179,5 @@ class SmDuoStats {
     );
   }
 
-  double get winRate =>
-      totalBattles > 0 ? wins / totalBattles : 0;
+  double get winRate => totalBattles > 0 ? wins / totalBattles : 0;
 }

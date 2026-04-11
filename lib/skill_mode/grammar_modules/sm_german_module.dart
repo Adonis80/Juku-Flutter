@@ -12,8 +12,14 @@ class SmGermanModule extends SmGrammarModule {
   String get languageName => 'German';
 
   @override
-  List<String> get conjugationLabels =>
-      ['ich', 'du', 'er/sie/es', 'wir', 'ihr', 'sie/Sie'];
+  List<String> get conjugationLabels => [
+    'ich',
+    'du',
+    'er/sie/es',
+    'wir',
+    'ihr',
+    'sie/Sie',
+  ];
 
   @override
   bool get hasSeparableVerbs => true;
@@ -99,18 +105,18 @@ class GenderTile extends StatelessWidget {
   const GenderTile({super.key, required this.gender});
 
   Color get _color => switch (gender) {
-        'masculine' => SmGermanModule._masculineColor,
-        'feminine' => SmGermanModule._feminineColor,
-        'neuter' => SmGermanModule._neuterColor,
-        _ => const Color(0xFF6B7280),
-      };
+    'masculine' => SmGermanModule._masculineColor,
+    'feminine' => SmGermanModule._feminineColor,
+    'neuter' => SmGermanModule._neuterColor,
+    _ => const Color(0xFF6B7280),
+  };
 
   String get _label => switch (gender) {
-        'masculine' => 'der',
-        'feminine' => 'die',
-        'neuter' => 'das',
-        _ => '?',
-      };
+    'masculine' => 'der',
+    'feminine' => 'die',
+    'neuter' => 'das',
+    _ => '?',
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -143,20 +149,20 @@ class CaseTile extends StatelessWidget {
   const CaseTile({super.key, required this.grammaticalCase});
 
   String get _abbreviation => switch (grammaticalCase) {
-        'nominative' => 'NOM',
-        'accusative' => 'ACC',
-        'dative' => 'DAT',
-        'genitive' => 'GEN',
-        _ => grammaticalCase.substring(0, 3).toUpperCase(),
-      };
+    'nominative' => 'NOM',
+    'accusative' => 'ACC',
+    'dative' => 'DAT',
+    'genitive' => 'GEN',
+    _ => grammaticalCase.substring(0, 3).toUpperCase(),
+  };
 
   Color get _color => switch (grammaticalCase) {
-        'nominative' => const Color(0xFF3B82F6),
-        'accusative' => const Color(0xFFF59E0B),
-        'dative' => const Color(0xFF8B5CF6),
-        'genitive' => const Color(0xFFEF4444),
-        _ => const Color(0xFF6B7280),
-      };
+    'nominative' => const Color(0xFF3B82F6),
+    'accusative' => const Color(0xFFF59E0B),
+    'dative' => const Color(0xFF8B5CF6),
+    'genitive' => const Color(0xFFEF4444),
+    _ => const Color(0xFF6B7280),
+  };
 
   @override
   Widget build(BuildContext context) {

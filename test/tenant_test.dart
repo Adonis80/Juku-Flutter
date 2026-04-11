@@ -126,10 +126,7 @@ void main() {
     });
 
     test('fromJson handles null numeric fields', () {
-      final json = {
-        'tenant_id': 't-1',
-        'snapshot_date': '2026-04-11',
-      };
+      final json = {'tenant_id': 't-1', 'snapshot_date': '2026-04-11'};
       final analytics = TenantAnalytics.fromJson(json);
       expect(analytics.dau, 0);
       expect(analytics.totalPlays, 0);
@@ -168,10 +165,7 @@ void main() {
         'user_id': 'u-1',
         'role': 'owner',
         'created_at': '2026-04-11T10:00:00Z',
-        'profiles': {
-          'username': 'admin_user',
-          'display_name': 'Admin User',
-        },
+        'profiles': {'username': 'admin_user', 'display_name': 'Admin User'},
       };
       final admin = TenantAdmin.fromJson(json);
       expect(admin.role, 'owner');

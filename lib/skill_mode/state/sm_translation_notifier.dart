@@ -88,5 +88,5 @@ class SmTranslationNotifier extends Notifier<SmTranslationState> {
 
 final smTranslationProvider =
     NotifierProvider<SmTranslationNotifier, SmTranslationState>(
-  SmTranslationNotifier.new,
-);
+      SmTranslationNotifier.new,
+    );

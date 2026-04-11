@@ -69,20 +69,11 @@ final routerProvider = Provider<GoRouter>((ref) {
     },
     routes: [
       // Onboarding (shown once on first launch)
-      GoRoute(
-        path: '/onboarding',
-        builder: (_, _) => const OnboardingScreen(),
-      ),
+      GoRoute(path: '/onboarding', builder: (_, _) => const OnboardingScreen()),
 
       // Auth routes (no shell)
-      GoRoute(
-        path: '/login',
-        builder: (_, _) => const LoginScreen(),
-      ),
-      GoRoute(
-        path: '/signup',
-        builder: (_, _) => const SignupScreen(),
-      ),
+      GoRoute(path: '/login', builder: (_, _) => const LoginScreen()),
+      GoRoute(path: '/signup', builder: (_, _) => const SignupScreen()),
 
       // App routes (with bottom nav shell)
       ShellRoute(
@@ -90,33 +81,27 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/feed',
-            pageBuilder: (_, _) => const NoTransitionPage(
-              child: FeedScreen(),
-            ),
+            pageBuilder: (_, _) => const NoTransitionPage(child: FeedScreen()),
           ),
           GoRoute(
             path: '/topics',
-            pageBuilder: (_, _) => const NoTransitionPage(
-              child: TopicListScreen(),
-            ),
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: TopicListScreen()),
           ),
           GoRoute(
             path: '/studio',
-            pageBuilder: (_, _) => const NoTransitionPage(
-              child: StudioHomeScreen(),
-            ),
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: StudioHomeScreen()),
           ),
           GoRoute(
             path: '/chat',
-            pageBuilder: (_, _) => const NoTransitionPage(
-              child: ChatListScreen(),
-            ),
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: ChatListScreen()),
           ),
           GoRoute(
             path: '/profile',
-            pageBuilder: (_, _) => const NoTransitionPage(
-              child: ProfileScreen(),
-            ),
+            pageBuilder: (_, _) =>
+                const NoTransitionPage(child: ProfileScreen()),
           ),
         ],
       ),
@@ -124,9 +109,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Detail routes (push on top of shell)
       GoRoute(
         path: '/lesson/:id',
-        builder: (_, state) => LessonDetailScreen(
-          lessonId: state.pathParameters['id']!,
-        ),
+        builder: (_, state) =>
+            LessonDetailScreen(lessonId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: '/chat/:partnerId',
@@ -134,16 +118,16 @@ final routerProvider = Provider<GoRouter>((ref) {
           final extra = state.extra as Map<String, dynamic>?;
           return ChatThreadScreen(
             partnerId: state.pathParameters['partnerId']!,
-            partnerName: extra?['displayName'] as String? ??
+            partnerName:
+                extra?['displayName'] as String? ??
                 extra?['username'] as String?,
           );
         },
       ),
       GoRoute(
         path: '/profile/:userId',
-        builder: (_, state) => PublicProfileScreen(
-          userId: state.pathParameters['userId']!,
-        ),
+        builder: (_, state) =>
+            PublicProfileScreen(userId: state.pathParameters['userId']!),
       ),
       GoRoute(
         path: '/topics/:topicKey',
@@ -159,14 +143,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/notifications',
         builder: (_, _) => const NotificationsScreen(),
       ),
-      GoRoute(
-        path: '/bookmarks',
-        builder: (_, _) => const BookmarksScreen(),
-      ),
-      GoRoute(
-        path: '/settings',
-        builder: (_, _) => const SettingsScreen(),
-      ),
+      GoRoute(path: '/bookmarks', builder: (_, _) => const BookmarksScreen()),
+      GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
       GoRoute(
         path: '/privacy',
         builder: (_, _) => const LegalScreen(
@@ -181,30 +159,15 @@ final routerProvider = Provider<GoRouter>((ref) {
           content: termsOfServiceText,
         ),
       ),
-      GoRoute(
-        path: '/explore',
-        builder: (_, _) => const ExploreScreen(),
-      ),
-      GoRoute(
-        path: '/invite',
-        builder: (_, _) => const InviteScreen(),
-      ),
+      GoRoute(path: '/explore', builder: (_, _) => const ExploreScreen()),
+      GoRoute(path: '/invite', builder: (_, _) => const InviteScreen()),
       GoRoute(
         path: '/leaderboard',
         builder: (_, _) => const LeaderboardScreen(),
       ),
-      GoRoute(
-        path: '/wallet',
-        builder: (_, _) => const JuiceWalletScreen(),
-      ),
-      GoRoute(
-        path: '/world',
-        builder: (_, _) => const WorldBuilderScreen(),
-      ),
-      GoRoute(
-        path: '/circles',
-        builder: (_, _) => const CirclesScreen(),
-      ),
+      GoRoute(path: '/wallet', builder: (_, _) => const JuiceWalletScreen()),
+      GoRoute(path: '/world', builder: (_, _) => const WorldBuilderScreen()),
+      GoRoute(path: '/circles', builder: (_, _) => const CirclesScreen()),
       // Studio routes
       GoRoute(
         path: '/studio/revenue',
@@ -222,21 +185,18 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/studio/play/:moduleId',
-        builder: (_, state) => PlayScreen(
-          moduleId: state.pathParameters['moduleId']!,
-        ),
+        builder: (_, state) =>
+            PlayScreen(moduleId: state.pathParameters['moduleId']!),
       ),
       GoRoute(
         path: '/studio/published/:moduleId',
-        builder: (_, state) => PublishSuccessScreen(
-          moduleId: state.pathParameters['moduleId']!,
-        ),
+        builder: (_, state) =>
+            PublishSuccessScreen(moduleId: state.pathParameters['moduleId']!),
       ),
       GoRoute(
         path: '/studio/lobby/:sessionId',
-        builder: (_, state) => LobbyScreen(
-          sessionId: state.pathParameters['sessionId']!,
-        ),
+        builder: (_, state) =>
+            LobbyScreen(sessionId: state.pathParameters['sessionId']!),
       ),
       GoRoute(
         path: '/studio/game/:sessionId',
@@ -246,40 +206,30 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(
         path: '/studio/join/:sessionId',
-        builder: (_, state) => JoinGameScreen(
-          sessionId: state.pathParameters['sessionId']!,
-        ),
+        builder: (_, state) =>
+            JoinGameScreen(sessionId: state.pathParameters['sessionId']!),
       ),
       GoRoute(
         path: '/join/:sessionId',
-        builder: (_, state) => JoinGameScreen(
-          sessionId: state.pathParameters['sessionId']!,
-        ),
+        builder: (_, state) =>
+            JoinGameScreen(sessionId: state.pathParameters['sessionId']!),
       ),
-      GoRoute(
-        path: '/create',
-        builder: (_, _) => const CreateLessonScreen(),
-      ),
-      GoRoute(
-        path: '/evolution',
-        builder: (_, _) => const EvolutionScreen(),
-      ),
+      GoRoute(path: '/create', builder: (_, _) => const CreateLessonScreen()),
+      GoRoute(path: '/evolution', builder: (_, _) => const EvolutionScreen()),
       GoRoute(
         path: '/evolution/cinematic',
         builder: (_, state) {
           final extra = state.extra as Map<String, dynamic>?;
           return EvolutionCinematicScreen(
-            branch: extra?['branch'] as EvolutionBranch? ??
+            branch:
+                extra?['branch'] as EvolutionBranch? ??
                 EvolutionBranch.vocabulary,
             fromStage: extra?['fromStage'] as int? ?? 0,
             toStage: extra?['toStage'] as int? ?? 1,
           );
         },
       ),
-      GoRoute(
-        path: '/challenge',
-        builder: (_, _) => const ChallengeScreen(),
-      ),
+      GoRoute(path: '/challenge', builder: (_, _) => const ChallengeScreen()),
       GoRoute(
         path: '/challenge/result',
         builder: (_, state) {
@@ -293,10 +243,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
-      GoRoute(
-        path: '/live',
-        builder: (_, _) => const LiveListScreen(),
-      ),
+      GoRoute(path: '/live', builder: (_, _) => const LiveListScreen()),
       GoRoute(
         path: '/live/:sessionId',
         builder: (_, state) {
@@ -309,10 +256,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       // Classroom
-      GoRoute(
-        path: '/classroom',
-        builder: (_, _) => const ClassroomScreen(),
-      ),
+      GoRoute(path: '/classroom', builder: (_, _) => const ClassroomScreen()),
       GoRoute(
         path: '/classroom/:classroomId',
         builder: (_, state) {
@@ -325,10 +269,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
 
       // Referral
-      GoRoute(
-        path: '/referral',
-        builder: (_, _) => const ReferralScreen(),
-      ),
+      GoRoute(path: '/referral', builder: (_, _) => const ReferralScreen()),
 
       // World pod detail route
       GoRoute(

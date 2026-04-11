@@ -90,7 +90,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
 
     // Sort by recency
     final sorted = convos.values.toList()
-      ..sort((a, b) => (b['last_at'] as String).compareTo(a['last_at'] as String));
+      ..sort(
+        (a, b) => (b['last_at'] as String).compareTo(a['last_at'] as String),
+      );
 
     if (mounted) {
       setState(() {
@@ -109,96 +111,102 @@ class _ChatListScreenState extends State<ChatListScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _conversations.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.chat_bubble_outline,
-                          size: 64, color: theme.colorScheme.outline),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No conversations yet',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Follow someone and they follow you back to start chatting',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: theme.colorScheme.outline,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.chat_bubble_outline,
+                    size: 64,
+                    color: theme.colorScheme.outline,
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.separated(
-                    itemCount: _conversations.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final convo = _conversations[index];
-                      final profile =
-                          convo['profile'] as Map<String, dynamic>?;
-                      final username =
-                          profile?['username'] as String? ?? 'unknown';
-                      final displayName =
-                          profile?['display_name'] as String? ?? username;
-                      final unread = convo['unread'] as bool? ?? false;
+                  const SizedBox(height: 16),
+                  Text(
+                    'No conversations yet',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Follow someone and they follow you back to start chatting',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: theme.colorScheme.outline,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.separated(
+                itemCount: _conversations.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final convo = _conversations[index];
+                  final profile = convo['profile'] as Map<String, dynamic>?;
+                  final username = profile?['username'] as String? ?? 'unknown';
+                  final displayName =
+                      profile?['display_name'] as String? ?? username;
+                  final unread = convo['unread'] as bool? ?? false;
 
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: theme.colorScheme.primaryContainer,
-                          child: Text(
-                            username[0].toUpperCase(),
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: theme.colorScheme.onPrimaryContainer,
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: theme.colorScheme.primaryContainer,
+                      child: Text(
+                        username[0].toUpperCase(),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: theme.colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                    ),
+                    title: Text(
+                      displayName,
+                      style: TextStyle(
+                        fontWeight: unread
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
+                    ),
+                    subtitle: Text(
+                      convo['last_message'] as String? ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontWeight: unread
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                        color: unread
+                            ? theme.colorScheme.onSurface
+                            : theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    trailing: unread
+                        ? Container(
+                            width: 10,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: theme.colorScheme.primary,
                             ),
-                          ),
-                        ),
-                        title: Text(
-                          displayName,
-                          style: TextStyle(
-                            fontWeight:
-                                unread ? FontWeight.bold : FontWeight.normal,
-                          ),
-                        ),
-                        subtitle: Text(
-                          convo['last_message'] as String? ?? '',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontWeight:
-                                unread ? FontWeight.w600 : FontWeight.normal,
-                            color: unread
-                                ? theme.colorScheme.onSurface
-                                : theme.colorScheme.onSurfaceVariant,
-                          ),
-                        ),
-                        trailing: unread
-                            ? Container(
-                                width: 10,
-                                height: 10,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              )
-                            : null,
-                        onTap: () {
-                          context.push(
-                            '/chat/${convo['partner_id']}',
-                            extra: {'username': username, 'displayName': displayName},
-                          );
+                          )
+                        : null,
+                    onTap: () {
+                      context.push(
+                        '/chat/${convo['partner_id']}',
+                        extra: {
+                          'username': username,
+                          'displayName': displayName,
                         },
                       );
                     },
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

@@ -32,10 +32,8 @@ class SmGrammarPanel extends StatefulWidget {
         minChildSize: 0.3,
         maxChildSize: 0.9,
         expand: false,
-        builder: (_, scrollController) => SmGrammarPanel(
-          tiles: tiles,
-          grammarMetadata: grammarMetadata,
-        ),
+        builder: (_, scrollController) =>
+            SmGrammarPanel(tiles: tiles, grammarMetadata: grammarMetadata),
       ),
     );
   }
@@ -149,8 +147,7 @@ class _SmGrammarPanelState extends State<SmGrammarPanel>
                       isExpanded: _expandedIndex == index,
                       onTap: () {
                         setState(() {
-                          _expandedIndex =
-                              _expandedIndex == index ? -1 : index;
+                          _expandedIndex = _expandedIndex == index ? -1 : index;
                         });
                       },
                     );
@@ -210,8 +207,10 @@ class _AnnotationEntry extends StatelessWidget {
                 const SizedBox(width: 8),
                 if (pos != null)
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: posColor.withAlpha(25),
                       borderRadius: BorderRadius.circular(4),
@@ -229,8 +228,10 @@ class _AnnotationEntry extends StatelessWidget {
                 if (isGhost) ...[
                   const SizedBox(width: 4),
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.outline.withAlpha(20),
                       borderRadius: BorderRadius.circular(4),
@@ -279,15 +280,21 @@ class _AnnotationEntry extends StatelessWidget {
     final details = <String>[];
 
     if (tileType == 'ghost') {
-      details.add('This word exists in German but has no direct English equivalent. '
-          'It appears in the sentence structure but is "invisible" in translation.');
+      details.add(
+        'This word exists in German but has no direct English equivalent. '
+        'It appears in the sentence structure but is "invisible" in translation.',
+      );
     } else if (tileType == 'particle') {
-      details.add('A grammatical particle — it modifies meaning or structure '
-          'but doesn\'t translate directly as a standalone word.');
+      details.add(
+        'A grammatical particle — it modifies meaning or structure '
+        'but doesn\'t translate directly as a standalone word.',
+      );
     } else if (tileType == 'inflected') {
       details.add('This word changes form based on person, tense, or case.');
     } else if (tileType == 'compound') {
-      details.add('A compound expression — two words that function as one unit.');
+      details.add(
+        'A compound expression — two words that function as one unit.',
+      );
     }
 
     if (details.isEmpty) {
@@ -303,4 +310,3 @@ class _AnnotationEntry extends StatelessWidget {
     );
   }
 }
-

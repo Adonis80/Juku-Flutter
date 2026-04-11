@@ -21,9 +21,8 @@ class PlayScreen extends ConsumerWidget {
     final moduleAsync = ref.watch(moduleByIdProvider(moduleId));
 
     return moduleAsync.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (e, _) => Scaffold(
         appBar: AppBar(),
         body: Center(child: Text('Error: $e')),
@@ -40,8 +39,9 @@ class PlayScreen extends ConsumerWidget {
           StudioTemplate.quiz => _PlayModeChooser(module: module),
           StudioTemplate.flashcard => _FlashcardPlay(module: module),
           StudioTemplate.calculator => _CalculatorPlay(module: module),
-          StudioTemplate.conditionalCalculator =>
-            ConditionalCalculatorPlay(module: module),
+          StudioTemplate.conditionalCalculator => ConditionalCalculatorPlay(
+            module: module,
+          ),
         };
       },
     );
@@ -63,13 +63,13 @@ class _PlayModeChooser extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.psychology,
-                size: 64, color: theme.colorScheme.primary),
+            Icon(Icons.psychology, size: 64, color: theme.colorScheme.primary),
             const SizedBox(height: 16),
             Text(
               module.title,
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 32),
@@ -79,9 +79,7 @@ class _PlayModeChooser extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (_) => Scaffold(
-                        body: _QuizPlay(module: module),
-                      ),
+                      builder: (_) => Scaffold(body: _QuizPlay(module: module)),
                     ),
                   );
                 },
@@ -158,8 +156,7 @@ class _QuizPlayState extends State<_QuizPlay> {
   }
 
   void _startTimer() {
-    final limit =
-        widget.module.config['time_limit_secs'] as int? ?? 0;
+    final limit = widget.module.config['time_limit_secs'] as int? ?? 0;
     if (limit <= 0) return;
 
     _timeLeft = limit;
@@ -178,8 +175,7 @@ class _QuizPlayState extends State<_QuizPlay> {
     if (_answered) return;
     _timer?.cancel();
 
-    final correctIdx =
-        _questions[_currentIdx]['answer'] as int? ?? 0;
+    final correctIdx = _questions[_currentIdx]['answer'] as int? ?? 0;
     final isCorrect = idx == correctIdx;
 
     // Haptic feedback
@@ -231,11 +227,7 @@ class _QuizPlayState extends State<_QuizPlay> {
         final score = (_questions.isNotEmpty)
             ? ((_correct / _questions.length) * 100).round()
             : 0;
-        recordPlay(
-          moduleId: widget.module.id,
-          score: score,
-          completed: true,
-        );
+        recordPlay(moduleId: widget.module.id, score: score, completed: true);
       }
     });
   }
@@ -279,8 +271,7 @@ class _QuizPlayState extends State<_QuizPlay> {
     final q = _questions[_currentIdx];
     final options = List<String>.from(q['options'] as List? ?? []);
     final correctIdx = q['answer'] as int? ?? 0;
-    final limit =
-        widget.module.config['time_limit_secs'] as int? ?? 0;
+    final limit = widget.module.config['time_limit_secs'] as int? ?? 0;
 
     return Scaffold(
       appBar: AppBar(
@@ -293,22 +284,22 @@ class _QuizPlayState extends State<_QuizPlay> {
               child: Center(
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 8, vertical: 4),
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: _streak >= 5
                         ? const Color(0xFFFFD700)
                         : _streak >= 3
-                            ? Colors.orange
-                            : theme.colorScheme.primaryContainer,
+                        ? Colors.orange
+                        : theme.colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
-                        _streak >= 5
-                            ? Icons.bolt
-                            : Icons.local_fire_department,
+                        _streak >= 5 ? Icons.bolt : Icons.local_fire_department,
                         size: 16,
                         color: _streak >= 3
                             ? Colors.white
@@ -370,18 +361,16 @@ class _QuizPlayState extends State<_QuizPlay> {
                               theme.colorScheme.surfaceContainerHighest,
                         ),
                         Text(
-                          '$_timeLeft',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: _timeLeft <= 5
-                                ? theme.colorScheme.error
-                                : null,
-                          ),
-                        )
-                            .animate(
-                              target: _timeLeft <= 5 ? 1 : 0,
+                              '$_timeLeft',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: _timeLeft <= 5
+                                    ? theme.colorScheme.error
+                                    : null,
+                              ),
                             )
+                            .animate(target: _timeLeft <= 5 ? 1 : 0)
                             .scale(
                               begin: const Offset(1, 1),
                               end: const Offset(1.2, 1.2),
@@ -395,16 +384,18 @@ class _QuizPlayState extends State<_QuizPlay> {
               // Question with entrance animation
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 16, 24, 24),
-                child: Text(
-                  q['q'] as String? ?? '',
-                  key: ValueKey('q_$_questionKey'),
-                  style: theme.textTheme.headlineSmall
-                      ?.copyWith(fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                )
-                    .animate(key: ValueKey('qa_$_questionKey'))
-                    .fadeIn(duration: 300.ms)
-                    .slideX(begin: 0.15, end: 0, curve: Curves.easeOut),
+                child:
+                    Text(
+                          q['q'] as String? ?? '',
+                          key: ValueKey('q_$_questionKey'),
+                          style: theme.textTheme.headlineSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                        .animate(key: ValueKey('qa_$_questionKey'))
+                        .fadeIn(duration: 300.ms)
+                        .slideX(begin: 0.15, end: 0, curve: Curves.easeOut),
               ),
 
               // Options
@@ -427,99 +418,108 @@ class _QuizPlayState extends State<_QuizPlay> {
                     }
 
                     return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Material(
-                        color: bgColor ??
-                            theme.colorScheme.surfaceContainerLow,
-                        borderRadius: BorderRadius.circular(12),
-                        child: InkWell(
-                          onTap: _answered
-                              ? null
-                              : () {
-                                  HapticFeedback.lightImpact();
-                                  _onAnswer(i);
-                                },
-                          borderRadius: BorderRadius.circular(12),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 14),
-                            child: Row(
-                              children: [
-                                AnimatedContainer(
-                                  duration: const Duration(
-                                      milliseconds: 300),
-                                  width: 28,
-                                  height: 28,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: fgColor ??
-                                          theme.colorScheme.outline,
-                                      width: _answered && i == correctIdx
-                                          ? 2.5
-                                          : 1,
-                                    ),
-                                    color:
-                                        fgColor?.withValues(alpha: 0.2),
-                                  ),
-                                  child: Center(
-                                    child: _answered && i == correctIdx
-                                        ? Icon(Icons.check,
-                                            size: 16,
-                                            color: fgColor)
-                                        : _answered &&
-                                                i == _selectedAnswer &&
-                                                i != correctIdx
-                                            ? Icon(Icons.close,
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: Material(
+                            color:
+                                bgColor ??
+                                theme.colorScheme.surfaceContainerLow,
+                            borderRadius: BorderRadius.circular(12),
+                            child: InkWell(
+                              onTap: _answered
+                                  ? null
+                                  : () {
+                                      HapticFeedback.lightImpact();
+                                      _onAnswer(i);
+                                    },
+                              borderRadius: BorderRadius.circular(12),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                  vertical: 14,
+                                ),
+                                child: Row(
+                                  children: [
+                                    AnimatedContainer(
+                                      duration: const Duration(
+                                        milliseconds: 300,
+                                      ),
+                                      width: 28,
+                                      height: 28,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color:
+                                              fgColor ??
+                                              theme.colorScheme.outline,
+                                          width: _answered && i == correctIdx
+                                              ? 2.5
+                                              : 1,
+                                        ),
+                                        color: fgColor?.withValues(alpha: 0.2),
+                                      ),
+                                      child: Center(
+                                        child: _answered && i == correctIdx
+                                            ? Icon(
+                                                Icons.check,
                                                 size: 16,
-                                                color: fgColor)
+                                                color: fgColor,
+                                              )
+                                            : _answered &&
+                                                  i == _selectedAnswer &&
+                                                  i != correctIdx
+                                            ? Icon(
+                                                Icons.close,
+                                                size: 16,
+                                                color: fgColor,
+                                              )
                                             : Text(
-                                                String.fromCharCode(
-                                                    65 + i),
+                                                String.fromCharCode(65 + i),
                                                 style: TextStyle(
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  color: fgColor ??
-                                                      theme.colorScheme
+                                                  fontWeight: FontWeight.w600,
+                                                  color:
+                                                      fgColor ??
+                                                      theme
+                                                          .colorScheme
                                                           .onSurface,
                                                 ),
                                               ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    options[i],
-                                    style: TextStyle(
-                                      color: fgColor,
-                                      fontWeight: fgColor != null
-                                          ? FontWeight.w600
-                                          : null,
+                                      ),
                                     ),
-                                  ),
+                                    const SizedBox(width: 12),
+                                    Expanded(
+                                      child: Text(
+                                        options[i],
+                                        style: TextStyle(
+                                          color: fgColor,
+                                          fontWeight: fgColor != null
+                                              ? FontWeight.w600
+                                              : null,
+                                        ),
+                                      ),
+                                    ),
+                                    // Correct/wrong icon on answered
+                                    if (_answered && i == correctIdx)
+                                      const Icon(
+                                        Icons.check_circle,
+                                        color: Colors.green,
+                                        size: 20,
+                                      ),
+                                    if (_answered &&
+                                        i == _selectedAnswer &&
+                                        i != correctIdx)
+                                      const Icon(
+                                        Icons.cancel,
+                                        color: Colors.red,
+                                        size: 20,
+                                      ),
+                                  ],
                                 ),
-                                // Correct/wrong icon on answered
-                                if (_answered && i == correctIdx)
-                                  const Icon(Icons.check_circle,
-                                      color: Colors.green, size: 20),
-                                if (_answered &&
-                                    i == _selectedAnswer &&
-                                    i != correctIdx)
-                                  const Icon(Icons.cancel,
-                                      color: Colors.red, size: 20),
-                              ],
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
-                        .animate(
-                          key: ValueKey('opt_${_questionKey}_$i'),
                         )
-                        .fadeIn(
-                          delay: (i * 80).ms,
-                          duration: 200.ms,
-                        )
+                        .animate(key: ValueKey('opt_${_questionKey}_$i'))
+                        .fadeIn(delay: (i * 80).ms, duration: 200.ms)
                         .slideX(begin: 0.1, end: 0);
                   }),
                 ),
@@ -532,53 +532,54 @@ class _QuizPlayState extends State<_QuizPlay> {
             Positioned.fill(
               child: IgnorePointer(
                 child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 32, vertical: 16),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: _streak >= 5
-                            ? [
-                                const Color(0xFFFFD700),
-                                const Color(0xFFF59E0B),
-                              ]
-                            : [
-                                Colors.orange,
-                                Colors.deepOrange,
+                  child:
+                      Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 32,
+                              vertical: 16,
+                            ),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: _streak >= 5
+                                    ? [
+                                        const Color(0xFFFFD700),
+                                        const Color(0xFFF59E0B),
+                                      ]
+                                    : [Colors.orange, Colors.deepOrange],
+                              ),
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: [
+                                BoxShadow(
+                                  color:
+                                      (_streak >= 5
+                                              ? const Color(0xFFFFD700)
+                                              : Colors.orange)
+                                          .withValues(alpha: 0.4),
+                                  blurRadius: 20,
+                                  spreadRadius: 4,
+                                ),
                               ],
-                      ),
-                      borderRadius: BorderRadius.circular(24),
-                      boxShadow: [
-                        BoxShadow(
-                          color: (_streak >= 5
-                                  ? const Color(0xFFFFD700)
-                                  : Colors.orange)
-                              .withValues(alpha: 0.4),
-                          blurRadius: 20,
-                          spreadRadius: 4,
-                        ),
-                      ],
-                    ),
-                    child: Text(
-                      _streakText,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w900,
-                        color: Colors.white,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                  )
-                      .animate()
-                      .scale(
-                        begin: const Offset(0.3, 0.3),
-                        end: const Offset(1, 1),
-                        duration: 400.ms,
-                        curve: Curves.elasticOut,
-                      )
-                      .fadeIn(duration: 200.ms)
-                      .then(delay: 800.ms)
-                      .fadeOut(duration: 300.ms),
+                            ),
+                            child: Text(
+                              _streakText,
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                letterSpacing: 2,
+                              ),
+                            ),
+                          )
+                          .animate()
+                          .scale(
+                            begin: const Offset(0.3, 0.3),
+                            end: const Offset(1, 1),
+                            duration: 400.ms,
+                            curve: Curves.elasticOut,
+                          )
+                          .fadeIn(duration: 200.ms)
+                          .then(delay: 800.ms)
+                          .fadeOut(duration: 300.ms),
                 ),
               ),
             ),
@@ -588,12 +589,10 @@ class _QuizPlayState extends State<_QuizPlay> {
   }
 
   Widget _buildResults(ThemeData theme) {
-    final score =
-        _questions.isNotEmpty
-            ? ((_correct / _questions.length) * 100).round()
-            : 0;
-    final passScore =
-        widget.module.config['pass_score_pct'] as int? ?? 70;
+    final score = _questions.isNotEmpty
+        ? ((_correct / _questions.length) * 100).round()
+        : 0;
+    final passScore = widget.module.config['pass_score_pct'] as int? ?? 70;
     final passed = score >= passScore;
     final grade = _gradeBadge;
     final gradeCol = _gradeColor(grade);
@@ -608,29 +607,29 @@ class _QuizPlayState extends State<_QuizPlay> {
               children: [
                 // Grade badge slams down
                 Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: gradeCol,
-                    boxShadow: [
-                      BoxShadow(
-                        color: gradeCol.withValues(alpha: 0.4),
-                        blurRadius: 20,
-                        spreadRadius: 2,
+                      width: 80,
+                      height: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: gradeCol,
+                        boxShadow: [
+                          BoxShadow(
+                            color: gradeCol.withValues(alpha: 0.4),
+                            blurRadius: 20,
+                            spreadRadius: 2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    grade,
-                    style: const TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.w900,
-                      color: Colors.white,
-                    ),
-                  ),
-                )
+                      alignment: Alignment.center,
+                      child: Text(
+                        grade,
+                        style: const TextStyle(
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.white,
+                        ),
+                      ),
+                    )
                     .animate()
                     .scale(
                       begin: const Offset(3, 3),
@@ -655,8 +654,7 @@ class _QuizPlayState extends State<_QuizPlay> {
                 const SizedBox(height: 4),
                 Text(
                   '$_correct / ${_questions.length} correct',
-                  style: TextStyle(
-                      color: theme.colorScheme.onSurfaceVariant),
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                 ).animate().fadeIn(delay: 600.ms),
                 // Streak info
                 if (_maxStreak >= 3)
@@ -665,8 +663,11 @@ class _QuizPlayState extends State<_QuizPlay> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.local_fire_department,
-                            size: 16, color: Colors.orange),
+                        Icon(
+                          Icons.local_fire_department,
+                          size: 16,
+                          color: Colors.orange,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           'Best streak: $_maxStreak',
@@ -681,19 +682,24 @@ class _QuizPlayState extends State<_QuizPlay> {
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      theme.colorScheme.primary,
-                      theme.colorScheme.tertiary,
-                    ]),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.tertiary,
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
                     '+2 XP',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ).animate().fadeIn(delay: 700.ms),
                 const SizedBox(height: 32),
@@ -764,9 +770,10 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
       vsync: this,
       duration: const Duration(milliseconds: 400),
     );
-    _flipAnim = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _flipCtrl, curve: Curves.easeInOut),
-    );
+    _flipAnim = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(CurvedAnimation(parent: _flipCtrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -798,11 +805,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
       final score = _cards.isNotEmpty
           ? ((_known / _cards.length) * 100).round()
           : 0;
-      recordPlay(
-        moduleId: widget.module.id,
-        score: score,
-        completed: true,
-      );
+      recordPlay(moduleId: widget.module.id, score: score, completed: true);
     }
   }
 
@@ -833,8 +836,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
     }
   }
 
-  double get _masteryProgress =>
-      _cards.isEmpty ? 0 : _known / _cards.length;
+  double get _masteryProgress => _cards.isEmpty ? 0 : _known / _cards.length;
 
   @override
   Widget build(BuildContext context) {
@@ -854,9 +856,8 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
     final swipeColor = _dragX > 30
         ? Colors.green.withValues(alpha: (_dragX / 150).clamp(0, 0.3))
         : _dragX < -30
-            ? Colors.red
-                .withValues(alpha: (-_dragX / 150).clamp(0, 0.3))
-            : Colors.transparent;
+        ? Colors.red.withValues(alpha: (-_dragX / 150).clamp(0, 0.3))
+        : Colors.transparent;
 
     return Scaffold(
       appBar: AppBar(
@@ -877,13 +878,14 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                     color: _masteryProgress >= 1
                         ? Colors.amber
                         : theme.colorScheme.primary,
-                    backgroundColor:
-                        theme.colorScheme.surfaceContainerHighest,
+                    backgroundColor: theme.colorScheme.surfaceContainerHighest,
                   ),
                   Text(
                     '${(_masteryProgress * 100).round()}',
                     style: const TextStyle(
-                        fontSize: 9, fontWeight: FontWeight.w700),
+                      fontSize: 9,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ],
               ),
@@ -902,9 +904,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
       ),
       body: Column(
         children: [
-          LinearProgressIndicator(
-            value: (_currentIdx + 1) / _cards.length,
-          ),
+          LinearProgressIndicator(value: (_currentIdx + 1) / _cards.length),
           Expanded(
             child: GestureDetector(
               onTap: _flip,
@@ -914,9 +914,11 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                 alignment: Alignment.center,
                 children: [
                   // Stack depth — cards behind
-                  for (var d = min(2, _cards.length - _currentIdx - 1);
-                      d >= 1;
-                      d--)
+                  for (
+                    var d = min(2, _cards.length - _currentIdx - 1);
+                    d >= 1;
+                    d--
+                  )
                     Positioned(
                       top: 32.0 + d * 4,
                       left: 32,
@@ -924,8 +926,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                       child: Container(
                         height: 250,
                         decoration: BoxDecoration(
-                          color: theme
-                              .colorScheme.surfaceContainerHighest,
+                          color: theme.colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
                             color: theme.colorScheme.outlineVariant,
@@ -940,9 +941,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                   // Swipe color overlay
                   if (swipeColor != Colors.transparent)
                     Positioned.fill(
-                      child: IgnorePointer(
-                        child: Container(color: swipeColor),
-                      ),
+                      child: IgnorePointer(child: Container(color: swipeColor)),
                     ),
 
                   // Main card
@@ -965,24 +964,21 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                             margin: const EdgeInsets.all(32),
                             padding: const EdgeInsets.all(32),
                             width: double.infinity,
-                            constraints:
-                                const BoxConstraints(minHeight: 250),
+                            constraints: const BoxConstraints(minHeight: 250),
                             decoration: BoxDecoration(
                               color: showBack
-                                  ? theme
-                                      .colorScheme.primaryContainer
+                                  ? theme.colorScheme.primaryContainer
                                   : theme.colorScheme.surface,
-                              borderRadius:
-                                  BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(20),
                               border: Border.all(
-                                color:
-                                    theme.colorScheme.outlineVariant,
+                                color: theme.colorScheme.outlineVariant,
                                 width: 2,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: theme.colorScheme.shadow
-                                      .withValues(alpha: 0.1),
+                                  color: theme.colorScheme.shadow.withValues(
+                                    alpha: 0.1,
+                                  ),
                                   blurRadius: 20,
                                   offset: const Offset(0, 8),
                                 ),
@@ -991,45 +987,34 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                             child: Transform(
                               alignment: Alignment.center,
                               transform: showBack
-                                  ? (Matrix4.identity()
-                                    ..rotateY(pi))
+                                  ? (Matrix4.identity()..rotateY(pi))
                                   : Matrix4.identity(),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Text(
                                     showBack
-                                        ? card['back']
-                                                as String? ??
-                                            ''
-                                        : card['front']
-                                                as String? ??
-                                            '',
-                                    style: theme
-                                        .textTheme.headlineMedium
-                                        ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        ? card['back'] as String? ?? ''
+                                        : card['front'] as String? ?? '',
+                                    style: theme.textTheme.headlineMedium
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                     textAlign: TextAlign.center,
                                   ),
                                   if (showBack &&
-                                      (card['example']
-                                                  as String?)
+                                      (card['example'] as String?)
                                               ?.isNotEmpty ==
                                           true) ...[
                                     const SizedBox(height: 12),
                                     Text(
                                       card['example'] as String,
                                       style: TextStyle(
-                                        color: theme.colorScheme
+                                        color: theme
+                                            .colorScheme
                                             .onPrimaryContainer
-                                            .withValues(
-                                                alpha: 0.7),
-                                        fontStyle:
-                                            FontStyle.italic,
+                                            .withValues(alpha: 0.7),
+                                        fontStyle: FontStyle.italic,
                                       ),
-                                      textAlign:
-                                          TextAlign.center,
+                                      textAlign: TextAlign.center,
                                     ),
                                   ],
                                   if (!_flipped) ...[
@@ -1037,8 +1022,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                                     Text(
                                       'Tap to flip',
                                       style: TextStyle(
-                                        color: theme
-                                            .colorScheme.outline,
+                                        color: theme.colorScheme.outline,
                                         fontSize: 13,
                                       ),
                                     ),
@@ -1048,8 +1032,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                                     Text(
                                       'Swipe right = know it  |  left = study',
                                       style: TextStyle(
-                                        color: theme
-                                            .colorScheme.outline,
+                                        color: theme.colorScheme.outline,
                                         fontSize: 11,
                                       ),
                                     ),
@@ -1078,8 +1061,7 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                       label: const Text('Still learning'),
                       style: OutlinedButton.styleFrom(
                         foregroundColor: theme.colorScheme.error,
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                     ),
                   ),
@@ -1091,17 +1073,13 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                       label: const Text('I knew it'),
                       style: FilledButton.styleFrom(
                         backgroundColor: Colors.green,
-                        padding:
-                            const EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                     ),
                   ),
                 ],
               ),
-            )
-                .animate()
-                .fadeIn(duration: 200.ms)
-                .slideY(begin: 0.3, end: 0),
+            ).animate().fadeIn(duration: 200.ms).slideY(begin: 0.3, end: 0),
         ],
       ),
     );
@@ -1123,15 +1101,13 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                 Icon(
                   pct >= 70 ? Icons.star : Icons.sentiment_satisfied,
                   size: 72,
-                  color: pct >= 70
-                      ? Colors.amber
-                      : theme.colorScheme.primary,
+                  color: pct >= 70 ? Colors.amber : theme.colorScheme.primary,
                 ).animate().scale(
-                      begin: const Offset(0, 0),
-                      end: const Offset(1, 1),
-                      duration: 600.ms,
-                      curve: Curves.elasticOut,
-                    ),
+                  begin: const Offset(0, 0),
+                  end: const Offset(1, 1),
+                  duration: 600.ms,
+                  curve: Curves.elasticOut,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   '$pct% known',
@@ -1142,25 +1118,29 @@ class _FlashcardPlayState extends State<_FlashcardPlay>
                 const SizedBox(height: 8),
                 Text(
                   '$_known / ${_cards.length} cards',
-                  style: TextStyle(
-                      color: theme.colorScheme.onSurfaceVariant),
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
                 ),
                 const SizedBox(height: 16),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      theme.colorScheme.primary,
-                      theme.colorScheme.tertiary,
-                    ]),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.tertiary,
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: const Text(
                     '+2 XP',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ).animate().fadeIn(delay: 500.ms),
                 const SizedBox(height: 32),
@@ -1226,8 +1206,8 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
     _countUpCtrl.addListener(() {
       if (_result != null) {
         setState(() {
-          _displayValue = _result! * Curves.easeOut.transform(
-              _countUpCtrl.value);
+          _displayValue =
+              _result! * Curves.easeOut.transform(_countUpCtrl.value);
         });
       }
     });
@@ -1253,8 +1233,7 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
           .map((e) => Map<String, dynamic>.from(e as Map))
           .toList();
 
-  String get _formula =>
-      widget.module.config['formula'] as String? ?? '';
+  String get _formula => widget.module.config['formula'] as String? ?? '';
 
   String get _outputLabel =>
       widget.module.config['output_label'] as String? ?? 'Result';
@@ -1266,10 +1245,8 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
 
   void _nextStep() {
     final inputs = _inputs;
-    final key = inputs[_currentStep]['key'] as String? ??
-        'input_$_currentStep';
-    _values[key] =
-        double.tryParse(_controllers[_currentStep]?.text ?? '') ?? 0;
+    final key = inputs[_currentStep]['key'] as String? ?? 'input_$_currentStep';
+    _values[key] = double.tryParse(_controllers[_currentStep]?.text ?? '') ?? 0;
 
     if (_currentStep < inputs.length - 1) {
       setState(() => _currentStep++);
@@ -1285,8 +1262,7 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
         final inputs = _inputs;
         for (var i = 0; i < inputs.length; i++) {
           final key = inputs[i]['key'] as String? ?? 'input_$i';
-          _values[key] =
-              double.tryParse(_controllers[i]?.text ?? '') ?? 0;
+          _values[key] = double.tryParse(_controllers[i]?.text ?? '') ?? 0;
         }
       }
 
@@ -1304,14 +1280,10 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
 
       _countUpCtrl.forward(from: 0);
 
-      recordPlay(
-        moduleId: widget.module.id,
-        completed: true,
-      );
+      recordPlay(moduleId: widget.module.id, completed: true);
     } catch (_) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Could not calculate — check inputs')),
+        const SnackBar(content: Text('Could not calculate — check inputs')),
       );
     }
   }
@@ -1352,8 +1324,7 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
     var j = i;
     if (j < s.length && s[j] == '-') j++;
     while (j < s.length &&
-        (s.codeUnitAt(j) >= 48 && s.codeUnitAt(j) <= 57 ||
-            s[j] == '.')) {
+        (s.codeUnitAt(j) >= 48 && s.codeUnitAt(j) <= 57 || s[j] == '.')) {
       j++;
     }
     return (double.parse(s.substring(i, j)), j);
@@ -1387,8 +1358,8 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
                       color: i < _currentStep
                           ? theme.colorScheme.primary
                           : i == _currentStep
-                              ? theme.colorScheme.primary
-                              : theme.colorScheme.outlineVariant,
+                          ? theme.colorScheme.primary
+                          : theme.colorScheme.outlineVariant,
                     ),
                   ),
                 ),
@@ -1396,12 +1367,12 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
               const Spacer(),
               // Input label
               Text(
-                inp['label'] as String? ?? 'Input',
-                key: ValueKey('step_$_currentStep'),
-                style: theme.textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              )
+                    inp['label'] as String? ?? 'Input',
+                    key: ValueKey('step_$_currentStep'),
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  )
                   .animate(key: ValueKey('stepa_$_currentStep'))
                   .fadeIn(duration: 300.ms)
                   .slideX(begin: 0.15, end: 0),
@@ -1411,7 +1382,8 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
                 controller: _controllers[_currentStep],
                 autofocus: true,
                 keyboardType: const TextInputType.numberWithOptions(
-                    decimal: true),
+                  decimal: true,
+                ),
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -1426,9 +1398,9 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
                 width: double.infinity,
                 child: FilledButton(
                   onPressed: _nextStep,
-                  child: Text(_currentStep < inputs.length - 1
-                      ? 'Next'
-                      : 'Calculate'),
+                  child: Text(
+                    _currentStep < inputs.length - 1 ? 'Next' : 'Calculate',
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -1449,27 +1421,25 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
               final inp = inputs[index];
 
               return Padding(
-                padding: const EdgeInsets.only(bottom: 16),
-                child: TextField(
-                  controller: _controllers[index],
-                  decoration: InputDecoration(
-                    labelText: inp['label'] as String? ?? 'Input',
-                    suffixText: inp['unit'] as String? ?? '',
-                  ),
-                  keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true),
-                ),
-              )
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: TextField(
+                      controller: _controllers[index],
+                      decoration: InputDecoration(
+                        labelText: inp['label'] as String? ?? 'Input',
+                        suffixText: inp['unit'] as String? ?? '',
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                    ),
+                  )
                   .animate()
                   .fadeIn(delay: (index * 100).ms)
                   .slideX(begin: 0.1, end: 0);
             }),
           if (!_calculated) ...[
             const SizedBox(height: 8),
-            FilledButton(
-              onPressed: _calculate,
-              child: const Text('Calculate'),
-            ),
+            FilledButton(onPressed: _calculate, child: const Text('Calculate')),
           ],
           if (_calculated && _result != null) ...[
             const SizedBox(height: 24),
@@ -1498,14 +1468,11 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
                   ],
                 ),
               ),
-            )
-                .animate()
-                .fadeIn()
-                .scale(
-                  begin: const Offset(0.9, 0.9),
-                  end: const Offset(1, 1),
-                  curve: Curves.elasticOut,
-                ),
+            ).animate().fadeIn().scale(
+              begin: const Offset(0.9, 0.9),
+              end: const Offset(1, 1),
+              curve: Curves.elasticOut,
+            ),
             // Input breakdown
             if (inputs.length > 1) ...[
               const SizedBox(height: 16),
@@ -1514,46 +1481,47 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
                 final key = inp['key'] as String? ?? 'input_$i';
                 final val = _values[key] ?? 0;
                 final maxVal = _values.values.fold<double>(
-                    1, (a, b) => a > b ? a : b);
-                final fraction =
-                    maxVal > 0 ? (val / maxVal).clamp(0.0, 1.0) : 0.0;
+                  1,
+                  (a, b) => a > b ? a : b,
+                );
+                final fraction = maxVal > 0
+                    ? (val / maxVal).clamp(0.0, 1.0)
+                    : 0.0;
 
                 return Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            inp['label'] as String? ?? '',
-                            style: theme.textTheme.labelMedium,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                inp['label'] as String? ?? '',
+                                style: theme.textTheme.labelMedium,
+                              ),
+                              Text(
+                                '${val.toStringAsFixed(1)} ${inp['unit'] ?? ''}',
+                                style: theme.textTheme.labelMedium?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
                           ),
-                          Text(
-                            '${val.toStringAsFixed(1)} ${inp['unit'] ?? ''}',
-                            style: theme.textTheme.labelMedium
-                                ?.copyWith(
-                              fontWeight: FontWeight.w600,
+                          const SizedBox(height: 4),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(4),
+                            child: LinearProgressIndicator(
+                              value: fraction,
+                              minHeight: 8,
+                              color: theme.colorScheme.primary,
+                              backgroundColor:
+                                  theme.colorScheme.surfaceContainerHighest,
                             ),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 4),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(4),
-                        child: LinearProgressIndicator(
-                          value: fraction,
-                          minHeight: 8,
-                          color: theme.colorScheme.primary,
-                          backgroundColor: theme
-                              .colorScheme.surfaceContainerHighest,
-                        ),
-                      ),
-                    ],
-                  ),
-                )
+                    )
                     .animate()
                     .fadeIn(delay: (300 + i * 100).ms)
                     .slideX(begin: -0.1, end: 0);
@@ -1564,19 +1532,24 @@ class _CalculatorPlayState extends State<_CalculatorPlay>
               alignment: Alignment.center,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 6),
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    theme.colorScheme.primary,
-                    theme.colorScheme.tertiary,
-                  ]),
+                  gradient: LinearGradient(
+                    colors: [
+                      theme.colorScheme.primary,
+                      theme.colorScheme.tertiary,
+                    ],
+                  ),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
                   '+2 XP',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold),
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ).animate().fadeIn(delay: 500.ms),

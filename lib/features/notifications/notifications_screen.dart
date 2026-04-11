@@ -59,15 +59,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   }
 
   Future<void> _markRead(String id) async {
-    await supabase
-        .from('notifications')
-        .update({'read': true})
-        .eq('id', id);
+    await supabase.from('notifications').update({'read': true}).eq('id', id);
 
     if (mounted) {
       setState(() {
-        final n = _notifications.firstWhere((n) => n['id'] == id,
-            orElse: () => {});
+        final n = _notifications.firstWhere(
+          (n) => n['id'] == id,
+          orElse: () => {},
+        );
         if (n.isNotEmpty) n['read'] = true;
       });
     }
@@ -96,8 +95,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final unreadCount =
-        _notifications.where((n) => n['read'] == false).length;
+    final unreadCount = _notifications.where((n) => n['read'] == false).length;
 
     return Scaffold(
       appBar: AppBar(
@@ -113,81 +111,87 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _notifications.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.notifications_none,
-                          size: 64, color: theme.colorScheme.outline),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No notifications yet',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.notifications_none,
+                    size: 64,
+                    color: theme.colorScheme.outline,
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.separated(
-                    itemCount: _notifications.length,
-                    separatorBuilder: (_, _) => const Divider(height: 1),
-                    itemBuilder: (context, index) {
-                      final n = _notifications[index];
-                      final isRead = n['read'] as bool? ?? false;
-                      final type = n['type'] as String? ?? '';
+                  const SizedBox(height: 16),
+                  Text(
+                    'No notifications yet',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.separated(
+                itemCount: _notifications.length,
+                separatorBuilder: (_, _) => const Divider(height: 1),
+                itemBuilder: (context, index) {
+                  final n = _notifications[index];
+                  final isRead = n['read'] as bool? ?? false;
+                  final type = n['type'] as String? ?? '';
 
-                      return ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor:
-                              _colorForType(type, theme).withValues(alpha: 0.12),
-                          child: Icon(
-                            _iconForType(type),
-                            color: _colorForType(type, theme),
-                            size: 20,
-                          ),
-                        ),
-                        title: Text(
-                          n['title'] as String? ?? '',
-                          style: TextStyle(
-                            fontWeight:
-                                isRead ? FontWeight.normal : FontWeight.bold,
-                          ),
-                        ),
-                        subtitle: n['body'] != null
-                            ? Text(
-                                n['body'] as String,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                  fontSize: 13,
-                                ),
-                              )
-                            : null,
-                        trailing: !isRead
-                            ? Container(
-                                width: 8,
-                                height: 8,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: theme.colorScheme.primary,
-                                ),
-                              )
-                            : null,
-                        onTap: () {
-                          if (!isRead) _markRead(n['id'] as String);
-                          final link = n['link'] as String?;
-                          if (link != null && link.isNotEmpty) {
-                            context.push(link);
-                          }
-                        },
-                      );
+                  return ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: _colorForType(
+                        type,
+                        theme,
+                      ).withValues(alpha: 0.12),
+                      child: Icon(
+                        _iconForType(type),
+                        color: _colorForType(type, theme),
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(
+                      n['title'] as String? ?? '',
+                      style: TextStyle(
+                        fontWeight: isRead
+                            ? FontWeight.normal
+                            : FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: n['body'] != null
+                        ? Text(
+                            n['body'] as String,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: theme.colorScheme.onSurfaceVariant,
+                              fontSize: 13,
+                            ),
+                          )
+                        : null,
+                    trailing: !isRead
+                        ? Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: theme.colorScheme.primary,
+                            ),
+                          )
+                        : null,
+                    onTap: () {
+                      if (!isRead) _markRead(n['id'] as String);
+                      final link = n['link'] as String?;
+                      if (link != null && link.isNotEmpty) {
+                        context.push(link);
+                      }
                     },
-                  ),
-                ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

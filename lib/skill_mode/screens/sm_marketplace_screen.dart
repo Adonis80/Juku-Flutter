@@ -43,7 +43,8 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       final dailyData = await supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score')
+            'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score',
+          )
           .eq('published', true)
           .eq('is_daily_deck', true)
           .gte('daily_deck_date', today.toIso8601String())
@@ -54,7 +55,8 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       final trendingData = await supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score')
+            'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score',
+          )
           .eq('published', true)
           .order('play_count', ascending: false)
           .limit(10);
@@ -64,7 +66,8 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       final risingData = await supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score')
+            'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score',
+          )
           .eq('published', true)
           .gt('play_count', 0)
           .order('created_at', ascending: false)
@@ -78,13 +81,15 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
             .from('follows')
             .select('following_id')
             .eq('follower_id', user.id);
-        final followIds =
-            (follows as List).map((f) => f['following_id'] as String).toList();
+        final followIds = (follows as List)
+            .map((f) => f['following_id'] as String)
+            .toList();
         if (followIds.isNotEmpty) {
           final followData = await supabase
               .from('skill_mode_decks')
               .select(
-                  'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score')
+                'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score',
+              )
               .eq('published', true)
               .inFilter('creator_id', followIds)
               .order('created_at', ascending: false)
@@ -97,7 +102,8 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       var query = supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score')
+            'id, title, description, language, difficulty, play_count, card_skin, creator_id, creator_target_score',
+          )
           .eq('published', true);
 
       if (_filterDifficulty != null) {
@@ -198,72 +204,75 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: GestureDetector(
         onTap: () => context.push('/skill-mode/deck-detail/${deck['id']}'),
-        child: Container(
-          height: 180,
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(
-              colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
-            ),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(
-              color: const Color(0xFFF59E0B).withAlpha(100),
-              width: 2,
-            ),
-          ),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFF59E0B).withAlpha(30),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      'DAILY DECK',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFFF59E0B),
-                        letterSpacing: 1,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Text(
-                deck['title'] as String? ?? 'Untitled',
-                style: const TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: Colors.white,
+        child:
+            Container(
+              height: 180,
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF1E293B), Color(0xFF0F172A)],
+                ),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: const Color(0xFFF59E0B).withAlpha(100),
+                  width: 2,
                 ),
               ),
-              const SizedBox(height: 4),
-              Row(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _difficultyChip(
-                      deck['difficulty'] as String? ?? 'beginner', theme),
-                  const SizedBox(width: 8),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF59E0B).withAlpha(30),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Text(
+                          'DAILY DECK',
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w800,
+                            color: Color(0xFFF59E0B),
+                            letterSpacing: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
                   Text(
-                    '${deck['play_count'] ?? 0} plays',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.white.withAlpha(150),
+                    deck['title'] as String? ?? 'Untitled',
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
                     ),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      _difficultyChip(
+                        deck['difficulty'] as String? ?? 'beginner',
+                        theme,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        '${deck['play_count'] ?? 0} plays',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.white.withAlpha(150),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
-          ),
-        )
-            .animate()
-            .shimmer(
+            ).animate().shimmer(
               duration: const Duration(milliseconds: 2000),
               color: const Color(0xFFF59E0B).withAlpha(30),
             ),
@@ -301,9 +310,7 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
         decoration: BoxDecoration(
           color: theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(16),
-          border: Border(
-            left: BorderSide(color: skinColor, width: 4),
-          ),
+          border: Border(left: BorderSide(color: skinColor, width: 4)),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -317,13 +324,15 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
               overflow: TextOverflow.ellipsis,
             ),
             const Spacer(),
-            _difficultyChip(
-                deck['difficulty'] as String? ?? 'beginner', theme),
+            _difficultyChip(deck['difficulty'] as String? ?? 'beginner', theme),
             const SizedBox(height: 6),
             Row(
               children: [
-                Icon(Icons.play_arrow,
-                    size: 14, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.play_arrow,
+                  size: 14,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(width: 4),
                 Text(
                   '${deck['play_count'] ?? 0}',
@@ -331,7 +340,11 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
                 ),
                 if (deck['creator_target_score'] != null) ...[
                   const SizedBox(width: 8),
-                  const Icon(Icons.sports_mma, size: 14, color: Color(0xFFF59E0B)),
+                  const Icon(
+                    Icons.sports_mma,
+                    size: 14,
+                    color: Color(0xFFF59E0B),
+                  ),
                 ],
               ],
             ),
@@ -346,9 +359,7 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
       onTap: () => context.push('/skill-mode/deck-detail/${deck['id']}'),
       title: Text(
         deck['title'] as String? ?? 'Untitled',
-        style: theme.textTheme.bodyLarge?.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
+        style: theme.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       subtitle: Text(
         '${deck['difficulty'] ?? 'beginner'} • ${deck['play_count'] ?? 0} plays',
@@ -402,10 +413,12 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Filter',
-                  style: Theme.of(ctx).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      )),
+              Text(
+                'Filter',
+                style: Theme.of(
+                  ctx,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
+              ),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 8,
@@ -414,8 +427,7 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
                     label: const Text('Beginner'),
                     selected: _filterDifficulty == 'beginner',
                     onSelected: (v) {
-                      setState(() =>
-                          _filterDifficulty = v ? 'beginner' : null);
+                      setState(() => _filterDifficulty = v ? 'beginner' : null);
                       Navigator.pop(ctx);
                       _loadData();
                     },
@@ -424,8 +436,9 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
                     label: const Text('Intermediate'),
                     selected: _filterDifficulty == 'intermediate',
                     onSelected: (v) {
-                      setState(() =>
-                          _filterDifficulty = v ? 'intermediate' : null);
+                      setState(
+                        () => _filterDifficulty = v ? 'intermediate' : null,
+                      );
                       Navigator.pop(ctx);
                       _loadData();
                     },
@@ -434,8 +447,7 @@ class _SmMarketplaceScreenState extends ConsumerState<SmMarketplaceScreen> {
                     label: const Text('Advanced'),
                     selected: _filterDifficulty == 'advanced',
                     onSelected: (v) {
-                      setState(() =>
-                          _filterDifficulty = v ? 'advanced' : null);
+                      setState(() => _filterDifficulty = v ? 'advanced' : null);
                       Navigator.pop(ctx);
                       _loadData();
                     },

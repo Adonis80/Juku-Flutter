@@ -136,8 +136,10 @@ class LobbyState {
 
 /// Loads lobby state for a session. Uses FutureProvider for initial load.
 /// Real-time updates are handled in the LobbyScreen widget directly.
-final lobbySessionProvider =
-    FutureProvider.family<GameSession, String>((ref, sessionId) async {
+final lobbySessionProvider = FutureProvider.family<GameSession, String>((
+  ref,
+  sessionId,
+) async {
   final data = await supabase
       .from('game_sessions')
       .select()
@@ -146,8 +148,10 @@ final lobbySessionProvider =
   return GameSession.fromJson(data);
 });
 
-final lobbyPlayersProvider =
-    FutureProvider.family<List<GamePlayer>, String>((ref, sessionId) async {
+final lobbyPlayersProvider = FutureProvider.family<List<GamePlayer>, String>((
+  ref,
+  sessionId,
+) async {
   final data = await supabase
       .from('game_players')
       .select('*, profiles!game_players_player_id_fkey(username, rank)')
@@ -160,8 +164,7 @@ final lobbyPlayersProvider =
 });
 
 /// Combined lobby state provider
-final lobbyProvider =
-    Provider.family<LobbyState, String>((ref, sessionId) {
+final lobbyProvider = Provider.family<LobbyState, String>((ref, sessionId) {
   final sessionAsync = ref.watch(lobbySessionProvider(sessionId));
   final playersAsync = ref.watch(lobbyPlayersProvider(sessionId));
 
@@ -182,11 +185,15 @@ Future<String> createGameSession({
   final user = supabase.auth.currentUser;
   if (user == null) throw Exception('Not authenticated');
 
-  final result = await supabase.from('game_sessions').insert({
-    'module_id': moduleId,
-    'host_id': user.id,
-    'max_players': maxPlayers,
-  }).select('id').single();
+  final result = await supabase
+      .from('game_sessions')
+      .insert({
+        'module_id': moduleId,
+        'host_id': user.id,
+        'max_players': maxPlayers,
+      })
+      .select('id')
+      .single();
 
   final sessionId = result['id'] as String;
 
@@ -210,21 +217,29 @@ Future<void> joinGameSession(String sessionId) async {
 }
 
 Future<void> startGame(String sessionId) async {
-  await supabase.from('game_sessions').update({
-    'status': 'in_progress',
-    'started_at': DateTime.now().toIso8601String(),
-  }).eq('id', sessionId);
+  await supabase
+      .from('game_sessions')
+      .update({
+        'status': 'in_progress',
+        'started_at': DateTime.now().toIso8601String(),
+      })
+      .eq('id', sessionId);
 }
 
 Future<void> advanceQuestion(String sessionId, int questionIndex) async {
-  await supabase.from('game_sessions').update({
-    'current_question': questionIndex,
-  }).eq('id', sessionId);
+  await supabase
+      .from('game_sessions')
+      .update({'current_question': questionIndex})
+      .eq('id', sessionId);
 }
 
 Future<void> updatePlayerScore(
-    String sessionId, String playerId, int score, int questionIdx,
-    {bool finished = false}) async {
+  String sessionId,
+  String playerId,
+  int score,
+  int questionIdx, {
+  bool finished = false,
+}) async {
   await supabase
       .from('game_players')
       .update({
@@ -237,14 +252,19 @@ Future<void> updatePlayerScore(
 }
 
 Future<void> finishGame(String sessionId) async {
-  await supabase.from('game_sessions').update({
-    'status': 'finished',
-    'finished_at': DateTime.now().toIso8601String(),
-  }).eq('id', sessionId);
+  await supabase
+      .from('game_sessions')
+      .update({
+        'status': 'finished',
+        'finished_at': DateTime.now().toIso8601String(),
+      })
+      .eq('id', sessionId);
 }
 
 Future<void> awardMultiplayerXp(
-    String sessionId, String moduleCreatorId) async {
+  String sessionId,
+  String moduleCreatorId,
+) async {
   final players = await supabase
       .from('game_players')
       .select('player_id, score')

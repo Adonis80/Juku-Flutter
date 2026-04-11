@@ -38,10 +38,7 @@ class UsersTab extends ConsumerWidget {
           data: (users) => Column(
             children: [
               for (var i = 0; i < users.length; i++)
-                _UserTile(
-                  user: users[i],
-                  tenantId: tenantId,
-                )
+                _UserTile(user: users[i], tenantId: tenantId)
                     .animate()
                     .fadeIn(delay: (i * 50).ms)
                     .slideX(begin: 0.05, end: 0),
@@ -63,15 +60,13 @@ class UsersTab extends ConsumerWidget {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (e, _) => Text('Error: $e'),
           data: (invites) {
-            final pending =
-                invites.where((i) => i.status == 'pending').toList();
+            final pending = invites
+                .where((i) => i.status == 'pending')
+                .toList();
             return Column(
               children: [
                 for (final invite in pending)
-                  _InviteTile(
-                    invite: invite,
-                    tenantId: tenantId,
-                  ),
+                  _InviteTile(invite: invite, tenantId: tenantId),
                 if (pending.isEmpty)
                   const Padding(
                     padding: EdgeInsets.all(24),
@@ -112,7 +107,9 @@ class UsersTab extends ConsumerWidget {
                 items: const [
                   DropdownMenuItem(value: 'member', child: Text('Member')),
                   DropdownMenuItem(
-                      value: 'moderator', child: Text('Moderator')),
+                    value: 'moderator',
+                    child: Text('Moderator'),
+                  ),
                   DropdownMenuItem(value: 'admin', child: Text('Admin')),
                 ],
                 onChanged: (v) => setDialogState(() => role = v!),
@@ -182,7 +179,8 @@ class _UserTile extends ConsumerWidget {
                     builder: (ctx) => AlertDialog(
                       title: const Text('Remove user?'),
                       content: Text(
-                          'Remove ${user.displayName ?? user.username} from this tenant?'),
+                        'Remove ${user.displayName ?? user.username} from this tenant?',
+                      ),
                       actions: [
                         TextButton(
                           onPressed: () => Navigator.pop(ctx, false),
@@ -196,8 +194,10 @@ class _UserTile extends ConsumerWidget {
                     ),
                   );
                   if (confirm == true) {
-                    await TenantService.instance
-                        .removeUser(tenantId, user.userId);
+                    await TenantService.instance.removeUser(
+                      tenantId,
+                      user.userId,
+                    );
                     ref.invalidate(tenantUsersProvider(tenantId));
                   }
                 },

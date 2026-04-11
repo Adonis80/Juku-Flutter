@@ -47,7 +47,9 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
     final data = await supabase
         .from('private_messages')
         .select('id, sender_id, receiver_id, content, created_at, read_at')
-        .or('and(sender_id.eq.$_userId,receiver_id.eq.${widget.partnerId}),and(sender_id.eq.${widget.partnerId},receiver_id.eq.$_userId)')
+        .or(
+          'and(sender_id.eq.$_userId,receiver_id.eq.${widget.partnerId}),and(sender_id.eq.${widget.partnerId},receiver_id.eq.$_userId)',
+        )
         .order('created_at', ascending: true)
         .limit(100);
 
@@ -73,18 +75,18 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
         .from('private_messages')
         .stream(primaryKey: ['id'])
         .listen((data) {
-      final relevant = data.where((m) {
-        final s = m['sender_id'] as String;
-        final r = m['receiver_id'] as String;
-        return (s == _userId && r == widget.partnerId) ||
-            (s == widget.partnerId && r == _userId);
-      }).toList();
+          final relevant = data.where((m) {
+            final s = m['sender_id'] as String;
+            final r = m['receiver_id'] as String;
+            return (s == _userId && r == widget.partnerId) ||
+                (s == widget.partnerId && r == _userId);
+          }).toList();
 
-      if (mounted && relevant.isNotEmpty) {
-        setState(() => _messages = relevant);
-        _scrollToBottom();
-      }
-    });
+          if (mounted && relevant.isNotEmpty) {
+            setState(() => _messages = relevant);
+            _scrollToBottom();
+          }
+        });
   }
 
   void _scrollToBottom() {
@@ -127,10 +129,12 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
     } catch (e) {
       // Remove optimistic message on error
       if (mounted) {
-        setState(() => _messages.removeWhere((m) => m['id'] == optimistic['id']));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to send: $e')),
+        setState(
+          () => _messages.removeWhere((m) => m['id'] == optimistic['id']),
         );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to send: $e')));
       }
     }
 
@@ -142,9 +146,7 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.partnerName ?? 'Chat'),
-      ),
+      appBar: AppBar(title: Text(widget.partnerName ?? 'Chat')),
       body: Column(
         children: [
           // Messages
@@ -152,56 +154,59 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
             child: _loading
                 ? const Center(child: CircularProgressIndicator())
                 : _messages.isEmpty
-                    ? Center(
-                        child: Text(
-                          'Say hello!',
-                          style: TextStyle(color: theme.colorScheme.outline),
-                        ),
-                      )
-                    : ListView.builder(
-                        controller: _scrollCtrl,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        itemCount: _messages.length,
-                        itemBuilder: (context, index) {
-                          final msg = _messages[index];
-                          final isMe = msg['sender_id'] == _userId;
+                ? Center(
+                    child: Text(
+                      'Say hello!',
+                      style: TextStyle(color: theme.colorScheme.outline),
+                    ),
+                  )
+                : ListView.builder(
+                    controller: _scrollCtrl,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    itemCount: _messages.length,
+                    itemBuilder: (context, index) {
+                      final msg = _messages[index];
+                      final isMe = msg['sender_id'] == _userId;
 
-                          return Align(
-                            alignment: isMe
-                                ? Alignment.centerRight
-                                : Alignment.centerLeft,
-                            child: Container(
-                              constraints: BoxConstraints(
-                                maxWidth:
-                                    MediaQuery.of(context).size.width * 0.75,
-                              ),
-                              margin: const EdgeInsets.symmetric(vertical: 3),
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 14, vertical: 10),
-                              decoration: BoxDecoration(
-                                color: isMe
-                                    ? theme.colorScheme.primary
-                                    : theme.colorScheme.surfaceContainerHighest,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: const Radius.circular(16),
-                                  topRight: const Radius.circular(16),
-                                  bottomLeft: Radius.circular(isMe ? 16 : 4),
-                                  bottomRight: Radius.circular(isMe ? 4 : 16),
-                                ),
-                              ),
-                              child: Text(
-                                msg['content'] as String? ?? '',
-                                style: TextStyle(
-                                  color: isMe
-                                      ? theme.colorScheme.onPrimary
-                                      : theme.colorScheme.onSurface,
-                                ),
-                              ),
+                      return Align(
+                        alignment: isMe
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        child: Container(
+                          constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.75,
+                          ),
+                          margin: const EdgeInsets.symmetric(vertical: 3),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isMe
+                                ? theme.colorScheme.primary
+                                : theme.colorScheme.surfaceContainerHighest,
+                            borderRadius: BorderRadius.only(
+                              topLeft: const Radius.circular(16),
+                              topRight: const Radius.circular(16),
+                              bottomLeft: Radius.circular(isMe ? 16 : 4),
+                              bottomRight: Radius.circular(isMe ? 4 : 16),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                          child: Text(
+                            msg['content'] as String? ?? '',
+                            style: TextStyle(
+                              color: isMe
+                                  ? theme.colorScheme.onPrimary
+                                  : theme.colorScheme.onSurface,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
           ),
 
           // Input bar
@@ -232,7 +237,9 @@ class _ChatThreadScreenState extends State<ChatThreadScreen> {
                       filled: true,
                       fillColor: theme.colorScheme.surfaceContainerHighest,
                       contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                        horizontal: 16,
+                        vertical: 10,
+                      ),
                     ),
                     textInputAction: TextInputAction.send,
                     onSubmitted: (_) => _send(),

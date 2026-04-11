@@ -11,7 +11,8 @@ class SmTranslation {
   final String translatorId;
   final bool isFirstTranslator;
   final bool isAiDraft;
-  final String status; // 'pending' | 'verified' | 'rejected' | 'expert_verified'
+  final String
+  status; // 'pending' | 'verified' | 'rejected' | 'expert_verified'
   final String? verifiedBy;
   final DateTime? verifiedAt;
   final int upvotes;

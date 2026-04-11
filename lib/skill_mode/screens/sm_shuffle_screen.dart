@@ -109,19 +109,22 @@ class _SmShuffleScreenState extends ConsumerState<SmShuffleScreen>
       _currentOrder = List.generate(tileCount, (i) => i);
       do {
         _currentOrder.shuffle(_random);
-      } while (tileCount > 1 &&
-          _listEquals(_currentOrder, _correctOrder));
+      } while (tileCount > 1 && _listEquals(_currentOrder, _correctOrder));
 
       // Create wiggle controllers.
       for (var i = 0; i < tileCount; i++) {
-        _wiggleControllers.add(AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 200),
-        ));
-        _snapControllers.add(AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 300),
-        ));
+        _wiggleControllers.add(
+          AnimationController(
+            vsync: this,
+            duration: const Duration(milliseconds: 200),
+          ),
+        );
+        _snapControllers.add(
+          AnimationController(
+            vsync: this,
+            duration: const Duration(milliseconds: 300),
+          ),
+        );
       }
 
       setState(() {
@@ -325,9 +328,7 @@ class _SmShuffleScreenState extends ConsumerState<SmShuffleScreen>
                 const SizedBox(height: 32),
 
                 // Draggable tile area.
-                Expanded(
-                  child: _buildTileArea(tiles, theme),
-                ),
+                Expanded(child: _buildTileArea(tiles, theme)),
 
                 const SizedBox(height: 16),
 
@@ -349,13 +350,14 @@ class _SmShuffleScreenState extends ConsumerState<SmShuffleScreen>
 
                 if (_solved)
                   Center(
-                    child: Text(
-                      'Perfect!',
-                      style: theme.textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: const Color(0xFFF59E0B),
-                      ),
-                    ).animate().scale(
+                    child:
+                        Text(
+                          'Perfect!',
+                          style: theme.textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFFF59E0B),
+                          ),
+                        ).animate().scale(
                           begin: const Offset(0.5, 0.5),
                           end: const Offset(1.0, 1.0),
                           duration: const Duration(milliseconds: 400),
@@ -408,10 +410,9 @@ class _SmShuffleScreenState extends ConsumerState<SmShuffleScreen>
           animation: animation,
           builder: (context, child) {
             final scale = Tween<double>(begin: 1.0, end: 1.05)
-                .animate(CurvedAnimation(
-                  parent: animation,
-                  curve: Curves.easeInOut,
-                ))
+                .animate(
+                  CurvedAnimation(parent: animation, curve: Curves.easeInOut),
+                )
                 .value;
             return Transform.scale(
               scale: scale,
@@ -456,11 +457,14 @@ class _SmShuffleScreenState extends ConsumerState<SmShuffleScreen>
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFF59E0B)
-                          .withAlpha((150 * _glowController.value *
-                                  (1 - _glowController.value) * 4)
-                              .round()
-                              .clamp(0, 255)),
+                      color: const Color(0xFFF59E0B).withAlpha(
+                        (150 *
+                                _glowController.value *
+                                (1 - _glowController.value) *
+                                4)
+                            .round()
+                            .clamp(0, 255),
+                      ),
                       blurRadius: 12,
                       spreadRadius: 2,
                     ),
@@ -534,7 +538,9 @@ class _ConfettiPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     for (final p in particles) {
       final paint = Paint()
-        ..color = p.color.withAlpha((255 * (1 - progress)).round().clamp(0, 255));
+        ..color = p.color.withAlpha(
+          (255 * (1 - progress)).round().clamp(0, 255),
+        );
       final x = p.x * size.width + p.dx * progress;
       final y = p.y * size.height + p.dy * progress + 200 * progress * progress;
       canvas.save();
@@ -542,7 +548,11 @@ class _ConfettiPainter extends CustomPainter {
       canvas.rotate(p.rotation + progress * pi * 2);
       canvas.drawRRect(
         RRect.fromRectAndRadius(
-          Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size * 0.6),
+          Rect.fromCenter(
+            center: Offset.zero,
+            width: p.size,
+            height: p.size * 0.6,
+          ),
           const Radius.circular(2),
         ),
         paint,
@@ -586,8 +596,11 @@ class _XpOrbPainter extends CustomPainter {
       if (t <= 0) continue;
 
       final curve = Curves.easeInQuad.transform(t);
-      final x = orb.startX * size.width + (targetX - orb.startX * size.width) * curve;
-      final y = orb.startY * size.height + (targetY - orb.startY * size.height) * curve;
+      final x =
+          orb.startX * size.width + (targetX - orb.startX * size.width) * curve;
+      final y =
+          orb.startY * size.height +
+          (targetY - orb.startY * size.height) * curve;
       final arcY = y - sin(t * pi) * 40;
       final orbSize = 6.0 * (1 - t * 0.5);
       final alpha = (255 * (1 - t * 0.3)).round().clamp(0, 255);

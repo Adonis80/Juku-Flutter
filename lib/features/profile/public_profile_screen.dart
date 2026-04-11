@@ -75,9 +75,9 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
 
@@ -93,101 +93,99 @@ class _PublicProfileScreenState extends State<PublicProfileScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _profile == null
-              ? const Center(child: Text('User not found'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 48,
-                        backgroundColor: theme.colorScheme.primaryContainer,
-                        child: Text(
-                          (_profile!['username'] as String? ?? '?')[0]
-                              .toUpperCase(),
-                          style: TextStyle(
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold,
-                            color: theme.colorScheme.onPrimaryContainer,
-                          ),
-                        ),
+          ? const Center(child: Text('User not found'))
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 48,
+                    backgroundColor: theme.colorScheme.primaryContainer,
+                    child: Text(
+                      (_profile!['username'] as String? ?? '?')[0]
+                          .toUpperCase(),
+                      style: TextStyle(
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold,
+                        color: theme.colorScheme.onPrimaryContainer,
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        _profile!['display_name'] as String? ??
-                            _profile!['username'] as String? ??
-                            'Unknown',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        '@${_profile!['username'] ?? ''}',
-                        style: TextStyle(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 16),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    _profile!['display_name'] as String? ??
+                        _profile!['username'] as String? ??
+                        'Unknown',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '@${_profile!['username'] ?? ''}',
+                    style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                  ),
+                  const SizedBox(height: 16),
 
-                      // Follow button (hidden on own profile)
-                      if (!_isOwnProfile)
-                        SizedBox(
-                          width: 160,
-                          child: _followLoading
-                              ? const Center(
-                                  child: SizedBox(
-                                    width: 20,
-                                    height: 20,
-                                    child: CircularProgressIndicator(
-                                        strokeWidth: 2),
-                                  ),
-                                )
-                              : _isFollowing
-                                  ? OutlinedButton(
-                                      onPressed: _toggleFollow,
-                                      child: const Text('Following'),
-                                    )
-                                  : FilledButton(
-                                      onPressed: _toggleFollow,
-                                      child: const Text('Follow'),
-                                    ),
-                        ),
-                      const SizedBox(height: 20),
-
-                      // Stats
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _Stat(
-                              label: 'XP',
-                              value: '${_profile!['xp'] ?? 0}'),
-                          _Stat(
-                              label: 'Level',
-                              value: '${_profile!['level'] ?? 1}'),
-                          _Stat(
-                            label: 'Rank',
-                            value: rankLabels[
-                                    _profile!['rank'] as String? ??
-                                        'bronze'] ??
-                                'Bronze',
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      if (_profile!['bio'] != null &&
-                          (_profile!['bio'] as String).isNotEmpty)
-                        Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(16),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Text(_profile!['bio'] as String),
+                  // Follow button (hidden on own profile)
+                  if (!_isOwnProfile)
+                    SizedBox(
+                      width: 160,
+                      child: _followLoading
+                          ? const Center(
+                              child: SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            )
+                          : _isFollowing
+                          ? OutlinedButton(
+                              onPressed: _toggleFollow,
+                              child: const Text('Following'),
+                            )
+                          : FilledButton(
+                              onPressed: _toggleFollow,
+                              child: const Text('Follow'),
                             ),
-                          ),
-                        ),
+                    ),
+                  const SizedBox(height: 20),
+
+                  // Stats
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _Stat(label: 'XP', value: '${_profile!['xp'] ?? 0}'),
+                      _Stat(
+                        label: 'Level',
+                        value: '${_profile!['level'] ?? 1}',
+                      ),
+                      _Stat(
+                        label: 'Rank',
+                        value:
+                            rankLabels[_profile!['rank'] as String? ??
+                                'bronze'] ??
+                            'Bronze',
+                      ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 16),
+
+                  if (_profile!['bio'] != null &&
+                      (_profile!['bio'] as String).isNotEmpty)
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: Text(_profile!['bio'] as String),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
     );
   }
 }

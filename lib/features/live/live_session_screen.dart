@@ -62,9 +62,9 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
 
     if (data == null) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Session not found')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Session not found')));
         GoRouter.of(context).pop();
       }
       return;
@@ -108,8 +108,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
   }
 
   Future<void> _loadGifters() async {
-    final gifters =
-        await LiveService.instance.getTopGifters(widget.sessionId);
+    final gifters = await LiveService.instance.getTopGifters(widget.sessionId);
     if (mounted) setState(() => _topGifters = gifters);
   }
 
@@ -136,9 +135,9 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
 
     if (mounted) {
       if (!success) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Not enough Juice')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Not enough Juice')));
       }
     }
   }
@@ -233,8 +232,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
           const SizedBox(width: 8),
           // Live indicator
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
               color: Colors.red,
               borderRadius: BorderRadius.circular(4),
@@ -274,8 +272,7 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
           ),
           // Viewer count
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
             decoration: BoxDecoration(
               color: theme.colorScheme.surfaceContainerHighest,
               borderRadius: BorderRadius.circular(16),
@@ -308,48 +305,45 @@ class _LiveSessionScreenState extends State<LiveSessionScreen> {
           // Card number
           Text(
             'Card ${_currentCardIndex + 1}',
-            style: TextStyle(
-              fontSize: 14,
-              color: theme.colorScheme.outline,
-            ),
+            style: TextStyle(fontSize: 14, color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 16),
           // Placeholder card display
           Container(
-            width: 280,
-            height: 400,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [
-                BoxShadow(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.2),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
-                ),
-              ],
-            ),
-            child: Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.school,
-                    size: 48,
-                    color: theme.colorScheme.primary,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Card ${_currentCardIndex + 1}',
-                    style: theme.textTheme.headlineSmall?.copyWith(
-                      color: theme.colorScheme.onPrimaryContainer,
-                      fontWeight: FontWeight.bold,
+                width: 280,
+                height: 400,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: theme.colorScheme.primary.withValues(alpha: 0.2),
+                      blurRadius: 20,
+                      offset: const Offset(0, 8),
                     ),
+                  ],
+                ),
+                child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.school,
+                        size: 48,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Card ${_currentCardIndex + 1}',
+                        style: theme.textTheme.headlineSmall?.copyWith(
+                          color: theme.colorScheme.onPrimaryContainer,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-          )
+                ),
+              )
               .animate(key: ValueKey(_currentCardIndex))
               .slideX(begin: 0.3, duration: 300.ms, curve: Curves.easeOut)
               .fadeIn(duration: 300.ms),
@@ -447,10 +441,7 @@ class _GiftOverlay extends StatelessWidget {
     return Positioned.fill(
       child: IgnorePointer(
         child: Center(
-          child: Text(
-            giftType.emoji,
-            style: const TextStyle(fontSize: 120),
-          )
+          child: Text(giftType.emoji, style: const TextStyle(fontSize: 120))
               .animate()
               .scale(
                 begin: const Offset(0.3, 0.3),
@@ -469,10 +460,7 @@ class _GiftOverlay extends StatelessWidget {
 
 /// A gift button for viewers.
 class _GiftButton extends StatelessWidget {
-  const _GiftButton({
-    required this.giftType,
-    required this.onTap,
-  });
+  const _GiftButton({required this.giftType, required this.onTap});
 
   final LiveGiftType giftType;
   final VoidCallback onTap;
@@ -494,10 +482,7 @@ class _GiftButton extends StatelessWidget {
               width: 56,
               height: 56,
               alignment: Alignment.center,
-              child: Text(
-                giftType.emoji,
-                style: const TextStyle(fontSize: 28),
-              ),
+              child: Text(giftType.emoji, style: const TextStyle(fontSize: 28)),
             ),
           ),
         ),
@@ -508,10 +493,7 @@ class _GiftButton extends StatelessWidget {
         ),
         Text(
           '${giftType.juice}J',
-          style: TextStyle(
-            fontSize: 10,
-            color: theme.colorScheme.outline,
-          ),
+          style: TextStyle(fontSize: 10, color: theme.colorScheme.outline),
         ),
       ],
     );

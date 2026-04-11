@@ -16,9 +16,7 @@ class SmFirstMasterOverlay extends StatefulWidget {
     final overlay = Overlay.of(context);
     late OverlayEntry entry;
     entry = OverlayEntry(
-      builder: (_) => SmFirstMasterOverlay(
-        onDismiss: () => entry.remove(),
-      ),
+      builder: (_) => SmFirstMasterOverlay(onDismiss: () => entry.remove()),
     );
     overlay.insert(entry);
   }
@@ -90,14 +88,15 @@ class _SmFirstMasterOverlayState extends State<SmFirstMasterOverlay>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Text('👑', style: TextStyle(fontSize: 72))
-                      .animate()
-                      .scale(
-                        begin: const Offset(0.0, 0.0),
-                        end: const Offset(1.0, 1.0),
-                        curve: Curves.elasticOut,
-                        duration: const Duration(milliseconds: 800),
-                      ),
+                  const Text(
+                    '👑',
+                    style: TextStyle(fontSize: 72),
+                  ).animate().scale(
+                    begin: const Offset(0.0, 0.0),
+                    end: const Offset(1.0, 1.0),
+                    curve: Curves.elasticOut,
+                    duration: const Duration(milliseconds: 800),
+                  ),
                   const SizedBox(height: 16),
                   const Text(
                     "You're the First Master!",
@@ -161,7 +160,10 @@ class _CrownShowerPainter extends CustomPainter {
 
       textPainter.text = TextSpan(
         text: '👑',
-        style: TextStyle(fontSize: c.size, color: Colors.white.withAlpha(alpha)),
+        style: TextStyle(
+          fontSize: c.size,
+          color: Colors.white.withAlpha(alpha),
+        ),
       );
       textPainter.layout();
       textPainter.paint(canvas, Offset(-c.size / 2, -c.size / 2));

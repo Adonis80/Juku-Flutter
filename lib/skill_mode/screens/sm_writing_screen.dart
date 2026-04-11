@@ -43,7 +43,8 @@ class _SmWritingScreenState extends State<SmWritingScreen> {
   bool _showGhost = true;
   bool _showGuide = true;
 
-  int get _totalStrokes => widget.referenceStrokes?.length ?? _estimateStrokes();
+  int get _totalStrokes =>
+      widget.referenceStrokes?.length ?? _estimateStrokes();
 
   int _estimateStrokes() {
     // Rough stroke count estimate based on character complexity
@@ -141,10 +142,7 @@ class _SmWritingScreenState extends State<SmWritingScreen> {
           ),
           // Toggle grid guide
           IconButton(
-            icon: Icon(
-              _showGuide ? Icons.grid_on : Icons.grid_off,
-              size: 20,
-            ),
+            icon: Icon(_showGuide ? Icons.grid_on : Icons.grid_off, size: 20),
             onPressed: () => setState(() => _showGuide = !_showGuide),
             tooltip: 'Toggle grid guide',
           ),
@@ -160,7 +158,10 @@ class _SmWritingScreenState extends State<SmWritingScreen> {
               children: [
                 Text(
                   widget.character,
-                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.w900),
+                  style: const TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
                 if (widget.pinyin != null) ...[
                   const SizedBox(width: 12),
@@ -235,8 +236,8 @@ class _SmWritingScreenState extends State<SmWritingScreen> {
                   color: _accuracy >= 0.8
                       ? Colors.green.withValues(alpha: 0.1)
                       : _accuracy >= 0.5
-                          ? Colors.orange.withValues(alpha: 0.1)
-                          : Colors.red.withValues(alpha: 0.1),
+                      ? Colors.orange.withValues(alpha: 0.1)
+                      : Colors.red.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Row(
@@ -246,13 +247,13 @@ class _SmWritingScreenState extends State<SmWritingScreen> {
                       _accuracy >= 0.8
                           ? Icons.check_circle
                           : _accuracy >= 0.5
-                              ? Icons.info
-                              : Icons.refresh,
+                          ? Icons.info
+                          : Icons.refresh,
                       color: _accuracy >= 0.8
                           ? Colors.green
                           : _accuracy >= 0.5
-                              ? Colors.orange
-                              : Colors.red,
+                          ? Colors.orange
+                          : Colors.red,
                     ),
                     const SizedBox(width: 8),
                     Text(

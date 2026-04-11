@@ -114,7 +114,8 @@ class SmAiTranslationService {
 
     final apiKey = utf8.decode(base64Decode(encryptedKey));
 
-    final prompt = 'Translate this $sourceLanguage text to $targetLanguage. '
+    final prompt =
+        'Translate this $sourceLanguage text to $targetLanguage. '
         'Return ONLY a JSON object with "text" (the translation) and "notes" '
         '(a brief grammar or context note, max 1 sentence). '
         'Text to translate: "$sourceText"';
@@ -129,8 +130,7 @@ class SmAiTranslationService {
       final jsonMatch = RegExp(r'\{[\s\S]*\}').firstMatch(responseText);
       if (jsonMatch == null) return null;
 
-      final parsed =
-          jsonDecode(jsonMatch.group(0)!) as Map<String, dynamic>;
+      final parsed = jsonDecode(jsonMatch.group(0)!) as Map<String, dynamic>;
       return {
         'text': parsed['text'] as String? ?? sourceText,
         'notes': parsed['notes'] as String? ?? '',

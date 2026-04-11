@@ -163,13 +163,17 @@ class SmConjugationTableScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: i < forms.length - 1
-                        ? BorderSide(color: cs.outlineVariant.withValues(alpha: 0.3))
+                        ? BorderSide(
+                            color: cs.outlineVariant.withValues(alpha: 0.3),
+                          )
                         : BorderSide.none,
                   ),
                 ),
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 10,
+                  ),
                   child: Row(
                     children: [
                       SizedBox(
@@ -203,9 +207,9 @@ class SmConjugationTableScreen extends StatelessWidget {
     return tense
         .replaceAll('_', ' ')
         .split(' ')
-        .map((w) => w.isNotEmpty
-            ? '${w[0].toUpperCase()}${w.substring(1)}'
-            : '')
+        .map(
+          (w) => w.isNotEmpty ? '${w[0].toUpperCase()}${w.substring(1)}' : '',
+        )
         .join(' ');
   }
 }

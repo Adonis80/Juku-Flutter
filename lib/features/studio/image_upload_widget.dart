@@ -65,21 +65,17 @@ class _StudioImageUploadState extends State<StudioImageUpload> {
 
     try {
       final ext = file.path.split('.').last;
-      final fileName =
-          '$userId/${DateTime.now().millisecondsSinceEpoch}.$ext';
+      final fileName = '$userId/${DateTime.now().millisecondsSinceEpoch}.$ext';
 
-      await supabase.storage.from('studio-images').upload(
+      await supabase.storage
+          .from('studio-images')
+          .upload(
             fileName,
             file,
-            fileOptions: const FileOptions(
-              cacheControl: '3600',
-              upsert: true,
-            ),
+            fileOptions: const FileOptions(cacheControl: '3600', upsert: true),
           );
 
-      final url = supabase.storage
-          .from('studio-images')
-          .getPublicUrl(fileName);
+      final url = supabase.storage.from('studio-images').getPublicUrl(fileName);
 
       setState(() {
         _imageUrl = url;
@@ -89,9 +85,9 @@ class _StudioImageUploadState extends State<StudioImageUpload> {
     } catch (e) {
       setState(() => _uploading = false);
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upload failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
       }
     }
   }
@@ -155,10 +151,11 @@ class _StudioImageUploadState extends State<StudioImageUpload> {
             ),
             if (_imageUrl != null)
               ListTile(
-                leading:
-                    const Icon(Icons.delete_outline, color: Colors.red),
-                title: const Text('Remove Image',
-                    style: TextStyle(color: Colors.red)),
+                leading: const Icon(Icons.delete_outline, color: Colors.red),
+                title: const Text(
+                  'Remove Image',
+                  style: TextStyle(color: Colors.red),
+                ),
                 onTap: () {
                   Navigator.pop(ctx);
                   setState(() => _imageUrl = null);
@@ -211,8 +208,7 @@ class _StudioImageUploadState extends State<StudioImageUpload> {
                     color: Colors.black54,
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(Icons.edit,
-                      size: 16, color: Colors.white),
+                  child: const Icon(Icons.edit, size: 16, color: Colors.white),
                 ),
               ),
             ],
@@ -237,8 +233,11 @@ class _StudioImageUploadState extends State<StudioImageUpload> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.add_photo_alternate,
-                  size: 32, color: theme.colorScheme.outline),
+              Icon(
+                Icons.add_photo_alternate,
+                size: 32,
+                color: theme.colorScheme.outline,
+              ),
               const SizedBox(height: 4),
               Text(
                 'Add image',

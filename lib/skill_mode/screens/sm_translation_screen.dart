@@ -237,8 +237,8 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
         side: translation.isExpertVerified
             ? BorderSide(color: cs.primary, width: 2)
             : translation.isVerified
-                ? BorderSide(color: cs.primary.withValues(alpha: 0.5))
-                : BorderSide.none,
+            ? BorderSide(color: cs.primary.withValues(alpha: 0.5))
+            : BorderSide.none,
       ),
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -301,10 +301,7 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
             ),
             const SizedBox(height: 10),
             // Translation text
-            Text(
-              translation.translatedText,
-              style: theme.textTheme.bodyLarge,
-            ),
+            Text(translation.translatedText, style: theme.textTheme.bodyLarge),
             // Notes
             if (translation.notes != null && translation.notes!.isNotEmpty) ...[
               const SizedBox(height: 6),
@@ -317,7 +314,11 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.info_outline, size: 14, color: cs.onSurfaceVariant),
+                    Icon(
+                      Icons.info_outline,
+                      size: 14,
+                      color: cs.onSurfaceVariant,
+                    ),
                     const SizedBox(width: 6),
                     Expanded(
                       child: Text(
@@ -392,7 +393,8 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
                   IconButton(
                     icon: const Icon(Icons.edit_outlined, size: 20),
                     tooltip: 'Edit',
-                    onPressed: () => _showEditDialog(context, theme, translation),
+                    onPressed: () =>
+                        _showEditDialog(context, theme, translation),
                   ),
               ],
             ),
@@ -462,9 +464,7 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
         ),
         child: Text(
           'Rejected',
-          style: theme.textTheme.labelSmall?.copyWith(
-            color: cs.error,
-          ),
+          style: theme.textTheme.labelSmall?.copyWith(color: cs.error),
         ),
       );
     }
@@ -605,9 +605,9 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
     );
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Translation submitted!')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Translation submitted!')));
     }
     await _loadTranslations();
   }
@@ -617,10 +617,12 @@ class _SmTranslationScreenState extends ConsumerState<SmTranslationScreen> {
     ThemeData theme,
     SmTranslation translation,
   ) {
-    final textController =
-        TextEditingController(text: translation.translatedText);
-    final notesController =
-        TextEditingController(text: translation.notes ?? '');
+    final textController = TextEditingController(
+      text: translation.translatedText,
+    );
+    final notesController = TextEditingController(
+      text: translation.notes ?? '',
+    );
 
     showModalBottomSheet(
       context: context,
@@ -744,10 +746,10 @@ class _VoteButton extends StatelessWidget {
               Text(
                 '$count',
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                      color: isActive
-                          ? activeColor
-                          : Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
+                  color: isActive
+                      ? activeColor
+                      : Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ],
           ],

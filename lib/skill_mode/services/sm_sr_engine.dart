@@ -23,9 +23,8 @@ class SmSrEngine {
       } else {
         card.intervalDays = (card.intervalDays * card.easeFactor).round();
       }
-      card.easeFactor =
-          (card.easeFactor + 0.1 - (0.08 * (1 - scorePct / 100)))
-              .clamp(1.3, 2.5);
+      card.easeFactor = (card.easeFactor + 0.1 - (0.08 * (1 - scorePct / 100)))
+          .clamp(1.3, 2.5);
       card.repetitions++;
       card.masteryProven = !hintUsed && !transformUsed;
     } else {

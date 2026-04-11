@@ -12,10 +12,9 @@ class ConditionalCalculatorEditor extends StatelessWidget {
     required this.onRegenerate,
   });
 
-  List<Map<String, dynamic>> get _steps =>
-      (config['steps'] as List? ?? [])
-          .map((e) => Map<String, dynamic>.from(e as Map))
-          .toList();
+  List<Map<String, dynamic>> get _steps => (config['steps'] as List? ?? [])
+      .map((e) => Map<String, dynamic>.from(e as Map))
+      .toList();
 
   void _updateStep(int index, Map<String, dynamic> step) {
     final steps = _steps;
@@ -37,7 +36,7 @@ class ConditionalCalculatorEditor extends StatelessWidget {
       'question': '',
       'type': 'choice',
       'options': [
-        {'label': '', 'next': 'result', 'value': ''}
+        {'label': '', 'next': 'result', 'value': ''},
       ],
     });
     onConfigChanged({...config, 'steps': steps});
@@ -47,8 +46,7 @@ class ConditionalCalculatorEditor extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final steps = _steps;
-    final resultTemplate =
-        config['result_template'] as String? ?? '';
+    final resultTemplate = config['result_template'] as String? ?? '';
     final currency = config['currency'] as String? ?? '';
 
     return Column(
@@ -57,9 +55,12 @@ class ConditionalCalculatorEditor extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             children: [
-              Text('Edit Steps',
-                  style: theme.textTheme.titleMedium
-                      ?.copyWith(fontWeight: FontWeight.bold)),
+              Text(
+                'Edit Steps',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const Spacer(),
               TextButton.icon(
                 onPressed: onRegenerate,
@@ -103,10 +104,11 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                             children: [
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 8, vertical: 2),
+                                  horizontal: 8,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
-                                  color:
-                                      theme.colorScheme.primaryContainer,
+                                  color: theme.colorScheme.primaryContainer,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Text(
@@ -114,26 +116,26 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 11,
                                     fontWeight: FontWeight.bold,
-                                    color: theme
-                                        .colorScheme.onPrimaryContainer,
+                                    color: theme.colorScheme.onPrimaryContainer,
                                   ),
                                 ),
                               ),
                               const SizedBox(width: 8),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 1),
+                                  horizontal: 6,
+                                  vertical: 1,
+                                ),
                                 decoration: BoxDecoration(
-                                  color: theme.colorScheme
-                                      .secondaryContainer,
+                                  color: theme.colorScheme.secondaryContainer,
                                   borderRadius: BorderRadius.circular(4),
                                 ),
                                 child: Text(
                                   stepType,
                                   style: TextStyle(
                                     fontSize: 10,
-                                    color: theme.colorScheme
-                                        .onSecondaryContainer,
+                                    color:
+                                        theme.colorScheme.onSecondaryContainer,
                                   ),
                                 ),
                               ),
@@ -141,43 +143,42 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                               IconButton(
                                 icon: const Icon(Icons.edit, size: 18),
                                 onPressed: () => _showStepEditor(
-                                    context, idx, step, options),
+                                  context,
+                                  idx,
+                                  step,
+                                  options,
+                                ),
                               ),
                             ],
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            question.isNotEmpty
-                                ? question
-                                : '(empty question)',
+                            question.isNotEmpty ? question : '(empty question)',
                             style: theme.textTheme.bodyMedium,
                           ),
                           if (options.isNotEmpty) ...[
                             const SizedBox(height: 6),
                             ...options.map((opt) {
-                              final label =
-                                  opt['label'] as String? ?? '';
-                              final next =
-                                  opt['next'] as String? ?? '';
+                              final label = opt['label'] as String? ?? '';
+                              final next = opt['next'] as String? ?? '';
                               final price = opt['price'] as num?;
 
                               return Padding(
-                                padding:
-                                    const EdgeInsets.only(bottom: 2),
+                                padding: const EdgeInsets.only(bottom: 2),
                                 child: Row(
                                   children: [
-                                    Icon(Icons.arrow_right,
-                                        size: 16,
-                                        color:
-                                            theme.colorScheme.outline),
+                                    Icon(
+                                      Icons.arrow_right,
+                                      size: 16,
+                                      color: theme.colorScheme.outline,
+                                    ),
                                     Expanded(
                                       child: Text(
-                                        label.isNotEmpty
-                                            ? label
-                                            : '(option)',
+                                        label.isNotEmpty ? label : '(option)',
                                         style: TextStyle(
                                           fontSize: 13,
-                                          color: theme.colorScheme
+                                          color: theme
+                                              .colorScheme
                                               .onSurfaceVariant,
                                         ),
                                       ),
@@ -187,8 +188,7 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                         '+$price',
                                         style: TextStyle(
                                           fontSize: 12,
-                                          color: theme
-                                              .colorScheme.primary,
+                                          color: theme.colorScheme.primary,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -197,8 +197,7 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                       '→ $next',
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color:
-                                            theme.colorScheme.outline,
+                                        color: theme.colorScheme.outline,
                                       ),
                                     ),
                                   ],
@@ -218,15 +217,12 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                 label: const Text('Add Step'),
               ),
               const SizedBox(height: 16),
-              Text('Result Template',
-                  style: theme.textTheme.titleSmall),
+              Text('Result Template', style: theme.textTheme.titleSmall),
               const SizedBox(height: 8),
               TextField(
-                controller:
-                    TextEditingController(text: resultTemplate),
+                controller: TextEditingController(text: resultTemplate),
                 decoration: const InputDecoration(
-                  hintText:
-                      'Your {alteration_type} will cost {price}',
+                  hintText: 'Your {alteration_type} will cost {price}',
                 ),
                 onChanged: (v) =>
                     onConfigChanged({...config, 'result_template': v}),
@@ -234,10 +230,8 @@ class ConditionalCalculatorEditor extends StatelessWidget {
               const SizedBox(height: 12),
               TextField(
                 controller: TextEditingController(text: currency),
-                decoration:
-                    const InputDecoration(labelText: 'Currency symbol'),
-                onChanged: (v) =>
-                    onConfigChanged({...config, 'currency': v}),
+                decoration: const InputDecoration(labelText: 'Currency symbol'),
+                onChanged: (v) => onConfigChanged({...config, 'currency': v}),
               ),
             ],
           ),
@@ -246,10 +240,15 @@ class ConditionalCalculatorEditor extends StatelessWidget {
     );
   }
 
-  void _showStepEditor(BuildContext context, int idx,
-      Map<String, dynamic> step, List<Map<String, dynamic>> options) {
+  void _showStepEditor(
+    BuildContext context,
+    int idx,
+    Map<String, dynamic> step,
+    List<Map<String, dynamic>> options,
+  ) {
     final qCtrl = TextEditingController(
-        text: step['question'] as String? ?? '');
+      text: step['question'] as String? ?? '',
+    );
 
     showModalBottomSheet(
       context: context,
@@ -258,7 +257,11 @@ class ConditionalCalculatorEditor extends StatelessWidget {
         builder: (ctx, setSheetState) {
           return Padding(
             padding: EdgeInsets.fromLTRB(
-                16, 16, 16, MediaQuery.of(ctx).viewInsets.bottom + 16),
+              16,
+              16,
+              16,
+              MediaQuery.of(ctx).viewInsets.bottom + 16,
+            ),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -266,23 +269,24 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                 children: [
                   TextField(
                     controller: qCtrl,
-                    decoration:
-                        const InputDecoration(labelText: 'Question'),
+                    decoration: const InputDecoration(labelText: 'Question'),
                     maxLines: 2,
                   ),
                   const SizedBox(height: 12),
-                  Text('Options',
-                      style: Theme.of(ctx).textTheme.titleSmall),
+                  Text('Options', style: Theme.of(ctx).textTheme.titleSmall),
                   const SizedBox(height: 8),
                   ...options.asMap().entries.map((e) {
                     final oIdx = e.key;
                     final opt = e.value;
                     final labelCtrl = TextEditingController(
-                        text: opt['label'] as String? ?? '');
+                      text: opt['label'] as String? ?? '',
+                    );
                     final nextCtrl = TextEditingController(
-                        text: opt['next'] as String? ?? 'result');
+                      text: opt['next'] as String? ?? 'result',
+                    );
                     final priceCtrl = TextEditingController(
-                        text: (opt['price'] as num?)?.toString() ?? '');
+                      text: (opt['price'] as num?)?.toString() ?? '',
+                    );
 
                     return Card(
                       margin: const EdgeInsets.only(bottom: 8),
@@ -296,8 +300,8 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                   child: TextField(
                                     controller: labelCtrl,
                                     decoration: InputDecoration(
-                                        labelText:
-                                            'Label ${oIdx + 1}'),
+                                      labelText: 'Label ${oIdx + 1}',
+                                    ),
                                     onChanged: (v) {
                                       options[oIdx] = {
                                         ...options[oIdx],
@@ -307,8 +311,7 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                   ),
                                 ),
                                 IconButton(
-                                  icon: const Icon(Icons.delete,
-                                      size: 18),
+                                  icon: const Icon(Icons.delete, size: 18),
                                   onPressed: () {
                                     setSheetState(() {
                                       options.removeAt(oIdx);
@@ -323,7 +326,8 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                   child: TextField(
                                     controller: nextCtrl,
                                     decoration: const InputDecoration(
-                                        labelText: 'Next step ID'),
+                                      labelText: 'Next step ID',
+                                    ),
                                     onChanged: (v) {
                                       options[oIdx] = {
                                         ...options[oIdx],
@@ -337,16 +341,14 @@ class ConditionalCalculatorEditor extends StatelessWidget {
                                   width: 80,
                                   child: TextField(
                                     controller: priceCtrl,
-                                    decoration:
-                                        const InputDecoration(
-                                            labelText: 'Price'),
-                                    keyboardType:
-                                        TextInputType.number,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Price',
+                                    ),
+                                    keyboardType: TextInputType.number,
                                     onChanged: (v) {
                                       options[oIdx] = {
                                         ...options[oIdx],
-                                        'price':
-                                            double.tryParse(v),
+                                        'price': double.tryParse(v),
                                       };
                                     },
                                   ),

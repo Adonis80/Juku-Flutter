@@ -37,8 +37,9 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
   }
 
   Future<void> _load() async {
-    final leaderboard =
-        await ChallengeService.instance.getLeaderboard(widget.challengeId);
+    final leaderboard = await ChallengeService.instance.getLeaderboard(
+      widget.challengeId,
+    );
     final streak = await ChallengeService.instance.getCurrentStreak();
 
     if (mounted) {
@@ -55,7 +56,8 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
     if (result == null) return;
 
     final emoji = widget.correct == true ? '\u{2705}' : '\u{274C}';
-    final text = 'Juku Daily Challenge\n'
+    final text =
+        'Juku Daily Challenge\n'
         '$emoji Score: ${widget.score ?? 0}\n'
         '\u{1F3C6} Rank: #${result.rank} (top ${result.percentile}%)\n'
         '\u{1F525} Streak: ${result.streak} days\n'
@@ -113,14 +115,12 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
             Text(
               isCorrect ? '\u{1F389}' : '\u{1F614}',
               style: const TextStyle(fontSize: 48),
-            )
-                .animate()
-                .scale(
-                  begin: const Offset(0, 0),
-                  end: const Offset(1, 1),
-                  duration: 500.ms,
-                  curve: Curves.elasticOut,
-                ),
+            ).animate().scale(
+              begin: const Offset(0, 0),
+              end: const Offset(1, 1),
+              duration: 500.ms,
+              curve: Curves.elasticOut,
+            ),
             const SizedBox(height: 12),
             Text(
               isCorrect ? 'Correct!' : 'Not quite...',
@@ -151,9 +151,7 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
                   icon: Icons.trending_up,
                 ),
               ],
-            )
-                .animate()
-                .fadeIn(delay: 300.ms, duration: 400.ms),
+            ).animate().fadeIn(delay: 300.ms, duration: 400.ms),
             const SizedBox(height: 16),
 
             // Streak + XP
@@ -161,8 +159,10 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.orange.withValues(alpha: 0.15),
                     borderRadius: BorderRadius.circular(12),
@@ -170,8 +170,7 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Text('\u{1F525}',
-                          style: TextStyle(fontSize: 16)),
+                      const Text('\u{1F525}', style: TextStyle(fontSize: 16)),
                       const SizedBox(width: 4),
                       Text(
                         '$_currentStreak day streak',
@@ -185,8 +184,10 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
                 ),
                 const SizedBox(width: 12),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: theme.colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(12),
@@ -201,9 +202,7 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
                   ),
                 ),
               ],
-            )
-                .animate()
-                .fadeIn(delay: 500.ms, duration: 400.ms),
+            ).animate().fadeIn(delay: 500.ms, duration: 400.ms),
 
             if (widget.timeMs != null) ...[
               const SizedBox(height: 8),
@@ -227,8 +226,9 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
       children: [
         Text(
           'Global Leaderboard',
-          style: theme.textTheme.titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 8),
         if (_leaderboard.isEmpty)
@@ -242,8 +242,9 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
           ..._leaderboard.indexed.map((entry) {
             final (index, attempt) = entry;
             final rank = index + 1;
-            final name = (attempt['profiles']
-                    as Map<String, dynamic>?)?['display_name'] as String? ??
+            final name =
+                (attempt['profiles'] as Map<String, dynamic>?)?['display_name']
+                    as String? ??
                 'Unknown';
             final score = attempt['score'] as int? ?? 0;
             final timeMs = attempt['time_ms'] as int? ?? 0;
@@ -257,8 +258,7 @@ class _ChallengeResultScreenState extends State<ChallengeResultScreen> {
                   width: 32,
                   child: Center(
                     child: medalEmoji != null
-                        ? Text(medalEmoji,
-                            style: const TextStyle(fontSize: 20))
+                        ? Text(medalEmoji, style: const TextStyle(fontSize: 20))
                         : Text(
                             '#$rank',
                             style: TextStyle(
@@ -309,17 +309,11 @@ class _StatTile extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           value,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
+          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
         Text(
           label,
-          style: TextStyle(
-            fontSize: 11,
-            color: theme.colorScheme.outline,
-          ),
+          style: TextStyle(fontSize: 11, color: theme.colorScheme.outline),
         ),
       ],
     );

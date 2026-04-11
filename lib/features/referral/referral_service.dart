@@ -16,12 +16,12 @@ class ReferralStats {
   });
 
   factory ReferralStats.fromJson(Map<String, dynamic> json) => ReferralStats(
-        userId: json['user_id'] as String,
-        username: json['username'] as String?,
-        displayName: json['display_name'] as String?,
-        totalReferrals: json['total_referrals'] as int? ?? 0,
-        rewardedCount: json['rewarded_count'] as int? ?? 0,
-      );
+    userId: json['user_id'] as String,
+    username: json['username'] as String?,
+    displayName: json['display_name'] as String?,
+    totalReferrals: json['total_referrals'] as int? ?? 0,
+    rewardedCount: json['rewarded_count'] as int? ?? 0,
+  );
 }
 
 class Referral {
@@ -46,17 +46,17 @@ class Referral {
   });
 
   factory Referral.fromJson(Map<String, dynamic> json) => Referral(
-        id: json['id'] as String,
-        referrerId: json['referrer_id'] as String,
-        referredId: json['referred_id'] as String,
-        referralCode: json['referral_code'] as String,
-        juiceRewarded: json['juice_rewarded'] as bool? ?? false,
-        xpRewarded: json['xp_rewarded'] as bool? ?? false,
-        createdAt: DateTime.parse(json['created_at'] as String),
-        referredUsername:
-            (json['referred_profile'] as Map<String, dynamic>?)?['username']
-                as String?,
-      );
+    id: json['id'] as String,
+    referrerId: json['referrer_id'] as String,
+    referredId: json['referred_id'] as String,
+    referralCode: json['referral_code'] as String,
+    juiceRewarded: json['juice_rewarded'] as bool? ?? false,
+    xpRewarded: json['xp_rewarded'] as bool? ?? false,
+    createdAt: DateTime.parse(json['created_at'] as String),
+    referredUsername:
+        (json['referred_profile'] as Map<String, dynamic>?)?['username']
+            as String?,
+  );
 }
 
 /// Service for referral engine operations.
@@ -106,10 +106,7 @@ class ReferralService {
 
   /// Get the referral leaderboard (top 50).
   Future<List<ReferralStats>> getLeaderboard() async {
-    final rows = await _sb
-        .from('referral_leaderboard')
-        .select()
-        .limit(50);
+    final rows = await _sb.from('referral_leaderboard').select().limit(50);
     return rows.map((r) => ReferralStats.fromJson(r)).toList();
   }
 

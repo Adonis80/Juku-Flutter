@@ -59,10 +59,14 @@ class SmStreakService {
         if (hoursSince <= _gracePeriodHours) {
           // Within grace period — check if it's a new calendar day.
           final lastDate = DateTime(
-            lastSession.year, lastSession.month, lastSession.day,
+            lastSession.year,
+            lastSession.month,
+            lastSession.day,
           );
           final today = DateTime(
-            DateTime.now().year, DateTime.now().month, DateTime.now().day,
+            DateTime.now().year,
+            DateTime.now().month,
+            DateTime.now().day,
           );
           if (today.isAfter(lastDate)) {
             streakDays++;
@@ -76,9 +80,7 @@ class SmStreakService {
             // Consume freezes for missed days.
             await supabase
                 .from('skill_mode_user_languages')
-                .update({
-                  'streak_freezes': streakFreezes - daysMissed,
-                })
+                .update({'streak_freezes': streakFreezes - daysMissed})
                 .eq('user_id', userId)
                 .eq('language', language);
             streakDays++;
@@ -113,10 +115,7 @@ class SmStreakService {
         }
       }
 
-      return SmStreakResult(
-        streakDays: streakDays,
-        milestoneHit: milestone,
-      );
+      return SmStreakResult(streakDays: streakDays, milestoneHit: milestone);
     } catch (_) {
       return const SmStreakResult(streakDays: 0, milestoneHit: null);
     }
@@ -141,8 +140,9 @@ class SmStreakService {
       if (lastSessionAt == null) return 0;
 
       // Check if streak is still alive.
-      final hoursSince =
-          DateTime.now().difference(DateTime.parse(lastSessionAt)).inHours;
+      final hoursSince = DateTime.now()
+          .difference(DateTime.parse(lastSessionAt))
+          .inHours;
       if (hoursSince > _gracePeriodHours) return 0;
 
       return data['streak_days'] as int? ?? 0;
@@ -157,8 +157,5 @@ class SmStreakResult {
   final int streakDays;
   final int? milestoneHit;
 
-  const SmStreakResult({
-    required this.streakDays,
-    this.milestoneHit,
-  });
+  const SmStreakResult({required this.streakDays, this.milestoneHit});
 }

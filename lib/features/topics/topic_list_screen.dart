@@ -44,28 +44,29 @@ class TopicListScreen extends StatelessWidget {
                 ),
               ),
             ),
-            ...grouped[lang]!.map((ch) => Card(
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: theme.colorScheme.primaryContainer,
-                      child: Text(
-                        ch.flag,
-                        style: const TextStyle(fontSize: 18),
-                      ),
-                    ),
-                    title: Text(ch.name),
-                    subtitle: Text(
-                      ch.key,
-                      style: TextStyle(
-                          fontSize: 12, color: theme.colorScheme.outline),
-                    ),
-                    trailing: const Icon(Icons.chevron_right),
-                    onTap: () => context.push(
-                      '/topics/${ch.key}',
-                      extra: {'name': ch.name, 'flag': ch.flag},
+            ...grouped[lang]!.map(
+              (ch) => Card(
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: theme.colorScheme.primaryContainer,
+                    child: Text(ch.flag, style: const TextStyle(fontSize: 18)),
+                  ),
+                  title: Text(ch.name),
+                  subtitle: Text(
+                    ch.key,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: theme.colorScheme.outline,
                     ),
                   ),
-                )),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () => context.push(
+                    '/topics/${ch.key}',
+                    extra: {'name': ch.name, 'flag': ch.flag},
+                  ),
+                ),
+              ),
+            ),
           ],
         ],
       ),

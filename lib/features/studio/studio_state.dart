@@ -79,12 +79,10 @@ class StudioModule {
   });
 
   /// Primary color from branding, or default purple.
-  String get primaryColor =>
-      branding['primary_color'] as String? ?? '#8B5CF6';
+  String get primaryColor => branding['primary_color'] as String? ?? '#8B5CF6';
 
   /// Accent color from branding, or default amber.
-  String get accentColor =>
-      branding['accent_color'] as String? ?? '#F59E0B';
+  String get accentColor => branding['accent_color'] as String? ?? '#F59E0B';
 
   factory StudioModule.fromJson(Map<String, dynamic> json) {
     final profile = json['profiles'] as Map<String, dynamic>?;
@@ -120,7 +118,8 @@ class StudioModule {
 
 final myModulesProvider =
     AsyncNotifierProvider<MyModulesNotifier, List<StudioModule>>(
-        MyModulesNotifier.new);
+      MyModulesNotifier.new,
+    );
 
 class MyModulesNotifier extends AsyncNotifier<List<StudioModule>> {
   @override
@@ -134,7 +133,9 @@ class MyModulesNotifier extends AsyncNotifier<List<StudioModule>> {
         .eq('creator_id', user.id)
         .order('created_at', ascending: false);
 
-    return (data as List).map((e) => StudioModule.fromJson(e as Map<String, dynamic>)).toList();
+    return (data as List)
+        .map((e) => StudioModule.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> refresh() async {
@@ -150,7 +151,8 @@ class MyModulesNotifier extends AsyncNotifier<List<StudioModule>> {
 
 final communityModulesProvider =
     AsyncNotifierProvider<CommunityModulesNotifier, List<StudioModule>>(
-        CommunityModulesNotifier.new);
+      CommunityModulesNotifier.new,
+    );
 
 class CommunityModulesNotifier extends AsyncNotifier<List<StudioModule>> {
   @override
@@ -162,7 +164,9 @@ class CommunityModulesNotifier extends AsyncNotifier<List<StudioModule>> {
         .order('play_count', ascending: false)
         .limit(50);
 
-    return (data as List).map((e) => StudioModule.fromJson(e as Map<String, dynamic>)).toList();
+    return (data as List)
+        .map((e) => StudioModule.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> refresh() async {
@@ -171,8 +175,10 @@ class CommunityModulesNotifier extends AsyncNotifier<List<StudioModule>> {
   }
 }
 
-final moduleByIdProvider =
-    FutureProvider.family<StudioModule?, String>((ref, id) async {
+final moduleByIdProvider = FutureProvider.family<StudioModule?, String>((
+  ref,
+  id,
+) async {
   final data = await supabase
       .from('studio_modules')
       .select('*, profiles!studio_modules_creator_id_fkey(username, rank)')
@@ -197,17 +203,21 @@ Future<String> publishModule({
   final user = supabase.auth.currentUser;
   if (user == null) throw Exception('Not authenticated');
 
-  final result = await supabase.from('studio_modules').insert({
-    'creator_id': user.id,
-    'template_type': templateType.dbValue,
-    'title': title,
-    'description': description,
-    'config': config,
-    'published': true,
-    'domain': domain,
-    'branding': ?branding,
-    'cover_url': ?coverUrl,
-  }).select('id').single();
+  final result = await supabase
+      .from('studio_modules')
+      .insert({
+        'creator_id': user.id,
+        'template_type': templateType.dbValue,
+        'title': title,
+        'description': description,
+        'config': config,
+        'published': true,
+        'domain': domain,
+        'branding': ?branding,
+        'cover_url': ?coverUrl,
+      })
+      .select('id')
+      .single();
 
   // Award XP
   await supabase.from('xp_events').insert({

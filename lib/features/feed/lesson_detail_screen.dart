@@ -31,7 +31,8 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     final data = await supabase
         .from('lessons')
         .select(
-            'id, title, content, example, topic, subtopic, domain, language_pair, score, upvote_count, downvote_count, created_at, author_id, profiles!lessons_author_id_fkey(username, display_name, level, rank, photo_url)')
+          'id, title, content, example, topic, subtopic, domain, language_pair, score, upvote_count, downvote_count, created_at, author_id, profiles!lessons_author_id_fkey(username, display_name, level, rank, photo_url)',
+        )
         .eq('id', widget.lessonId)
         .maybeSingle();
 
@@ -93,10 +94,10 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     }
 
     try {
-      final result = await supabase.rpc('cast_lesson_vote', params: {
-        'p_lesson_id': widget.lessonId,
-        'p_vote_type': voteType,
-      });
+      final result = await supabase.rpc(
+        'cast_lesson_vote',
+        params: {'p_lesson_id': widget.lessonId, 'p_vote_type': voteType},
+      );
 
       if (mounted && result is List && result.isNotEmpty) {
         final row = result[0] as Map<String, dynamic>;
@@ -129,123 +130,115 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Lesson'),
-        actions: [
-          BookmarkButton(lessonId: widget.lessonId),
-        ],
+        actions: [BookmarkButton(lessonId: widget.lessonId)],
       ),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _lesson == null
-              ? const Center(child: Text('Lesson not found'))
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+          ? const Center(child: Text('Lesson not found'))
+          : SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Badges row
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
                     children: [
-                      // Badges row
-                      Wrap(
-                        spacing: 8,
-                        runSpacing: 4,
-                        children: [
-                          _Badge(
-                            label: _lesson!['topic'] as String? ?? '',
-                            color: theme.colorScheme.primaryContainer,
-                            textColor: theme.colorScheme.onPrimaryContainer,
-                          ),
-                          if (_lesson!['language_pair'] != null)
-                            _Badge(
-                              label: _lesson!['language_pair'] as String,
-                              color: theme.colorScheme.secondaryContainer,
-                              textColor:
-                                  theme.colorScheme.onSecondaryContainer,
-                            ),
-                          if (_lesson!['subtopic'] != null)
-                            _Badge(
-                              label: _lesson!['subtopic'] as String,
-                              color: theme.colorScheme.tertiaryContainer,
-                              textColor:
-                                  theme.colorScheme.onTertiaryContainer,
-                            ),
-                        ],
+                      _Badge(
+                        label: _lesson!['topic'] as String? ?? '',
+                        color: theme.colorScheme.primaryContainer,
+                        textColor: theme.colorScheme.onPrimaryContainer,
                       ),
-                      const SizedBox(height: 12),
-
-                      // Title
-                      Text(
-                        _lesson!['title'] as String? ?? '',
-                        style: theme.textTheme.headlineSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
+                      if (_lesson!['language_pair'] != null)
+                        _Badge(
+                          label: _lesson!['language_pair'] as String,
+                          color: theme.colorScheme.secondaryContainer,
+                          textColor: theme.colorScheme.onSecondaryContainer,
                         ),
-                      ).animate().fadeIn(duration: 300.ms),
-                      const SizedBox(height: 16),
-
-                      // Content
-                      Text(
-                        _lesson!['content'] as String? ?? '',
-                        style: theme.textTheme.bodyLarge?.copyWith(
-                          height: 1.6,
+                      if (_lesson!['subtopic'] != null)
+                        _Badge(
+                          label: _lesson!['subtopic'] as String,
+                          color: theme.colorScheme.tertiaryContainer,
+                          textColor: theme.colorScheme.onTertiaryContainer,
                         ),
-                        textDirection: TextDirection.ltr,
-                      ),
-                      const SizedBox(height: 16),
-
-                      // Example
-                      if (_lesson!['example'] != null &&
-                          (_lesson!['example'] as String).isNotEmpty) ...[
-                        Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.surfaceContainerHighest,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border(
-                              left: BorderSide(
-                                color: theme.colorScheme.primary,
-                                width: 3,
-                              ),
-                            ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Example',
-                                style: theme.textTheme.labelMedium?.copyWith(
-                                  color: theme.colorScheme.primary,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                _lesson!['example'] as String,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-
-                      // Vote buttons
-                      _VoteBar(
-                        score: _lesson!['score'] as int? ?? 0,
-                        upvotes: _lesson!['upvote_count'] as int? ?? 0,
-                        userVote: _userVote,
-                        onVote: _castVote,
-                      ),
-                      const SizedBox(height: 20),
-
-                      // Author card
-                      _AuthorCard(
-                        author:
-                            _lesson!['profiles'] as Map<String, dynamic>? ??
-                                {},
-                      ),
                     ],
                   ),
-                ),
+                  const SizedBox(height: 12),
+
+                  // Title
+                  Text(
+                    _lesson!['title'] as String? ?? '',
+                    style: theme.textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ).animate().fadeIn(duration: 300.ms),
+                  const SizedBox(height: 16),
+
+                  // Content
+                  Text(
+                    _lesson!['content'] as String? ?? '',
+                    style: theme.textTheme.bodyLarge?.copyWith(height: 1.6),
+                    textDirection: TextDirection.ltr,
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Example
+                  if (_lesson!['example'] != null &&
+                      (_lesson!['example'] as String).isNotEmpty) ...[
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: theme.colorScheme.surfaceContainerHighest,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border(
+                          left: BorderSide(
+                            color: theme.colorScheme.primary,
+                            width: 3,
+                          ),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Example',
+                            style: theme.textTheme.labelMedium?.copyWith(
+                              color: theme.colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            _lesson!['example'] as String,
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontStyle: FontStyle.italic,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
+
+                  // Vote buttons
+                  _VoteBar(
+                    score: _lesson!['score'] as int? ?? 0,
+                    upvotes: _lesson!['upvote_count'] as int? ?? 0,
+                    userVote: _userVote,
+                    onVote: _castVote,
+                  ),
+                  const SizedBox(height: 20),
+
+                  // Author card
+                  _AuthorCard(
+                    author: _lesson!['profiles'] as Map<String, dynamic>? ?? {},
+                  ),
+                ],
+              ),
+            ),
     );
   }
 }
@@ -327,10 +320,7 @@ class _VoteBar extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           '$upvotes',
-          style: TextStyle(
-            fontSize: 13,
-            color: theme.colorScheme.outline,
-          ),
+          style: TextStyle(fontSize: 13, color: theme.colorScheme.outline),
         ),
       ],
     );

@@ -99,10 +99,10 @@ class SmBeatCreatorResult extends StatelessWidget {
                   '🎉',
                   style: TextStyle(fontSize: 64),
                 ).animate().scale(
-                      begin: const Offset(0.0, 0.0),
-                      end: const Offset(1.0, 1.0),
-                      curve: Curves.elasticOut,
-                    ),
+                  begin: const Offset(0.0, 0.0),
+                  end: const Offset(1.0, 1.0),
+                  curve: Curves.elasticOut,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   'You beat $creatorName!',
@@ -115,10 +115,7 @@ class SmBeatCreatorResult extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   '$playerScore% vs $targetScore%',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                  ),
+                  style: const TextStyle(fontSize: 18, color: Colors.white),
                 ),
                 const SizedBox(height: 12),
                 const Text(
@@ -141,10 +138,7 @@ class SmBeatCreatorResult extends StatelessWidget {
                 ),
               ] else ...[
                 // Didn't beat.
-                const Text(
-                  '😤',
-                  style: TextStyle(fontSize: 64),
-                ),
+                const Text('😤', style: TextStyle(fontSize: 64)),
                 const SizedBox(height: 12),
                 Text(
                   'So close!',

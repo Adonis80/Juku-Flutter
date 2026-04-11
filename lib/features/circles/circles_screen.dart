@@ -105,15 +105,15 @@ class _CirclesScreenState extends State<CirclesScreen> {
 
       if (mounted) {
         setState(() => _circles.insert(0, circle));
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Circle "$name" created!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Circle "$name" created!')));
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -134,9 +134,9 @@ class _CirclesScreenState extends State<CirclesScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -170,110 +170,111 @@ class _CirclesScreenState extends State<CirclesScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : (_circles.isEmpty && _invitations.isEmpty)
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.group_outlined,
-                          size: 64, color: theme.colorScheme.outline),
-                      const SizedBox(height: 16),
-                      Text(
-                        'No circles yet',
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Create a circle to learn with up to 5 friends',
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: theme.colorScheme.outline,
-                        ),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.group_outlined,
+                    size: 64,
+                    color: theme.colorScheme.outline,
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView(
-                    padding: const EdgeInsets.all(12),
-                    children: [
-                      // Invitations
-                      if (_invitations.isNotEmpty) ...[
-                        Text(
-                          'Invitations',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
+                  const SizedBox(height: 16),
+                  Text(
+                    'No circles yet',
+                    style: theme.textTheme.titleMedium?.copyWith(
+                      color: theme.colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Create a circle to learn with up to 5 friends',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: theme.colorScheme.outline,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView(
+                padding: const EdgeInsets.all(12),
+                children: [
+                  // Invitations
+                  if (_invitations.isNotEmpty) ...[
+                    Text(
+                      'Invitations',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ..._invitations.map(
+                      (c) => Card(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor:
+                                theme.colorScheme.tertiaryContainer,
+                            child: const Icon(Icons.mail),
+                          ),
+                          title: Text(c['name'] as String? ?? 'Circle'),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.check, color: Colors.green),
+                                onPressed: () => _acceptInvite(c),
+                              ),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.close,
+                                  color: theme.colorScheme.error,
+                                ),
+                                onPressed: () => _declineInvite(c),
+                              ),
+                            ],
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        ..._invitations.map((c) => Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor:
-                                      theme.colorScheme.tertiaryContainer,
-                                  child: const Icon(Icons.mail),
-                                ),
-                                title:
-                                    Text(c['name'] as String? ?? 'Circle'),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.check,
-                                          color: Colors.green),
-                                      onPressed: () => _acceptInvite(c),
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.close,
-                                          color: theme.colorScheme.error),
-                                      onPressed: () => _declineInvite(c),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )),
-                        const SizedBox(height: 16),
-                      ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
 
-                      // Circles
-                      if (_circles.isNotEmpty) ...[
-                        Text(
-                          'Your Circles',
-                          style: theme.textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        ..._circles.map((c) => Card(
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundColor:
-                                      theme.colorScheme.primaryContainer,
-                                  child: Text(
-                                    (c['name'] as String? ?? '?')[0]
-                                        .toUpperCase(),
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: theme
-                                          .colorScheme.onPrimaryContainer,
-                                    ),
-                                  ),
-                                ),
-                                title: Text(
-                                    c['name'] as String? ?? 'Circle'),
-                                subtitle: const Text('Max 5 members'),
-                                trailing:
-                                    const Icon(Icons.chevron_right),
-                                onTap: () =>
-                                    context.push('/circles/${c['id']}'),
+                  // Circles
+                  if (_circles.isNotEmpty) ...[
+                    Text(
+                      'Your Circles',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    ..._circles.map(
+                      (c) => Card(
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: theme.colorScheme.primaryContainer,
+                            child: Text(
+                              (c['name'] as String? ?? '?')[0].toUpperCase(),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: theme.colorScheme.onPrimaryContainer,
                               ),
-                            )),
-                      ],
-                    ],
-                  ),
-                ),
+                            ),
+                          ),
+                          title: Text(c['name'] as String? ?? 'Circle'),
+                          subtitle: const Text('Max 5 members'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => context.push('/circles/${c['id']}'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
     );
   }
 }

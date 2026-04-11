@@ -48,8 +48,9 @@ class _SmConversationLiveScreenState
   Future<void> _playTts() async {
     setState(() => _isPlayingTts = true);
     try {
-      final audioBytes =
-          await ref.read(conversationProvider.notifier).synthesizeLastReply();
+      final audioBytes = await ref
+          .read(conversationProvider.notifier)
+          .synthesizeLastReply();
       if (audioBytes != null && mounted) {
         await _audioPlayer.play(BytesSource(audioBytes));
         _audioPlayer.onPlayerComplete.first.then((_) {
@@ -64,8 +65,9 @@ class _SmConversationLiveScreenState
   }
 
   Future<void> _endConversation() async {
-    final result =
-        await ref.read(conversationProvider.notifier).endConversation();
+    final result = await ref
+        .read(conversationProvider.notifier)
+        .endConversation();
     if (result != null && mounted) {
       context.pushReplacement('/skill/conversation/result');
     }
@@ -86,9 +88,7 @@ class _SmConversationLiveScreenState
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          conversation?.scenario?.title ?? 'Conversation',
-        ),
+        title: Text(conversation?.scenario?.title ?? 'Conversation'),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => _showEndDialog(),
@@ -134,11 +134,11 @@ class _SmConversationLiveScreenState
                       final isUser = msg.role == 'user';
 
                       return _ChatBubble(
-                        content: msg.content,
-                        isUser: isUser,
-                        onPlayTts: !isUser ? _playTts : null,
-                        isPlayingTts: !isUser && _isPlayingTts,
-                      )
+                            content: msg.content,
+                            isUser: isUser,
+                            onPlayTts: !isUser ? _playTts : null,
+                            isPlayingTts: !isUser && _isPlayingTts,
+                          )
                           .animate()
                           .fadeIn(duration: const Duration(milliseconds: 200))
                           .slideX(
@@ -189,9 +189,7 @@ class _SmConversationLiveScreenState
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('End conversation?'),
-        content: const Text(
-          'Your conversation will be scored and XP awarded.',
-        ),
+        content: const Text('Your conversation will be scored and XP awarded.'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
@@ -264,7 +262,11 @@ class _ScoreChip extends StatelessWidget {
         const SizedBox(width: 4),
         Text(
           '$label: $score',
-          style: TextStyle(fontSize: 12, color: color, fontWeight: FontWeight.w600),
+          style: TextStyle(
+            fontSize: 12,
+            color: color,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ],
     );
@@ -338,8 +340,9 @@ class _ChatBubble extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
-        mainAxisAlignment:
-            isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+        mainAxisAlignment: isUser
+            ? MainAxisAlignment.end
+            : MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           if (!isUser) ...[
@@ -454,10 +457,7 @@ class _CorrectionsBar extends StatelessWidget {
               padding: const EdgeInsets.only(top: 2),
               child: Text(
                 '• $c',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: Color(0xFF92400E),
-                ),
+                style: const TextStyle(fontSize: 12, color: Color(0xFF92400E)),
               ),
             ),
           ),
@@ -488,7 +488,8 @@ class _BottomControls extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isRecording = phase == ConversationPhase.recording;
-    final isProcessing = phase == ConversationPhase.transcribing ||
+    final isProcessing =
+        phase == ConversationPhase.transcribing ||
         phase == ConversationPhase.thinking;
 
     return SafeArea(
@@ -580,8 +581,8 @@ class _BottomControls extends StatelessWidget {
                       color: isRecording
                           ? theme.colorScheme.error
                           : isProcessing
-                              ? theme.colorScheme.surfaceContainerHighest
-                              : theme.colorScheme.primary,
+                          ? theme.colorScheme.surfaceContainerHighest
+                          : theme.colorScheme.primary,
                       boxShadow: [
                         if (isRecording)
                           BoxShadow(
@@ -629,8 +630,9 @@ class _WaveformPainter extends CustomPainter {
 
     final barWidth = 4.0;
     final maxBars = (size.width / barWidth).floor();
-    final startIdx =
-        amplitudes.length > maxBars ? amplitudes.length - maxBars : 0;
+    final startIdx = amplitudes.length > maxBars
+        ? amplitudes.length - maxBars
+        : 0;
 
     for (var i = startIdx; i < amplitudes.length; i++) {
       final barIdx = i - startIdx;

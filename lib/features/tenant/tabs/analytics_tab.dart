@@ -25,8 +25,11 @@ class AnalyticsTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.analytics_outlined,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.analytics_outlined,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   'No analytics data yet',
@@ -88,8 +91,10 @@ class AnalyticsTab extends ConsumerWidget {
             const SizedBox(height: 24),
 
             // DAU chart (simple bar chart)
-            Text('Daily Active Users (30 days)',
-                style: theme.textTheme.titleSmall),
+            Text(
+              'Daily Active Users (30 days)',
+              style: theme.textTheme.titleSmall,
+            ),
             const SizedBox(height: 12),
             SizedBox(
               height: 160,
@@ -102,14 +107,12 @@ class AnalyticsTab extends ConsumerWidget {
             const SizedBox(height: 24),
 
             // Plays chart
-            Text('Content Plays (30 days)',
-                style: theme.textTheme.titleSmall),
+            Text('Content Plays (30 days)', style: theme.textTheme.titleSmall),
             const SizedBox(height: 12),
             SizedBox(
               height: 160,
               child: _BarChart(
-                values:
-                    snapshots.map((s) => s.totalPlays.toDouble()).toList(),
+                values: snapshots.map((s) => s.totalPlays.toDouble()).toList(),
                 color: Colors.orange,
               ),
             ).animate().fadeIn(delay: 500.ms),
@@ -119,8 +122,10 @@ class AnalyticsTab extends ConsumerWidget {
             // Cards count
             Card(
               child: ListTile(
-                leading:
-                    Icon(Icons.library_books, color: theme.colorScheme.primary),
+                leading: Icon(
+                  Icons.library_books,
+                  color: theme.colorScheme.primary,
+                ),
                 title: const Text('Total content cards'),
                 trailing: Text(
                   '${latest.totalCards}',
@@ -209,8 +214,7 @@ class _BarChart extends StatelessWidget {
       painter: _BarChartPainter(
         values: values,
         color: color,
-        backgroundColor:
-            Theme.of(context).colorScheme.surfaceContainerHighest,
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
       ),
       size: Size.infinite,
     );

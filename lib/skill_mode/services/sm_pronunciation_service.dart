@@ -75,7 +75,8 @@ class SmPronunciationResult {
     return SmPronunciationResult(
       overallScore: json['overallScore'] as int? ?? 0,
       grade: json['grade'] as String? ?? 'try_again',
-      phonemes: (json['phonemes'] as List?)
+      phonemes:
+          (json['phonemes'] as List?)
               ?.map((p) => SmPhonemeScore.fromJson(p as Map<String, dynamic>))
               .toList() ??
           [],

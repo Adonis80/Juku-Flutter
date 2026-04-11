@@ -84,41 +84,42 @@ class _LiveListScreenState extends State<LiveListScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _sessions.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.live_tv,
-                          size: 64, color: theme.colorScheme.outline),
-                      const SizedBox(height: 12),
-                      Text(
-                        'No live sessions right now',
-                        style: TextStyle(color: theme.colorScheme.outline),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Be the first to go live!',
-                        style: TextStyle(fontSize: 13),
-                      ),
-                    ],
+          ? Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.live_tv,
+                    size: 64,
+                    color: theme.colorScheme.outline,
                   ),
-                )
-              : RefreshIndicator(
-                  onRefresh: _load,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _sessions.length,
-                    itemBuilder: (_, index) {
-                      final session = _sessions[index];
-                      return _LiveSessionCard(session: session)
-                          .animate()
-                          .fadeIn(
-                            delay: Duration(milliseconds: index * 80),
-                            duration: 300.ms,
-                          );
-                    },
+                  const SizedBox(height: 12),
+                  Text(
+                    'No live sessions right now',
+                    style: TextStyle(color: theme.colorScheme.outline),
                   ),
-                ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Be the first to go live!',
+                    style: TextStyle(fontSize: 13),
+                  ),
+                ],
+              ),
+            )
+          : RefreshIndicator(
+              onRefresh: _load,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _sessions.length,
+                itemBuilder: (_, index) {
+                  final session = _sessions[index];
+                  return _LiveSessionCard(session: session).animate().fadeIn(
+                    delay: Duration(milliseconds: index * 80),
+                    duration: 300.ms,
+                  );
+                },
+              ),
+            ),
     );
   }
 }
@@ -138,9 +139,7 @@ class _LiveSessionCard extends StatelessWidget {
         onTap: () {
           GoRouter.of(context).push(
             '/live/${session.id}',
-            extra: {
-              'isHost': supabase.auth.currentUser?.id == session.hostId,
-            },
+            extra: {'isHost': supabase.auth.currentUser?.id == session.hostId},
           );
         },
         borderRadius: BorderRadius.circular(12),
@@ -166,9 +165,7 @@ class _LiveSessionCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      session.title.isNotEmpty
-                          ? session.title
-                          : 'Live Session',
+                      session.title.isNotEmpty ? session.title : 'Live Session',
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
@@ -193,8 +190,11 @@ class _LiveSessionCard extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.visibility,
-                          size: 14, color: theme.colorScheme.outline),
+                      Icon(
+                        Icons.visibility,
+                        size: 14,
+                        color: theme.colorScheme.outline,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         '${session.viewerCount}',

@@ -13,13 +13,12 @@ final _service = SmConversationService.instance;
 
 final conversationScenariosProvider =
     FutureProvider.family<List<ConversationScenario>, String>(
-  (ref, language) => _service.getScenarios(language: language),
-);
+      (ref, language) => _service.getScenarios(language: language),
+    );
 
 // ── Conversation History ──
 
-final conversationHistoryProvider =
-    FutureProvider<List<AiConversation>>((ref) {
+final conversationHistoryProvider = FutureProvider<List<AiConversation>>((ref) {
   final user = ref.watch(currentUserProvider);
   if (user == null) return [];
   return _service.getHistory(userId: user.id);
@@ -58,10 +57,9 @@ class ConversationState {
   int get avgVocabulary =>
       scoredTurns > 0 ? runningVocabulary ~/ scoredTurns : 0;
   int get avgGrammar => scoredTurns > 0 ? runningGrammar ~/ scoredTurns : 0;
-  int get avgOverall =>
-      scoredTurns > 0
-          ? ((avgFluency + avgVocabulary + avgGrammar) / 3).round()
-          : 0;
+  int get avgOverall => scoredTurns > 0
+      ? ((avgFluency + avgVocabulary + avgGrammar) / 3).round()
+      : 0;
 
   ConversationState copyWith({
     AiConversation? conversation,
@@ -138,16 +136,13 @@ class ConversationNotifier extends Notifier<ConversationState> {
 
     await _service.startRecording();
 
-    _amplitudeTimer = Timer.periodic(
-      const Duration(milliseconds: 50),
-      (_) async {
-        final amp = await _service.getAmplitude();
-        final normalized = ((amp.current + 60) / 60).clamp(0.0, 1.0);
-        state = state.copyWith(
-          amplitudes: [...state.amplitudes, normalized],
-        );
-      },
-    );
+    _amplitudeTimer = Timer.periodic(const Duration(milliseconds: 50), (
+      _,
+    ) async {
+      final amp = await _service.getAmplitude();
+      final normalized = ((amp.current + 60) / 60).clamp(0.0, 1.0);
+      state = state.copyWith(amplitudes: [...state.amplitudes, normalized]);
+    });
   }
 
   Future<void> stopRecordingAndProcess() async {
@@ -281,13 +276,12 @@ class ConversationNotifier extends Notifier<ConversationState> {
 
 final conversationProvider =
     NotifierProvider<ConversationNotifier, ConversationState>(
-  ConversationNotifier.new,
-);
+      ConversationNotifier.new,
+    );
 
 // ── API Keys ──
 
-final aiApiKeysProvider =
-    FutureProvider<List<AiApiKey>>((ref) {
+final aiApiKeysProvider = FutureProvider<List<AiApiKey>>((ref) {
   final user = ref.watch(currentUserProvider);
   if (user == null) return [];
   return _service.getApiKeys(user.id);

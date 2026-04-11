@@ -35,9 +35,7 @@ class SmCompetitionService {
         .eq('competition_id', competitionId)
         .order('quality_score', ascending: false);
 
-    return (data as List)
-        .map((j) => SmCompetitionEntry.fromJson(j))
-        .toList();
+    return (data as List).map((j) => SmCompetitionEntry.fromJson(j)).toList();
   }
 
   /// Fetch the current user's entry for a competition (null if none).
@@ -65,27 +63,29 @@ class SmCompetitionService {
 
     final data = await supabase
         .from('skill_mode_competition_entries')
-        .upsert(
-          {
-            'competition_id': competitionId,
-            'translator_id': userId,
-            'translations': translations.map((t) => t.toJson()).toList(),
-            'style_note': styleNote,
-            'submitted_at': DateTime.now().toIso8601String(),
-          },
-          onConflict: 'competition_id,translator_id',
-        )
+        .upsert({
+          'competition_id': competitionId,
+          'translator_id': userId,
+          'translations': translations.map((t) => t.toJson()).toList(),
+          'style_note': styleNote,
+          'submitted_at': DateTime.now().toIso8601String(),
+        }, onConflict: 'competition_id,translator_id')
         .select('*, profiles(username, photo_url)')
         .single();
 
     // Increment entry count on competition.
-    await supabase.rpc('increment_field', params: {
-      'table_name': 'skill_mode_translation_competitions',
-      'row_id': competitionId,
-      'field_name': 'entry_count',
-    }).catchError((_) {
-      // RPC may not exist yet — competition entry count updated via trigger.
-    });
+    await supabase
+        .rpc(
+          'increment_field',
+          params: {
+            'table_name': 'skill_mode_translation_competitions',
+            'row_id': competitionId,
+            'field_name': 'entry_count',
+          },
+        )
+        .catchError((_) {
+          // RPC may not exist yet — competition entry count updated via trigger.
+        });
 
     return SmCompetitionEntry.fromJson(data);
   }
@@ -98,16 +98,13 @@ class SmCompetitionService {
   }) async {
     final userId = supabase.auth.currentUser!.id;
 
-    await supabase.from('skill_mode_competition_votes').upsert(
-      {
-        'competition_id': competitionId,
-        'entry_id': entryId,
-        'voter_id': userId,
-        'score': score,
-        'voted_at': DateTime.now().toIso8601String(),
-      },
-      onConflict: 'entry_id,voter_id',
-    );
+    await supabase.from('skill_mode_competition_votes').upsert({
+      'competition_id': competitionId,
+      'entry_id': entryId,
+      'voter_id': userId,
+      'score': score,
+      'voted_at': DateTime.now().toIso8601String(),
+    }, onConflict: 'entry_id,voter_id');
 
     // Recompute quality score for the entry.
     final votes = await supabase
@@ -117,14 +114,16 @@ class SmCompetitionService {
 
     final voteList = votes as List;
     if (voteList.isNotEmpty) {
-      final total =
-          voteList.fold<int>(0, (sum, v) => sum + (v['score'] as int));
+      final total = voteList.fold<int>(
+        0,
+        (sum, v) => sum + (v['score'] as int),
+      );
       final avg = total / voteList.length;
 
-      await supabase.from('skill_mode_competition_entries').update({
-        'total_votes': voteList.length,
-        'quality_score': avg,
-      }).eq('id', entryId);
+      await supabase
+          .from('skill_mode_competition_entries')
+          .update({'total_votes': voteList.length, 'quality_score': avg})
+          .eq('id', entryId);
     }
   }
 

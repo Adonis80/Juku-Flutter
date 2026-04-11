@@ -10,8 +10,7 @@ class SmDeckDetailScreen extends ConsumerStatefulWidget {
   const SmDeckDetailScreen({super.key, required this.deckId});
 
   @override
-  ConsumerState<SmDeckDetailScreen> createState() =>
-      _SmDeckDetailScreenState();
+  ConsumerState<SmDeckDetailScreen> createState() => _SmDeckDetailScreenState();
 }
 
 class _SmDeckDetailScreenState extends ConsumerState<SmDeckDetailScreen> {
@@ -125,12 +124,14 @@ class _SmDeckDetailScreenState extends ConsumerState<SmDeckDetailScreen> {
                   children: [
                     _statChip(Icons.play_arrow, '$playCount plays', theme),
                     const SizedBox(width: 12),
-                    _statChip(Icons.signal_cellular_alt,
-                        difficulty.toUpperCase(), theme),
+                    _statChip(
+                      Icons.signal_cellular_alt,
+                      difficulty.toUpperCase(),
+                      theme,
+                    ),
                     if (targetScore != null) ...[
                       const SizedBox(width: 12),
-                      _statChip(
-                          Icons.sports_mma, 'Beat $targetScore%', theme),
+                      _statChip(Icons.sports_mma, 'Beat $targetScore%', theme),
                     ],
                   ],
                 ),
@@ -149,8 +150,11 @@ class _SmDeckDetailScreenState extends ConsumerState<SmDeckDetailScreen> {
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.sports_mma,
-                            color: Color(0xFFF59E0B), size: 28),
+                        const Icon(
+                          Icons.sports_mma,
+                          color: Color(0xFFF59E0B),
+                          size: 28,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Column(

@@ -248,11 +248,7 @@ class _SmDuoLobbyScreenState extends ConsumerState<SmDuoLobbyScreen>
                     width: 3,
                   ),
                 ),
-                child: Icon(
-                  Icons.search,
-                  size: 48,
-                  color: cs.primary,
-                ),
+                child: Icon(Icons.search, size: 48, color: cs.primary),
               ),
             );
           },
@@ -272,10 +268,7 @@ class _SmDuoLobbyScreenState extends ConsumerState<SmDuoLobbyScreen>
           ),
         ),
         const SizedBox(height: 24),
-        OutlinedButton(
-          onPressed: _cancelSearch,
-          child: const Text('Cancel'),
-        ),
+        OutlinedButton(onPressed: _cancelSearch, child: const Text('Cancel')),
       ],
     );
   }
@@ -286,11 +279,7 @@ class _SmDuoLobbyScreenState extends ConsumerState<SmDuoLobbyScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.people,
-              size: 80,
-              color: cs.primary,
-            ),
+            Icon(Icons.people, size: 80, color: cs.primary),
             const SizedBox(height: 16),
             Text(
               'Opponent Found!',

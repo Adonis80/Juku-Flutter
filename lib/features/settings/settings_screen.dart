@@ -58,8 +58,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _photoUrlCtrl.text = data['photo_url'] as String? ?? '';
 
         // Parse notification prefs from jsonb
-        final prefs =
-            data['notification_prefs'] as Map<String, dynamic>? ?? {};
+        final prefs = data['notification_prefs'] as Map<String, dynamic>? ?? {};
         _notifVotes = prefs['vote'] as bool? ?? true;
         _notifFollows = prefs['follow'] as bool? ?? true;
         _notifMessages = prefs['message'] as bool? ?? true;
@@ -75,24 +74,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (user == null) return;
 
     try {
-      await supabase.from('profiles').update({
-        'display_name': _displayNameCtrl.text.trim(),
-        'bio': _bioCtrl.text.trim().isEmpty ? null : _bioCtrl.text.trim(),
-        'photo_url': _photoUrlCtrl.text.trim().isEmpty
-            ? null
-            : _photoUrlCtrl.text.trim(),
-      }).eq('id', user.id);
+      await supabase
+          .from('profiles')
+          .update({
+            'display_name': _displayNameCtrl.text.trim(),
+            'bio': _bioCtrl.text.trim().isEmpty ? null : _bioCtrl.text.trim(),
+            'photo_url': _photoUrlCtrl.text.trim().isEmpty
+                ? null
+                : _photoUrlCtrl.text.trim(),
+          })
+          .eq('id', user.id);
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile saved')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Profile saved')));
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     }
   }
@@ -102,14 +104,17 @@ class _SettingsScreenState extends State<SettingsScreen> {
     if (user == null) return;
 
     try {
-      await supabase.from('profiles').update({
-        'notification_prefs': {
-          'vote': _notifVotes,
-          'follow': _notifFollows,
-          'message': _notifMessages,
-          'level_up': _notifLevelUps,
-        },
-      }).eq('id', user.id);
+      await supabase
+          .from('profiles')
+          .update({
+            'notification_prefs': {
+              'vote': _notifVotes,
+              'follow': _notifFollows,
+              'message': _notifMessages,
+              'level_up': _notifLevelUps,
+            },
+          })
+          .eq('id', user.id);
     } catch (_) {}
   }
 
@@ -128,9 +133,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Account info
-                  Text('Account',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    'Account',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Card(
                     child: Padding(
@@ -141,7 +149,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           Text('Email: ${user?.email ?? 'Not set'}'),
                           const SizedBox(height: 4),
                           Text(
-                              'Username: @${_profile?['username'] ?? 'unknown'}'),
+                            'Username: @${_profile?['username'] ?? 'unknown'}',
+                          ),
                         ],
                       ),
                     ),
@@ -149,14 +158,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 20),
 
                   // Edit profile
-                  Text('Edit Profile',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    'Edit Profile',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   TextField(
                     controller: _displayNameCtrl,
-                    decoration:
-                        const InputDecoration(labelText: 'Display Name'),
+                    decoration: const InputDecoration(
+                      labelText: 'Display Name',
+                    ),
                   ),
                   const SizedBox(height: 8),
                   TextField(
@@ -171,8 +184,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 8),
                   TextField(
                     controller: _photoUrlCtrl,
-                    decoration:
-                        const InputDecoration(labelText: 'Photo URL'),
+                    decoration: const InputDecoration(labelText: 'Photo URL'),
                     keyboardType: TextInputType.url,
                   ),
                   const SizedBox(height: 12),
@@ -183,9 +195,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 24),
 
                   // Notification preferences
-                  Text('Notifications',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    'Notifications',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   SwitchListTile(
                     title: const Text('Votes on your lessons'),
@@ -222,9 +237,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const SizedBox(height: 24),
 
                   // Quick links
-                  Text('More',
-                      style: theme.textTheme.titleSmall
-                          ?.copyWith(fontWeight: FontWeight.bold)),
+                  Text(
+                    'More',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SizedBox(height: 8),
                   Card(
                     child: Column(

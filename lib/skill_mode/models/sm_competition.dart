@@ -68,8 +68,7 @@ class SmCompetition {
       targetLanguage: json['target_language'] as String? ?? 'en',
       status: json['status'] as String? ?? 'upcoming',
       startsAt: DateTime.parse(json['starts_at'] as String),
-      submissionDeadline:
-          DateTime.parse(json['submission_deadline'] as String),
+      submissionDeadline: DateTime.parse(json['submission_deadline'] as String),
       votingDeadline: DateTime.parse(json['voting_deadline'] as String),
       endsAt: DateTime.parse(json['ends_at'] as String),
       maxEntries: json['max_entries'] as int? ?? 50,
@@ -101,8 +100,7 @@ class SmCompetition {
   Duration get timeUntilStart => startsAt.difference(DateTime.now());
   Duration get timeUntilSubmissionEnd =>
       submissionDeadline.difference(DateTime.now());
-  Duration get timeUntilVotingEnd =>
-      votingDeadline.difference(DateTime.now());
+  Duration get timeUntilVotingEnd => votingDeadline.difference(DateTime.now());
 }
 
 class SmCompetitionEntry {
@@ -147,8 +145,7 @@ class SmCompetitionEntry {
       competitionId: json['competition_id'] as String,
       translatorId: json['translator_id'] as String,
       translations: rawTranslations
-          .map((t) =>
-              SmEntryLine.fromJson(t as Map<String, dynamic>))
+          .map((t) => SmEntryLine.fromJson(t as Map<String, dynamic>))
           .toList(),
       styleNote: json['style_note'] as String?,
       submittedAt: json['submitted_at'] != null
@@ -191,11 +188,11 @@ class SmEntryLine {
   }
 
   Map<String, dynamic> toJson() => {
-        'line_index': lineIndex,
-        'source_text': sourceText,
-        'translated_text': translatedText,
-        if (notes != null) 'notes': notes,
-      };
+    'line_index': lineIndex,
+    'source_text': sourceText,
+    'translated_text': translatedText,
+    if (notes != null) 'notes': notes,
+  };
 }
 
 class SmCompetitionVote {

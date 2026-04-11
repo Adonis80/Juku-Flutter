@@ -205,8 +205,9 @@ class _SmConjugationDialState extends State<SmConjugationDial>
               boxShadow: [
                 if (_glowOpacity > 0)
                   BoxShadow(
-                    color: const Color(0xFFF59E0B)
-                        .withAlpha((_glowOpacity * 150).round().clamp(0, 255)),
+                    color: const Color(
+                      0xFFF59E0B,
+                    ).withAlpha((_glowOpacity * 150).round().clamp(0, 255)),
                     blurRadius: 16,
                     spreadRadius: 4,
                   ),
@@ -224,9 +225,11 @@ class _SmConjugationDialState extends State<SmConjugationDial>
                   final opacity = (1 - distFromCenter * 0.4).clamp(0.0, 1.0);
                   final scale = (1 - distFromCenter * 0.15).clamp(0.7, 1.0);
 
-                  final isSelected = index == _currentPosition.round() &&
+                  final isSelected =
+                      index == _currentPosition.round() &&
                       (_currentPosition - index).abs() < 0.3;
-                  final isCorrectAndLocked = _isLocked && index == widget.correctIndex;
+                  final isCorrectAndLocked =
+                      _isLocked && index == widget.correctIndex;
 
                   return Positioned(
                     left: 0,
@@ -245,13 +248,13 @@ class _SmConjugationDialState extends State<SmConjugationDial>
                               fontWeight: isCorrectAndLocked
                                   ? FontWeight.w800
                                   : isSelected
-                                      ? FontWeight.w700
-                                      : FontWeight.w400,
+                                  ? FontWeight.w700
+                                  : FontWeight.w400,
                               color: isCorrectAndLocked
                                   ? const Color(0xFFF59E0B)
                                   : isSelected
-                                      ? theme.colorScheme.onSurface
-                                      : theme.colorScheme.onSurfaceVariant,
+                                  ? theme.colorScheme.onSurface
+                                  : theme.colorScheme.onSurfaceVariant,
                             ),
                           ),
                         ),
@@ -310,8 +313,9 @@ class _SmConjugationDialState extends State<SmConjugationDial>
                           end: Alignment.bottomCenter,
                           colors: [
                             theme.colorScheme.surfaceContainerHighest,
-                            theme.colorScheme.surfaceContainerHighest
-                                .withAlpha(0),
+                            theme.colorScheme.surfaceContainerHighest.withAlpha(
+                              0,
+                            ),
                           ],
                         ),
                         borderRadius: const BorderRadius.vertical(
@@ -334,8 +338,9 @@ class _SmConjugationDialState extends State<SmConjugationDial>
                           end: Alignment.topCenter,
                           colors: [
                             theme.colorScheme.surfaceContainerHighest,
-                            theme.colorScheme.surfaceContainerHighest
-                                .withAlpha(0),
+                            theme.colorScheme.surfaceContainerHighest.withAlpha(
+                              0,
+                            ),
                           ],
                         ),
                         borderRadius: const BorderRadius.vertical(
@@ -362,11 +367,7 @@ class SmMultiDial extends StatefulWidget {
   final List<SmDialConfig> dials;
   final VoidCallback? onAllLocked;
 
-  const SmMultiDial({
-    super.key,
-    required this.dials,
-    this.onAllLocked,
-  });
+  const SmMultiDial({super.key, required this.dials, this.onAllLocked});
 
   @override
   State<SmMultiDial> createState() => _SmMultiDialState();
@@ -427,9 +428,7 @@ class _SmMultiDialState extends State<SmMultiDial> {
           children: List.generate(widget.dials.length, (i) {
             final config = widget.dials[i];
             return Padding(
-              padding: EdgeInsets.only(
-                left: i > 0 ? 12 : 0,
-              ),
+              padding: EdgeInsets.only(left: i > 0 ? 12 : 0),
               child: SmConjugationDial(
                 forms: config.forms,
                 correctIndex: config.correctIndex,

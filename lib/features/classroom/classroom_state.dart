@@ -15,12 +15,12 @@ final joinedClassroomsProvider = FutureProvider<List<Classroom>>(
 /// Students in a specific classroom.
 final classroomStudentsProvider =
     FutureProvider.family<List<ClassroomMember>, String>(
-  (ref, classroomId) => ClassroomService.instance.getStudents(classroomId),
-);
+      (ref, classroomId) => ClassroomService.instance.getStudents(classroomId),
+    );
 
 /// Assigned content for a classroom.
 final classroomContentProvider =
     FutureProvider.family<List<ClassroomContent>, String>(
-  (ref, classroomId) =>
-      ClassroomService.instance.getAssignedContent(classroomId),
-);
+      (ref, classroomId) =>
+          ClassroomService.instance.getAssignedContent(classroomId),
+    );

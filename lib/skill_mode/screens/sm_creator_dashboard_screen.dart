@@ -38,13 +38,13 @@ class _SmCreatorDashboardScreenState
     }
 
     try {
-      final stats =
-          await SmCreatorService.instance.getCreatorStats(user.id);
+      final stats = await SmCreatorService.instance.getCreatorStats(user.id);
 
       final decks = await supabase
           .from('skill_mode_decks')
           .select(
-              'id, title, language, difficulty, play_count, completion_count, creator_juice_earned, creator_target_score, card_skin')
+            'id, title, language, difficulty, play_count, completion_count, creator_juice_earned, creator_target_score, card_skin',
+          )
           .eq('creator_id', user.id)
           .order('created_at', ascending: false);
 
@@ -134,17 +134,29 @@ class _SmCreatorDashboardScreenState
             children: [
               Expanded(
                 child: _statCard(
-                    '$totalLearners', 'Learners', Icons.people, theme),
+                  '$totalLearners',
+                  'Learners',
+                  Icons.people,
+                  theme,
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _statCard(
-                    '$totalTips', 'Juice Earned', Icons.water_drop, theme),
+                  '$totalTips',
+                  'Juice Earned',
+                  Icons.water_drop,
+                  theme,
+                ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: _statCard(
-                    '${_decks.length}', 'Decks', Icons.style, theme),
+                  '${_decks.length}',
+                  'Decks',
+                  Icons.style,
+                  theme,
+                ),
               ),
             ],
           ),
@@ -164,8 +176,11 @@ class _SmCreatorDashboardScreenState
               child: Column(
                 children: [
                   const SizedBox(height: 32),
-                  Icon(Icons.style_outlined,
-                      size: 48, color: theme.colorScheme.outline),
+                  Icon(
+                    Icons.style_outlined,
+                    size: 48,
+                    color: theme.colorScheme.outline,
+                  ),
                   const SizedBox(height: 8),
                   Text(
                     'No decks yet',
@@ -187,24 +202,27 @@ class _SmCreatorDashboardScreenState
               final deck = _decks[i];
               final plays = deck['play_count'] as int? ?? 0;
               final completions = deck['completion_count'] as int? ?? 0;
-              final completionRate =
-                  plays > 0 ? (completions / plays * 100).round() : 0;
-              final juiceEarned =
-                  deck['creator_juice_earned'] as int? ?? 0;
+              final completionRate = plays > 0
+                  ? (completions / plays * 100).round()
+                  : 0;
+              final juiceEarned = deck['creator_juice_earned'] as int? ?? 0;
               final needsImprovement = completionRate < 40 && plays > 10;
 
               return Card(
                 margin: const EdgeInsets.only(bottom: 8),
                 child: ListTile(
-                  onTap: () => context
-                      .push('/skill-mode/deck-detail/${deck['id']}'),
+                  onTap: () =>
+                      context.push('/skill-mode/deck-detail/${deck['id']}'),
                   title: Row(
                     children: [
                       if (needsImprovement)
                         const Padding(
                           padding: EdgeInsets.only(right: 4),
-                          child: Icon(Icons.warning_amber,
-                              size: 16, color: Color(0xFFF59E0B)),
+                          child: Icon(
+                            Icons.warning_amber,
+                            size: 16,
+                            color: Color(0xFFF59E0B),
+                          ),
                         ),
                       Expanded(
                         child: Text(
@@ -227,8 +245,7 @@ class _SmCreatorDashboardScreenState
     );
   }
 
-  Widget _statCard(
-      String value, String label, IconData icon, ThemeData theme) {
+  Widget _statCard(String value, String label, IconData icon, ThemeData theme) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),

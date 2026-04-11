@@ -10,8 +10,7 @@ class SmR2Service {
   /// Base public URL for the R2 bucket.
   /// In production this is a custom domain; for now, use the R2 public dev URL.
   /// MANUAL (Dhayan): Set R2 public access or custom domain, then update this.
-  static const _baseUrl =
-      'https://pub-skill-mode-audio.r2.dev';
+  static const _baseUrl = 'https://pub-skill-mode-audio.r2.dev';
 
   /// Get the public audio URL for a card.
   ///

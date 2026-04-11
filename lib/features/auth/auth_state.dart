@@ -8,8 +8,9 @@ import '../../core/supabase_config.dart';
 
 enum AuthStatus { unknown, authenticated, unauthenticated }
 
-final authStateProvider =
-    NotifierProvider<AuthStateNotifier, AuthStatus>(AuthStateNotifier.new);
+final authStateProvider = NotifierProvider<AuthStateNotifier, AuthStatus>(
+  AuthStateNotifier.new,
+);
 
 class AuthStateNotifier extends Notifier<AuthStatus> {
   StreamSubscription<AuthState>? _sub;
@@ -17,8 +18,9 @@ class AuthStateNotifier extends Notifier<AuthStatus> {
   @override
   AuthStatus build() {
     final session = supabase.auth.currentSession;
-    final initial =
-        session != null ? AuthStatus.authenticated : AuthStatus.unauthenticated;
+    final initial = session != null
+        ? AuthStatus.authenticated
+        : AuthStatus.unauthenticated;
 
     _sub?.cancel();
     _sub = supabase.auth.onAuthStateChange.listen((data) {

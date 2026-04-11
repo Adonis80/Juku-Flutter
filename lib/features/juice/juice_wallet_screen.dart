@@ -112,9 +112,7 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
     final launched = await PaymentService.instance.setupGoCardlessMandate();
     if (!launched && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Could not open Direct Debit setup page'),
-        ),
+        const SnackBar(content: Text('Could not open Direct Debit setup page')),
       );
     }
   }
@@ -158,41 +156,45 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
         children: [
           // Balance card
           Card(
-            color: theme.colorScheme.primaryContainer,
-            child: Padding(
-              padding: const EdgeInsets.all(24),
-              child: Column(
-                children: [
-                  const Text('Your Balance',
-                      style: TextStyle(fontSize: 14)),
-                  const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                color: theme.colorScheme.primaryContainer,
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
                     children: [
-                      const Text('\u{1F9C3}',
-                          style: TextStyle(fontSize: 32)),
-                      const SizedBox(width: 12),
-                      Text(
-                        '$_balance',
-                        style: theme.textTheme.displaySmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                          color: theme.colorScheme.onPrimaryContainer,
-                        ),
+                      const Text(
+                        'Your Balance',
+                        style: TextStyle(fontSize: 14),
                       ),
-                      const SizedBox(width: 4),
-                      Text(
-                        'Juice',
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: theme.colorScheme.onPrimaryContainer,
-                        ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '\u{1F9C3}',
+                            style: TextStyle(fontSize: 32),
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            '$_balance',
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: theme.colorScheme.onPrimaryContainer,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Juice',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: theme.colorScheme.onPrimaryContainer,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ],
-              ),
-            ),
-          )
+                ),
+              )
               .animate()
               .fadeIn(duration: 400.ms)
               .scale(begin: const Offset(0.95, 0.95)),
@@ -201,8 +203,9 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
           // Top-up options
           Text(
             'Get Juice',
-            style: theme.textTheme.titleSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Row(
@@ -230,8 +233,9 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
             children: [
               Text(
                 'History',
-                style: theme.textTheme.titleSmall
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const Spacer(),
               Text(
@@ -271,17 +275,13 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
                     color: isSpend ? theme.colorScheme.error : Colors.green,
                   ),
                   title: Text(
-                    ref.isNotEmpty
-                        ? ref
-                        : (isSpend ? 'Spent' : 'Purchased'),
+                    ref.isNotEmpty ? ref : (isSpend ? 'Spent' : 'Purchased'),
                   ),
                   trailing: Text(
                     '${isSpend ? '-' : '+'}$amount',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: isSpend
-                          ? theme.colorScheme.error
-                          : Colors.green,
+                      color: isSpend ? theme.colorScheme.error : Colors.green,
                     ),
                   ),
                 ),
@@ -303,16 +303,14 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
         children: [
           Text(
             'Payment Methods',
-            style: theme.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Add a card for instant top-ups, or set up Direct Debit for lower fees on weekly settlements.',
-            style: TextStyle(
-              fontSize: 13,
-              color: theme.colorScheme.outline,
-            ),
+            style: TextStyle(fontSize: 13, color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 16),
 
@@ -352,20 +350,23 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
                     children: [
                       if (isDefault)
                         Chip(
-                          label: const Text('Default',
-                              style: TextStyle(fontSize: 11)),
+                          label: const Text(
+                            'Default',
+                            style: TextStyle(fontSize: 11),
+                          ),
                           padding: EdgeInsets.zero,
                           visualDensity: VisualDensity.compact,
                         )
                       else
                         TextButton(
                           onPressed: () async {
-                            await PaymentService.instance
-                                .setDefaultMethod(id);
+                            await PaymentService.instance.setDefaultMethod(id);
                             _load();
                           },
-                          child: const Text('Set default',
-                              style: TextStyle(fontSize: 12)),
+                          child: const Text(
+                            'Set default',
+                            style: TextStyle(fontSize: 12),
+                          ),
                         ),
                       IconButton(
                         icon: const Icon(Icons.delete_outline, size: 20),
@@ -377,21 +378,18 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
                               content: Text('Remove $label?'),
                               actions: [
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(ctx, false),
+                                  onPressed: () => Navigator.pop(ctx, false),
                                   child: const Text('Cancel'),
                                 ),
                                 TextButton(
-                                  onPressed: () =>
-                                      Navigator.pop(ctx, true),
+                                  onPressed: () => Navigator.pop(ctx, true),
                                   child: const Text('Remove'),
                                 ),
                               ],
                             ),
                           );
                           if (confirm == true) {
-                            await PaymentService.instance
-                                .removeMethod(id);
+                            await PaymentService.instance.removeMethod(id);
                             _load();
                           }
                         },
@@ -406,8 +404,9 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
           // Add payment method buttons
           Text(
             'Add Method',
-            style: theme.textTheme.titleSmall
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleSmall?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 8),
           Row(
@@ -443,8 +442,11 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.info_outline,
-                          size: 16, color: theme.colorScheme.primary),
+                      Icon(
+                        Icons.info_outline,
+                        size: 16,
+                        color: theme.colorScheme.primary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
                         'Fee Comparison',
@@ -483,16 +485,14 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
         children: [
           Text(
             'Weekly Settlements',
-            style: theme.textTheme.titleMedium
-                ?.copyWith(fontWeight: FontWeight.bold),
+            style: theme.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
           ),
           const SizedBox(height: 4),
           Text(
             'Tips are settled every Sunday at 23:00 UTC. Charges or payouts depend on your net balance.',
-            style: TextStyle(
-              fontSize: 13,
-              color: theme.colorScheme.outline,
-            ),
+            style: TextStyle(fontSize: 13, color: theme.colorScheme.outline),
           ),
           const SizedBox(height: 16),
 
@@ -526,9 +526,7 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
               return Card(
                 child: ListTile(
                   leading: Icon(
-                    isPayout
-                        ? Icons.arrow_downward
-                        : Icons.arrow_upward,
+                    isPayout ? Icons.arrow_downward : Icons.arrow_upward,
                     color: isPayout ? Colors.green : theme.colorScheme.error,
                   ),
                   title: Text(
@@ -557,7 +555,9 @@ class _JuiceWalletScreenState extends State<JuiceWalletScreen>
                       const SizedBox(height: 2),
                       Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
                         decoration: BoxDecoration(
                           color: statusColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(4),
@@ -622,7 +622,9 @@ class _TopUpCard extends StatelessWidget {
               const SizedBox(height: 8),
               Container(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 12, vertical: 4),
+                  horizontal: 12,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: theme.colorScheme.primary,
                   borderRadius: BorderRadius.circular(16),

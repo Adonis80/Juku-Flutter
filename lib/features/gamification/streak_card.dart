@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class StreakCard extends StatelessWidget {
-  const StreakCard({
-    super.key,
-    required this.current,
-    required this.best,
-  });
+  const StreakCard({super.key, required this.current, required this.best});
 
   final int current;
   final int best;
@@ -23,19 +19,19 @@ class StreakCard extends StatelessWidget {
           children: [
             // Fire icon
             Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: isActive
-                    ? Colors.orange.withValues(alpha: 0.15)
-                    : theme.colorScheme.surfaceContainerHighest,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.local_fire_department,
-                color: isActive ? Colors.orange : theme.colorScheme.outline,
-                size: 28,
-              ),
-            )
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? Colors.orange.withValues(alpha: 0.15)
+                        : theme.colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.local_fire_department,
+                    color: isActive ? Colors.orange : theme.colorScheme.outline,
+                    size: 28,
+                  ),
+                )
                 .animate(
                   onPlay: (c) => isActive ? c.repeat(reverse: true) : null,
                 )

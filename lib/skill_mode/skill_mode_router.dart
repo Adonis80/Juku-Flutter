@@ -36,10 +36,7 @@ import 'screens/sm_api_keys_screen.dart';
 /// Added as detail routes (pushed on top of shell) in the main router.
 List<GoRoute> skillModeRoutes() {
   return [
-    GoRoute(
-      path: '/skill-mode',
-      builder: (_, _) => const SmHomeScreen(),
-    ),
+    GoRoute(path: '/skill-mode', builder: (_, _) => const SmHomeScreen()),
     GoRoute(
       path: '/skill-mode/create-deck',
       builder: (_, _) => const SmCreateDeckScreen(),
@@ -48,33 +45,25 @@ List<GoRoute> skillModeRoutes() {
       path: '/skill-mode/marketplace',
       builder: (_, _) => const SmMarketplaceScreen(),
     ),
-    GoRoute(
-      path: '/skill-mode/deck',
-      builder: (_, _) => const SmDeckScreen(),
-    ),
+    GoRoute(path: '/skill-mode/deck', builder: (_, _) => const SmDeckScreen()),
     GoRoute(
       path: '/skill-mode/deck-detail/:id',
-      builder: (_, state) => SmDeckDetailScreen(
-        deckId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmDeckDetailScreen(deckId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/card/:id',
-      builder: (_, state) => SmCardScreen(
-        cardId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) => SmCardScreen(cardId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/shuffle/:id',
-      builder: (_, state) => SmShuffleScreen(
-        cardId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmShuffleScreen(cardId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/pronunciation/:id',
-      builder: (_, state) => SmPronunciationScreen(
-        cardId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmPronunciationScreen(cardId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/songs',
@@ -86,15 +75,13 @@ List<GoRoute> skillModeRoutes() {
     ),
     GoRoute(
       path: '/skill-mode/songs/:id',
-      builder: (_, state) => SmSongPlayerScreen(
-        songId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmSongPlayerScreen(songId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/creator/:userId',
-      builder: (_, state) => SmCreatorProfileScreen(
-        userId: state.pathParameters['userId']!,
-      ),
+      builder: (_, state) =>
+          SmCreatorProfileScreen(userId: state.pathParameters['userId']!),
     ),
     GoRoute(
       path: '/skill-mode/my-decks',
@@ -129,15 +116,13 @@ List<GoRoute> skillModeRoutes() {
     ),
     GoRoute(
       path: '/skill-mode/duo-battle/:id',
-      builder: (_, state) => SmDuoBattleScreen(
-        battleId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmDuoBattleScreen(battleId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/duo-results/:id',
-      builder: (_, state) => SmDuoResultsScreen(
-        battleId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmDuoResultsScreen(battleId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/writing',
@@ -158,21 +143,18 @@ List<GoRoute> skillModeRoutes() {
     ),
     GoRoute(
       path: '/skill-mode/competition/:id',
-      builder: (_, state) => SmCompetitionDetailScreen(
-        competitionId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmCompetitionDetailScreen(competitionId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/competition/:id/enter',
-      builder: (_, state) => SmCompetitionEntryScreen(
-        competitionId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmCompetitionEntryScreen(competitionId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/competition/:id/vote',
-      builder: (_, state) => SmCompetitionVoteScreen(
-        competitionId: state.pathParameters['id']!,
-      ),
+      builder: (_, state) =>
+          SmCompetitionVoteScreen(competitionId: state.pathParameters['id']!),
     ),
     GoRoute(
       path: '/skill-mode/competition/:id/results',

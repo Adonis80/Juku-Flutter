@@ -48,8 +48,9 @@ class SmEntryCard extends StatelessWidget {
                     Text(
                       'Deep grammar & vocabulary training',
                       style: theme.textTheme.bodySmall?.copyWith(
-                        color: theme.colorScheme.onPrimaryContainer
-                            .withAlpha(179),
+                        color: theme.colorScheme.onPrimaryContainer.withAlpha(
+                          179,
+                        ),
                       ),
                     ),
                   ],

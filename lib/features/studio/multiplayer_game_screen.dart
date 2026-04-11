@@ -18,8 +18,7 @@ class MultiplayerGameScreen extends ConsumerStatefulWidget {
       _MultiplayerGameScreenState();
 }
 
-class _MultiplayerGameScreenState
-    extends ConsumerState<MultiplayerGameScreen> {
+class _MultiplayerGameScreenState extends ConsumerState<MultiplayerGameScreen> {
   List<Map<String, dynamic>> _questions = [];
   int _currentIdx = 0;
   int _myScore = 0;
@@ -133,8 +132,7 @@ class _MultiplayerGameScreenState
         final config = _questions.isNotEmpty
             ? ref.read(lobbyProvider(widget.sessionId)).session?.config
             : null;
-        _startTimer(
-            (config?['time_limit_secs'] as int?) ?? 0);
+        _startTimer((config?['time_limit_secs'] as int?) ?? 0);
       } else {
         // Game over
         setState(() => _gameFinished = true);
@@ -159,9 +157,7 @@ class _MultiplayerGameScreenState
     }
 
     if (_questions.isEmpty) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     if (_showingLeaderboard) {
@@ -181,17 +177,14 @@ class _MultiplayerGameScreenState
             padding: const EdgeInsets.only(right: 16),
             child: Row(
               children: lobby.players.map((p) {
-                final color = _playerColor(
-                    lobby.players.indexOf(p));
+                final color = _playerColor(lobby.players.indexOf(p));
                 return Container(
                   width: 8,
                   height: 8,
                   margin: const EdgeInsets.only(left: 4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: p.finished
-                        ? color
-                        : color.withValues(alpha: 0.3),
+                    color: p.finished ? color : color.withValues(alpha: 0.3),
                   ),
                 );
               }).toList(),
@@ -201,9 +194,7 @@ class _MultiplayerGameScreenState
       ),
       body: Column(
         children: [
-          LinearProgressIndicator(
-            value: (_currentIdx + 1) / _questions.length,
-          ),
+          LinearProgressIndicator(value: (_currentIdx + 1) / _questions.length),
           if (_timeLeft > 0)
             Padding(
               padding: const EdgeInsets.all(12),
@@ -222,8 +213,9 @@ class _MultiplayerGameScreenState
             padding: const EdgeInsets.fromLTRB(24, 12, 24, 20),
             child: Text(
               q['q'] as String? ?? '',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
@@ -247,15 +239,16 @@ class _MultiplayerGameScreenState
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Material(
-                    color: bgColor ??
-                        theme.colorScheme.surfaceContainerLow,
+                    color: bgColor ?? theme.colorScheme.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(12),
                     child: InkWell(
                       onTap: _answered ? null : () => _onAnswer(i),
                       borderRadius: BorderRadius.circular(12),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
                         child: Text(
                           options[i],
                           style: TextStyle(
@@ -279,9 +272,10 @@ class _MultiplayerGameScreenState
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Your score: ',
-                    style: TextStyle(
-                        color: theme.colorScheme.onSurfaceVariant)),
+                Text(
+                  'Your score: ',
+                  style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
+                ),
                 Text(
                   '$_myScore',
                   style: TextStyle(
@@ -310,54 +304,55 @@ class _MultiplayerGameScreenState
           children: [
             Text(
               'Standings',
-              style: theme.textTheme.headlineSmall
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ).animate().fadeIn(),
             const SizedBox(height: 16),
             ...sorted.asMap().entries.map((e) {
               final idx = e.key;
               final p = e.value;
-              final isMe =
-                  p.playerId == supabase.auth.currentUser?.id;
+              final isMe = p.playerId == supabase.auth.currentUser?.id;
 
               return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32, vertical: 4),
-                child: Card(
-                  color: isMe
-                      ? theme.colorScheme.primaryContainer
-                      : null,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: _playerColor(idx),
-                      radius: 16,
-                      child: Text(
-                        '${idx + 1}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 32,
+                      vertical: 4,
+                    ),
+                    child: Card(
+                      color: isMe ? theme.colorScheme.primaryContainer : null,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundColor: _playerColor(idx),
+                          radius: 16,
+                          child: Text(
+                            '${idx + 1}',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          '@${p.username ?? 'player'}${isMe ? ' (you)' : ''}',
+                          style: TextStyle(
+                            fontWeight: isMe
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                          ),
+                        ),
+                        trailing: Text(
+                          '${p.score}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: theme.colorScheme.primary,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
-                    title: Text(
-                      '@${p.username ?? 'player'}${isMe ? ' (you)' : ''}',
-                      style: TextStyle(
-                        fontWeight:
-                            isMe ? FontWeight.bold : FontWeight.w500,
-                      ),
-                    ),
-                    trailing: Text(
-                      '${p.score}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: theme.colorScheme.primary,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              )
+                  )
                   .animate()
                   .fadeIn(delay: (idx * 100).ms)
                   .slideY(begin: 0.2, end: 0);
@@ -385,34 +380,43 @@ class _MultiplayerGameScreenState
                 Icons.emoji_events,
                 size: 64,
                 color: Colors.amber,
-              )
-                  .animate()
-                  .scale(
-                    begin: const Offset(0, 0),
-                    end: const Offset(1, 1),
-                    duration: 600.ms,
-                    curve: Curves.elasticOut,
-                  ),
+              ).animate().scale(
+                begin: const Offset(0, 0),
+                end: const Offset(1, 1),
+                duration: 600.ms,
+                curve: Curves.elasticOut,
+              ),
               const SizedBox(height: 12),
               Text(
                 'Game Over!',
-                style: theme.textTheme.headlineMedium
-                    ?.copyWith(fontWeight: FontWeight.bold),
+                style: theme.textTheme.headlineMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
               ).animate().fadeIn(delay: 300.ms),
               if (myRank >= 0) ...[
                 const SizedBox(height: 4),
                 Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 6),
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                      theme.colorScheme.primary,
-                      theme.colorScheme.tertiary,
-                    ]),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.tertiary,
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    '+${myRank == 0 ? 10 : myRank == 1 ? 5 : myRank == 2 ? 3 : 2} XP',
+                    '+${myRank == 0
+                        ? 10
+                        : myRank == 1
+                        ? 5
+                        : myRank == 2
+                        ? 3
+                        : 2} XP',
                     style: const TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -429,38 +433,38 @@ class _MultiplayerGameScreenState
                     final isMe = p.playerId == currentUserId;
 
                     return Card(
-                      color: isMe
-                          ? theme.colorScheme.primaryContainer
-                          : null,
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: _playerColor(index),
-                          child: Text(
-                            '${index + 1}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          color: isMe
+                              ? theme.colorScheme.primaryContainer
+                              : null,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              backgroundColor: _playerColor(index),
+                              child: Text(
+                                '${index + 1}',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              '@${p.username ?? 'player'}${isMe ? ' (you)' : ''}',
+                              style: TextStyle(
+                                fontWeight: isMe
+                                    ? FontWeight.bold
+                                    : FontWeight.w500,
+                              ),
+                            ),
+                            trailing: Text(
+                              '${p.score}',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                                color: theme.colorScheme.primary,
+                              ),
                             ),
                           ),
-                        ),
-                        title: Text(
-                          '@${p.username ?? 'player'}${isMe ? ' (you)' : ''}',
-                          style: TextStyle(
-                            fontWeight: isMe
-                                ? FontWeight.bold
-                                : FontWeight.w500,
-                          ),
-                        ),
-                        trailing: Text(
-                          '${p.score}',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: theme.colorScheme.primary,
-                          ),
-                        ),
-                      ),
-                    )
+                        )
                         .animate()
                         .fadeIn(delay: (index * 150).ms)
                         .slideX(begin: 0.1, end: 0);

@@ -58,8 +58,9 @@ class _SmConversationScenariosScreenState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final scenarios =
-        ref.watch(conversationScenariosProvider(_selectedLanguage));
+    final scenarios = ref.watch(
+      conversationScenariosProvider(_selectedLanguage),
+    );
 
     return Scaffold(
       appBar: AppBar(
@@ -154,11 +155,11 @@ class _SmConversationScenariosScreenState
                   itemBuilder: (context, index) {
                     final scenario = list[index];
                     return _ScenarioCard(
-                      scenario: scenario,
-                      icon: _iconForName(scenario.iconName),
-                      color: _colorForDifficulty(scenario.difficulty),
-                      onTap: () => _startConversation(scenario),
-                    )
+                          scenario: scenario,
+                          icon: _iconForName(scenario.iconName),
+                          color: _colorForDifficulty(scenario.difficulty),
+                          onTap: () => _startConversation(scenario),
+                        )
                         .animate()
                         .fadeIn(
                           delay: Duration(milliseconds: index * 60),
@@ -174,8 +175,7 @@ class _SmConversationScenariosScreenState
                   },
                 );
               },
-              loading: () =>
-                  const Center(child: CircularProgressIndicator()),
+              loading: () => const Center(child: CircularProgressIndicator()),
               error: (e, _) => Center(child: Text('Error: $e')),
             ),
           ),
@@ -188,7 +188,9 @@ class _SmConversationScenariosScreenState
     final user = ref.read(currentUserProvider);
     if (user == null) return;
 
-    await ref.read(conversationProvider.notifier).startConversation(
+    await ref
+        .read(conversationProvider.notifier)
+        .startConversation(
           scenarioId: scenario.id,
           language: _selectedLanguage,
         );
@@ -265,8 +267,7 @@ class _ScenarioCard extends StatelessWidget {
 
               // Difficulty badge.
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                 decoration: BoxDecoration(
                   color: color.withAlpha(20),
                   borderRadius: BorderRadius.circular(8),

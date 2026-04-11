@@ -12,11 +12,7 @@ class PodDetailScreen extends ConsumerStatefulWidget {
   final String zoneId;
   final String? zoneName;
 
-  const PodDetailScreen({
-    super.key,
-    required this.zoneId,
-    this.zoneName,
-  });
+  const PodDetailScreen({super.key, required this.zoneId, this.zoneName});
 
   @override
   ConsumerState<PodDetailScreen> createState() => _PodDetailScreenState();
@@ -82,7 +78,9 @@ class _PodDetailScreenState extends ConsumerState<PodDetailScreen> {
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                    color: theme.colorScheme.outlineVariant, width: 1),
+                  color: theme.colorScheme.outlineVariant,
+                  width: 1,
+                ),
               ),
               child: Stack(
                 children: [
@@ -90,7 +88,8 @@ class _PodDetailScreenState extends ConsumerState<PodDetailScreen> {
                   CustomPaint(
                     size: Size.infinite,
                     painter: _GridPainter(
-                        color: theme.colorScheme.outlineVariant.withAlpha(50)),
+                      color: theme.colorScheme.outlineVariant.withAlpha(50),
+                    ),
                   ),
 
                   // Pod members as avatars
@@ -125,7 +124,9 @@ class _PodDetailScreenState extends ConsumerState<PodDetailScreen> {
                       left: 8,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
+                          horizontal: 8,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary,
                           borderRadius: BorderRadius.circular(12),
@@ -161,13 +162,14 @@ class _PodDetailScreenState extends ConsumerState<PodDetailScreen> {
                           ),
                           const Spacer(),
                           FilledButton.icon(
-                            onPressed: () =>
-                                _showDropCardDialog(context, ref),
+                            onPressed: () => _showDropCardDialog(context, ref),
                             icon: const Icon(Icons.auto_awesome, size: 16),
                             label: const Text('Drop Card'),
                             style: FilledButton.styleFrom(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 4),
+                                horizontal: 12,
+                                vertical: 4,
+                              ),
                               textStyle: const TextStyle(fontSize: 12),
                             ),
                           ),
@@ -182,27 +184,27 @@ class _PodDetailScreenState extends ConsumerState<PodDetailScreen> {
                         itemBuilder: (context, index) {
                           final m = members[index];
                           return ListTile(
-                            dense: true,
-                            leading: CircleAvatar(
-                              radius: 16,
-                              child: Text(
-                                (m.displayName ?? m.username ?? '?')[0]
-                                    .toUpperCase(),
-                                style: const TextStyle(fontSize: 12),
-                              ),
-                            ),
-                            title: Text(
-                              m.displayName ?? m.username ?? 'Unknown',
-                              style: theme.textTheme.bodyMedium,
-                            ),
-                            subtitle: Text(
-                              'Joined ${_timeAgo(m.joinedAt)}',
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: theme.colorScheme.onSurfaceVariant,
-                              ),
-                            ),
-                          )
+                                dense: true,
+                                leading: CircleAvatar(
+                                  radius: 16,
+                                  child: Text(
+                                    (m.displayName ?? m.username ?? '?')[0]
+                                        .toUpperCase(),
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                ),
+                                title: Text(
+                                  m.displayName ?? m.username ?? 'Unknown',
+                                  style: theme.textTheme.bodyMedium,
+                                ),
+                                subtitle: Text(
+                                  'Joined ${_timeAgo(m.joinedAt)}',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    color: theme.colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              )
                               .animate()
                               .fadeIn(delay: (index * 50).ms)
                               .slideX(begin: 0.03, end: 0);
@@ -292,53 +294,62 @@ class _PodCanvas extends StatelessWidget {
           children: [
             for (var i = 0; i < members.length; i++)
               Positioned(
-                left: (members[i].posX != 0
+                left:
+                    (members[i].posX != 0
                         ? members[i].posX
                         : (rng.nextDouble() * 0.7 + 0.15)) *
                     constraints.maxWidth,
-                top: (members[i].posY != 0
+                top:
+                    (members[i].posY != 0
                         ? members[i].posY
                         : (rng.nextDouble() * 0.6 + 0.2)) *
                     constraints.maxHeight,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    CircleAvatar(
-                      radius: 18,
-                      backgroundColor: theme.colorScheme.primary,
-                      child: Text(
-                        (members[i].displayName ??
-                                members[i].username ??
-                                '?')[0]
-                            .toUpperCase(),
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 14),
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 4, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: Colors.black54,
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        members[i].username ?? 'User',
-                        style: const TextStyle(
-                            color: Colors.white, fontSize: 9),
-                      ),
-                    ),
-                  ],
-                )
-                    .animate()
-                    .fadeIn(delay: (i * 100).ms)
-                    .scale(
-                      begin: const Offset(0, 0),
-                      end: const Offset(1, 1),
-                      curve: Curves.elasticOut,
-                      duration: 600.ms,
-                    ),
+                child:
+                    Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            CircleAvatar(
+                              radius: 18,
+                              backgroundColor: theme.colorScheme.primary,
+                              child: Text(
+                                (members[i].displayName ??
+                                        members[i].username ??
+                                        '?')[0]
+                                    .toUpperCase(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 4,
+                                vertical: 1,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.black54,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                members[i].username ?? 'User',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 9,
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                        .animate()
+                        .fadeIn(delay: (i * 100).ms)
+                        .scale(
+                          begin: const Offset(0, 0),
+                          end: const Offset(1, 1),
+                          curve: Curves.elasticOut,
+                          duration: 600.ms,
+                        ),
               ),
           ],
         );
@@ -357,26 +368,23 @@ class _CardDropOrb extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: 32,
-      height: 32,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            theme.colorScheme.primary,
-            theme.colorScheme.tertiary,
-          ],
-        ),
-        shape: BoxShape.circle,
-        boxShadow: [
-          BoxShadow(
-            color: theme.colorScheme.primary.withAlpha(100),
-            blurRadius: 12,
-            spreadRadius: 2,
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [theme.colorScheme.primary, theme.colorScheme.tertiary],
+            ),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: theme.colorScheme.primary.withAlpha(100),
+                blurRadius: 12,
+                spreadRadius: 2,
+              ),
+            ],
           ),
-        ],
-      ),
-      child: const Icon(Icons.auto_awesome, color: Colors.white, size: 16),
-    )
+          child: const Icon(Icons.auto_awesome, color: Colors.white, size: 16),
+        )
         .animate(onPlay: (c) => c.repeat(reverse: true))
         .scaleXY(begin: 0.9, end: 1.1, duration: 1500.ms)
         .shimmer(duration: 2000.ms);

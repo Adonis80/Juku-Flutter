@@ -12,8 +12,7 @@ class SmSongUploadScreen extends ConsumerStatefulWidget {
   const SmSongUploadScreen({super.key});
 
   @override
-  ConsumerState<SmSongUploadScreen> createState() =>
-      _SmSongUploadScreenState();
+  ConsumerState<SmSongUploadScreen> createState() => _SmSongUploadScreenState();
 }
 
 class _SmSongUploadScreenState extends ConsumerState<SmSongUploadScreen> {
@@ -61,16 +60,16 @@ class _SmSongUploadScreenState extends ConsumerState<SmSongUploadScreen> {
       // TODO(SM-5): Upload audio to R2 and update audio_url.
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Song uploaded!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Song uploaded!')));
         context.pop();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Upload failed: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Upload failed: $e')));
         setState(() => _uploading = false);
       }
     }
@@ -123,8 +122,7 @@ class _SmSongUploadScreenState extends ConsumerState<SmSongUploadScreen> {
               onPressed: _pickAudio,
               icon: Icon(
                 _audioPath != null ? Icons.check_circle : Icons.audio_file,
-                color:
-                    _audioPath != null ? const Color(0xFF10B981) : null,
+                color: _audioPath != null ? const Color(0xFF10B981) : null,
               ),
               label: Text(
                 _audioPath != null ? 'Audio selected' : 'Select Audio File',
@@ -144,7 +142,8 @@ class _SmSongUploadScreenState extends ConsumerState<SmSongUploadScreen> {
             SizedBox(
               width: double.infinity,
               child: FilledButton.icon(
-                onPressed: _uploading ||
+                onPressed:
+                    _uploading ||
                         _titleController.text.isEmpty ||
                         _artistController.text.isEmpty ||
                         _audioPath == null

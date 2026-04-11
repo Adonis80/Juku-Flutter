@@ -60,7 +60,11 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
   // Shimmer
   bool _shimmerActive = false;
 
-  static const _spring = SpringDescription(mass: 1, stiffness: 300, damping: 20);
+  static const _spring = SpringDescription(
+    mass: 1,
+    stiffness: 300,
+    damping: 20,
+  );
 
   @override
   void initState() {
@@ -101,8 +105,7 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
     final sizes = <int, Size>{};
 
     for (var i = 0; i < _tileKeys.length; i++) {
-      final box =
-          _tileKeys[i].currentContext?.findRenderObject() as RenderBox?;
+      final box = _tileKeys[i].currentContext?.findRenderObject() as RenderBox?;
       if (box == null) return;
       positions[i] = box.localToGlobal(Offset.zero) - parentOffset;
       sizes[i] = box.size;
@@ -196,8 +199,10 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
 
         final simulation = SpringSimulation(_spring, 0.0, 1.0, 0.0);
 
-        final animation = Tween<Offset>(begin: from, end: to)
-            .animate(controller);
+        final animation = Tween<Offset>(
+          begin: from,
+          end: to,
+        ).animate(controller);
 
         _controllers.add(controller);
         _animations.add(animation);
@@ -244,9 +249,7 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
                   child: child!,
                 );
               },
-              child: RepaintBoundary(
-                child: _buildTile(i),
-              ),
+              child: RepaintBoundary(child: _buildTile(i)),
             );
           }).toList(),
         ),
@@ -254,8 +257,9 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
     }
 
     // Static render: show tiles in current order
-    final order =
-        widget.showForeignOrder ? widget.foreignWordOrder : widget.nativeWordOrder;
+    final order = widget.showForeignOrder
+        ? widget.foreignWordOrder
+        : widget.nativeWordOrder;
     final orderedTiles = order.map((idx) => widget.tiles[idx]).toList();
     final orderedKeys = order.map((idx) => _tileKeys[idx]).toList();
 
@@ -277,9 +281,9 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
 
     if (_shimmerActive) {
       row = row.animate().shimmer(
-            duration: const Duration(milliseconds: 200),
-            color: Theme.of(context).colorScheme.primary.withAlpha(50),
-          );
+        duration: const Duration(milliseconds: 200),
+        color: Theme.of(context).colorScheme.primary.withAlpha(50),
+      );
     }
 
     return row;
@@ -325,8 +329,9 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
 
   double _calculateStackHeight() {
     double maxY = 0;
-    final positions =
-        widget.showForeignOrder ? _foreignPositions : _nativePositions;
+    final positions = widget.showForeignOrder
+        ? _foreignPositions
+        : _nativePositions;
     for (var i = 0; i < positions.length; i++) {
       final bottom = positions[i].dy + (_tileSizes[i].height);
       if (bottom > maxY) maxY = bottom;
@@ -334,4 +339,3 @@ class _SmMagnetTransformState extends State<SmMagnetTransform>
     return maxY + 16;
   }
 }
-

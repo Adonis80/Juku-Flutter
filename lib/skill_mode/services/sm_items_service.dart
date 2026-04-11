@@ -56,9 +56,7 @@ class SmItemsService {
   }
 
   /// Activate an XP Booster — sets is_active, activated_at, expires_at.
-  Future<void> activateXpBooster({
-    required String itemId,
-  }) async {
+  Future<void> activateXpBooster({required String itemId}) async {
     final item = await supabase
         .from('skill_mode_items')
         .select()
@@ -67,13 +65,16 @@ class SmItemsService {
 
     final durationMins = item['duration_mins'] as int? ?? 60;
 
-    await supabase.from('skill_mode_items').update({
-      'is_active': true,
-      'activated_at': DateTime.now().toIso8601String(),
-      'expires_at': DateTime.now()
-          .add(Duration(minutes: durationMins))
-          .toIso8601String(),
-    }).eq('id', itemId);
+    await supabase
+        .from('skill_mode_items')
+        .update({
+          'is_active': true,
+          'activated_at': DateTime.now().toIso8601String(),
+          'expires_at': DateTime.now()
+              .add(Duration(minutes: durationMins))
+              .toIso8601String(),
+        })
+        .eq('id', itemId);
   }
 
   /// Get active XP booster for a user (if any).
@@ -109,10 +110,13 @@ class SmItemsService {
 
     if (freezes == null) return false;
 
-    await supabase.from('skill_mode_items').update({
-      'is_active': true,
-      'activated_at': DateTime.now().toIso8601String(),
-    }).eq('id', freezes['id'] as String);
+    await supabase
+        .from('skill_mode_items')
+        .update({
+          'is_active': true,
+          'activated_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', freezes['id'] as String);
 
     return true;
   }

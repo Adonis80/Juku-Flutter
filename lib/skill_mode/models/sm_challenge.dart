@@ -10,7 +10,8 @@ class SmChallenge {
   final int challengerTimeMs;
   final int? challengedScore;
   final int? challengedTimeMs;
-  final String status; // 'pending' | 'accepted' | 'completed' | 'declined' | 'expired'
+  final String
+  status; // 'pending' | 'accepted' | 'completed' | 'declined' | 'expired'
   final String? winnerId;
   final String? tauntMessage;
   final DateTime? expiresAt;

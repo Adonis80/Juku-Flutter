@@ -92,18 +92,22 @@ class SmTranslationService {
       targetLanguage: targetLanguage,
     );
 
-    final data = await supabase.from('skill_mode_translations').insert({
-      'translator_id': translatorId,
-      'source_text': sourceText,
-      'translated_text': translatedText,
-      'card_id': cardId,
-      'song_id': songId,
-      'lyric_line_index': lyricLineIndex,
-      'target_language': targetLanguage,
-      'notes': notes,
-      'is_ai_draft': isAiDraft,
-      'is_first_translator': isFirst,
-    }).select('id').single();
+    final data = await supabase
+        .from('skill_mode_translations')
+        .insert({
+          'translator_id': translatorId,
+          'source_text': sourceText,
+          'translated_text': translatedText,
+          'card_id': cardId,
+          'song_id': songId,
+          'lyric_line_index': lyricLineIndex,
+          'target_language': targetLanguage,
+          'notes': notes,
+          'is_ai_draft': isAiDraft,
+          'is_first_translator': isFirst,
+        })
+        .select('id')
+        .single();
 
     // Update translator stats
     await _updateTranslatorStats(
@@ -115,7 +119,9 @@ class SmTranslationService {
     await _awardTranslationXp(
       userId: translatorId,
       xp: isFirst ? 10 : 5,
-      reason: isFirst ? 'skill_mode_first_translation' : 'skill_mode_translation',
+      reason: isFirst
+          ? 'skill_mode_first_translation'
+          : 'skill_mode_translation',
     );
 
     return data['id'] as String;
@@ -127,11 +133,14 @@ class SmTranslationService {
     required String translatedText,
     String? notes,
   }) async {
-    await supabase.from('skill_mode_translations').update({
-      'translated_text': translatedText,
-      'notes': notes,
-      'updated_at': DateTime.now().toIso8601String(),
-    }).eq('id', translationId);
+    await supabase
+        .from('skill_mode_translations')
+        .update({
+          'translated_text': translatedText,
+          'notes': notes,
+          'updated_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', translationId);
   }
 
   /// Delete own translation.
@@ -150,11 +159,14 @@ class SmTranslationService {
     required String voterId,
     required int vote, // 1 or -1
   }) async {
-    await supabase.rpc('cast_translation_vote', params: {
-      'p_translation_id': translationId,
-      'p_voter_id': voterId,
-      'p_vote': vote,
-    });
+    await supabase.rpc(
+      'cast_translation_vote',
+      params: {
+        'p_translation_id': translationId,
+        'p_voter_id': voterId,
+        'p_vote': vote,
+      },
+    );
   }
 
   /// Get the current user's vote on a translation (null if no vote).
@@ -214,12 +226,15 @@ class SmTranslationService {
     required String translationId,
     required String verifierId,
   }) async {
-    await supabase.from('skill_mode_translations').update({
-      'status': 'expert_verified',
-      'verified_by': verifierId,
-      'verified_at': DateTime.now().toIso8601String(),
-      'updated_at': DateTime.now().toIso8601String(),
-    }).eq('id', translationId);
+    await supabase
+        .from('skill_mode_translations')
+        .update({
+          'status': 'expert_verified',
+          'verified_by': verifierId,
+          'verified_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', translationId);
 
     // Award verifier XP
     await _awardTranslationXp(
@@ -234,12 +249,15 @@ class SmTranslationService {
     required String translationId,
     required String rejectorId,
   }) async {
-    await supabase.from('skill_mode_translations').update({
-      'status': 'rejected',
-      'verified_by': rejectorId,
-      'verified_at': DateTime.now().toIso8601String(),
-      'updated_at': DateTime.now().toIso8601String(),
-    }).eq('id', translationId);
+    await supabase
+        .from('skill_mode_translations')
+        .update({
+          'status': 'rejected',
+          'verified_by': rejectorId,
+          'verified_at': DateTime.now().toIso8601String(),
+          'updated_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', translationId);
   }
 
   // ── Leaderboard ──
@@ -326,12 +344,15 @@ class SmTranslationService {
         tier = 'contributor';
       }
 
-      await supabase.from('skill_mode_translator_stats').update({
-        'total_submissions': submissions,
-        'trust_score': trustScore,
-        'tier': tier,
-        'updated_at': DateTime.now().toIso8601String(),
-      }).eq('id', existing['id'] as String);
+      await supabase
+          .from('skill_mode_translator_stats')
+          .update({
+            'total_submissions': submissions,
+            'trust_score': trustScore,
+            'tier': tier,
+            'updated_at': DateTime.now().toIso8601String(),
+          })
+          .eq('id', existing['id'] as String);
     }
   }
 

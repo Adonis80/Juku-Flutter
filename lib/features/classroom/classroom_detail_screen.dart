@@ -62,13 +62,18 @@ class _StudentsTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.people_outline,
-                    size: 64, color: theme.colorScheme.onSurfaceVariant),
+                Icon(
+                  Icons.people_outline,
+                  size: 64,
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
                 const SizedBox(height: 16),
                 Text('No students yet', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
-                Text('Share the join code with your students.',
-                    style: theme.textTheme.bodySmall),
+                Text(
+                  'Share the join code with your students.',
+                  style: theme.textTheme.bodySmall,
+                ),
               ],
             ),
           );
@@ -80,34 +85,39 @@ class _StudentsTab extends ConsumerWidget {
           itemBuilder: (context, index) {
             final s = students[index];
             return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  child: Text(
-                    (s.displayName ?? s.username ?? '?')[0].toUpperCase(),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text(
+                        (s.displayName ?? s.username ?? '?')[0].toUpperCase(),
+                      ),
+                    ),
+                    title: Text(s.displayName ?? s.username ?? 'Unknown'),
+                    subtitle: Text(
+                      'Joined ${_formatDate(s.joinedAt)} · ${s.role}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    trailing: s.role != 'teacher'
+                        ? IconButton(
+                            icon: const Icon(
+                              Icons.remove_circle_outline,
+                              size: 20,
+                            ),
+                            onPressed: () async {
+                              await ClassroomService.instance.removeStudent(
+                                classroomId,
+                                s.userId,
+                              );
+                              ref.invalidate(
+                                classroomStudentsProvider(classroomId),
+                              );
+                            },
+                          )
+                        : null,
                   ),
-                ),
-                title: Text(s.displayName ?? s.username ?? 'Unknown'),
-                subtitle: Text(
-                  'Joined ${_formatDate(s.joinedAt)} · ${s.role}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                trailing: s.role != 'teacher'
-                    ? IconButton(
-                        icon: const Icon(Icons.remove_circle_outline,
-                            size: 20),
-                        onPressed: () async {
-                          await ClassroomService.instance
-                              .removeStudent(classroomId, s.userId);
-                          ref.invalidate(
-                              classroomStudentsProvider(classroomId));
-                        },
-                      )
-                    : null,
-              ),
-            )
+                )
                 .animate()
                 .fadeIn(delay: (index * 50).ms)
                 .slideX(begin: 0.05, end: 0);
@@ -117,8 +127,7 @@ class _StudentsTab extends ConsumerWidget {
     );
   }
 
-  String _formatDate(DateTime dt) =>
-      '${dt.day}/${dt.month}/${dt.year}';
+  String _formatDate(DateTime dt) => '${dt.day}/${dt.month}/${dt.year}';
 }
 
 class _ContentTab extends ConsumerWidget {
@@ -161,20 +170,20 @@ class _ContentTab extends ConsumerWidget {
                 itemBuilder: (context, index) {
                   final c = content[index];
                   return Card(
-                    child: ListTile(
-                      leading: const Icon(Icons.library_books),
-                      title: Text(c.moduleTitle),
-                      subtitle: Text(
-                        c.dueDate != null
-                            ? 'Due: ${c.dueDate!.day}/${c.dueDate!.month}/${c.dueDate!.year}'
-                            : 'No due date',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: theme.colorScheme.onSurfaceVariant,
+                        child: ListTile(
+                          leading: const Icon(Icons.library_books),
+                          title: Text(c.moduleTitle),
+                          subtitle: Text(
+                            c.dueDate != null
+                                ? 'Due: ${c.dueDate!.day}/${c.dueDate!.month}/${c.dueDate!.year}'
+                                : 'No due date',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  )
+                      )
                       .animate()
                       .fadeIn(delay: (index * 50).ms)
                       .slideX(begin: 0.05, end: 0);
@@ -267,23 +276,25 @@ class _LeaderboardTab extends ConsumerWidget {
             };
 
             return Card(
-              child: ListTile(
-                leading: CircleAvatar(
-                  backgroundColor:
-                      rank <= 3 ? rankColor.withAlpha(50) : null,
-                  child: rankIcon != null
-                      ? Icon(rankIcon, color: rankColor, size: 20)
-                      : Text('#$rank'),
-                ),
-                title: Text(s.displayName ?? s.username ?? 'Student'),
-                subtitle: Text(
-                  'Joined ${s.joinedAt.day}/${s.joinedAt.month}',
-                  style: TextStyle(
-                      fontSize: 12,
-                      color: theme.colorScheme.onSurfaceVariant),
-                ),
-              ),
-            )
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: rank <= 3
+                          ? rankColor.withAlpha(50)
+                          : null,
+                      child: rankIcon != null
+                          ? Icon(rankIcon, color: rankColor, size: 20)
+                          : Text('#$rank'),
+                    ),
+                    title: Text(s.displayName ?? s.username ?? 'Student'),
+                    subtitle: Text(
+                      'Joined ${s.joinedAt.day}/${s.joinedAt.month}',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ),
+                )
                 .animate()
                 .fadeIn(delay: (index * 40).ms)
                 .slideX(begin: 0.03, end: 0);

@@ -25,8 +25,11 @@ class ModerationTab extends ConsumerWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.check_circle_outline,
-                    size: 64, color: theme.colorScheme.primary),
+                Icon(
+                  Icons.check_circle_outline,
+                  size: 64,
+                  color: theme.colorScheme.primary,
+                ),
                 const SizedBox(height: 16),
                 Text('All caught up!', style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
@@ -44,10 +47,7 @@ class ModerationTab extends ConsumerWidget {
           itemCount: items.length,
           itemBuilder: (context, index) {
             final item = items[index];
-            return _ModerationCard(
-              item: item,
-              tenantId: tenantId,
-            )
+            return _ModerationCard(item: item, tenantId: tenantId)
                 .animate()
                 .fadeIn(delay: (index * 80).ms)
                 .slideX(begin: 0.05, end: 0);
@@ -85,8 +85,10 @@ class _ModerationCard extends ConsumerWidget {
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd) {
           // Approve
-          await TenantService.instance
-              .moderateCard(itemId: item.id, approve: true);
+          await TenantService.instance.moderateCard(
+            itemId: item.id,
+            approve: true,
+          );
           ref.invalidate(moderationQueueProvider(tenantId));
           return true;
         } else {
@@ -162,8 +164,10 @@ class _ModerationCard extends ConsumerWidget {
                   const SizedBox(width: 8),
                   FilledButton.icon(
                     onPressed: () async {
-                      await TenantService.instance
-                          .moderateCard(itemId: item.id, approve: true);
+                      await TenantService.instance.moderateCard(
+                        itemId: item.id,
+                        approve: true,
+                      );
                       ref.invalidate(moderationQueueProvider(tenantId));
                     },
                     icon: const Icon(Icons.check, size: 18),

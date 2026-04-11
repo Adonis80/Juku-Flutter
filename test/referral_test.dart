@@ -19,9 +19,7 @@ void main() {
     });
 
     test('fromJson handles null counts', () {
-      final json = {
-        'user_id': 'u-2',
-      };
+      final json = {'user_id': 'u-2'};
       final stats = ReferralStats.fromJson(json);
       expect(stats.totalReferrals, 0);
       expect(stats.rewardedCount, 0);

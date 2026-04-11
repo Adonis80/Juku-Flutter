@@ -28,8 +28,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     _OnboardingPage(
       icon: Icons.school_outlined,
       title: 'Welcome to Juku',
-      subtitle:
-          'The gamified knowledge network for\nlanguage learners.',
+      subtitle: 'The gamified knowledge network for\nlanguage learners.',
       color: Color(0xFF8B5CF6),
     ),
     _OnboardingPage(
@@ -57,7 +56,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Future<void> _complete() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_kOnboardingComplete, true);
-    onboardingDone = true; // update in-memory flag so router redirect doesn't loop
+    onboardingDone =
+        true; // update in-memory flag so router redirect doesn't loop
     if (mounted) {
       context.go('/login');
     }
@@ -126,17 +126,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
             // Next / Get Started button.
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: FilledButton(
                 onPressed: _next,
                 style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(52),
                 ),
                 child: Text(
-                  _currentPage == _pages.length - 1
-                      ? 'Get Started'
-                      : 'Next',
+                  _currentPage == _pages.length - 1 ? 'Get Started' : 'Next',
                 ),
               ),
             ),

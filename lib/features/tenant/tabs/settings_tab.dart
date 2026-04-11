@@ -37,8 +37,10 @@ class SettingsTab extends StatelessWidget {
                     Icon(Icons.diamond, color: theme.colorScheme.primary),
                     const SizedBox(width: 8),
                     Expanded(
-                      child: Text(planLabel,
-                          style: theme.textTheme.titleMedium),
+                      child: Text(
+                        planLabel,
+                        style: theme.textTheme.titleMedium,
+                      ),
                     ),
                   ],
                 ),
@@ -48,7 +50,8 @@ class SettingsTab extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text(
-                            'Plan upgrades coming soon via Juice Wallet'),
+                          'Plan upgrades coming soon via Juice Wallet',
+                        ),
                       ),
                     );
                   },
@@ -80,8 +83,7 @@ class SettingsTab extends StatelessWidget {
                   contentPadding: EdgeInsets.zero,
                   leading: const Icon(Icons.account_balance),
                   title: const Text('Payment method'),
-                  subtitle:
-                      const Text('Managed via Juice Wallet'),
+                  subtitle: const Text('Managed via Juice Wallet'),
                 ),
               ],
             ),
@@ -172,8 +174,8 @@ class _InfoRow extends StatelessWidget {
             child: Text(
               label,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
           Expanded(

@@ -67,24 +67,25 @@ class _CreateLessonScreenState extends State<CreateLessonScreen> {
         'author_id': user.id,
         'title': _titleCtrl.text.trim(),
         'content': _contentCtrl.text.trim(),
-        'example':
-            _exampleCtrl.text.trim().isEmpty ? null : _exampleCtrl.text.trim(),
+        'example': _exampleCtrl.text.trim().isEmpty
+            ? null
+            : _exampleCtrl.text.trim(),
         'domain': 'languages',
         'topic': _topic,
         'language_pair': _languagePair,
       });
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Lesson created! +10 XP')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Lesson created! +10 XP')));
         context.go('/feed');
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
       }
     }
 
@@ -126,10 +127,12 @@ class _CreateLessonScreenState extends State<CreateLessonScreen> {
                 initialValue: _topic,
                 decoration: const InputDecoration(labelText: 'Topic'),
                 items: _topics
-                    .map((t) => DropdownMenuItem(
-                          value: t,
-                          child: Text(t[0].toUpperCase() + t.substring(1)),
-                        ))
+                    .map(
+                      (t) => DropdownMenuItem(
+                        value: t,
+                        child: Text(t[0].toUpperCase() + t.substring(1)),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setState(() => _topic = v);
@@ -142,10 +145,12 @@ class _CreateLessonScreenState extends State<CreateLessonScreen> {
                 initialValue: _languagePair,
                 decoration: const InputDecoration(labelText: 'Language Pair'),
                 items: _languagePairs
-                    .map((lp) => DropdownMenuItem(
-                          value: lp,
-                          child: Text(lp.toUpperCase()),
-                        ))
+                    .map(
+                      (lp) => DropdownMenuItem(
+                        value: lp,
+                        child: Text(lp.toUpperCase()),
+                      ),
+                    )
                     .toList(),
                 onChanged: (v) {
                   if (v != null) setState(() => _languagePair = v);

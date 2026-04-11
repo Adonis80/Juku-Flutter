@@ -99,15 +99,15 @@ class _SmApiKeysScreenState extends ConsumerState<SmApiKeysScreen> {
                     leading: CircleAvatar(
                       backgroundColor: hasKey
                           ? (isValid
-                              ? const Color(0xFF10B981).withAlpha(25)
-                              : const Color(0xFFEF4444).withAlpha(25))
+                                ? const Color(0xFF10B981).withAlpha(25)
+                                : const Color(0xFFEF4444).withAlpha(25))
                           : theme.colorScheme.surfaceContainerHighest,
                       child: Icon(
                         p.icon,
                         color: hasKey
                             ? (isValid
-                                ? const Color(0xFF10B981)
-                                : const Color(0xFFEF4444))
+                                  ? const Color(0xFF10B981)
+                                  : const Color(0xFFEF4444))
                             : theme.colorScheme.onSurfaceVariant,
                         size: 20,
                       ),
@@ -134,8 +134,11 @@ class _SmApiKeysScreenState extends ConsumerState<SmApiKeysScreen> {
                                     _showKeyDialog(p.id, p.name, update: true),
                               ),
                               IconButton(
-                                icon: const Icon(Icons.delete_outline,
-                                    size: 18, color: Color(0xFFEF4444)),
+                                icon: const Icon(
+                                  Icons.delete_outline,
+                                  size: 18,
+                                  color: Color(0xFFEF4444),
+                                ),
                                 onPressed: () => _deleteKey(p.id),
                               ),
                             ],

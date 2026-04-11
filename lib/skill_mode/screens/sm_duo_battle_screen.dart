@@ -87,8 +87,7 @@ class _SmDuoBattleScreenState extends ConsumerState<SmDuoBattleScreen> {
         }
 
         // Subscribe to realtime updates
-        _subscription =
-            _service.subscribeToBattle(battle.id).listen((updated) {
+        _subscription = _service.subscribeToBattle(battle.id).listen((updated) {
           if (mounted) {
             setState(() => _battle = updated);
             if (updated.isFinished) {
@@ -274,9 +273,7 @@ class _SmDuoBattleScreenState extends ConsumerState<SmDuoBattleScreen> {
   ) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest,
-      ),
+      decoration: BoxDecoration(color: cs.surfaceContainerHighest),
       child: Row(
         children: [
           // My score
@@ -284,9 +281,7 @@ class _SmDuoBattleScreenState extends ConsumerState<SmDuoBattleScreen> {
             children: [
               Text(
                 'You',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: cs.primary,
-                ),
+                style: theme.textTheme.labelSmall?.copyWith(color: cs.primary),
               ),
               Text(
                 '${battle.myScore(userId)}',
@@ -319,9 +314,7 @@ class _SmDuoBattleScreenState extends ConsumerState<SmDuoBattleScreen> {
             children: [
               Text(
                 'Opponent',
-                style: theme.textTheme.labelSmall?.copyWith(
-                  color: cs.error,
-                ),
+                style: theme.textTheme.labelSmall?.copyWith(color: cs.error),
               ),
               Text(
                 '${battle.opponentScore(userId)}',
@@ -440,14 +433,16 @@ class _SmDuoBattleScreenState extends ConsumerState<SmDuoBattleScreen> {
                     key: ValueKey(_userOrder[i]),
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: SmTileWidget(
-                      foreignText: card.sentenceTiles![_userOrder[i]]['word']
+                      foreignText:
+                          card.sentenceTiles![_userOrder[i]]['word']
                               as String? ??
                           '',
-                      tileType: card.sentenceTiles![_userOrder[i]]['type']
+                      tileType:
+                          card.sentenceTiles![_userOrder[i]]['type']
                               as String? ??
                           'standard',
-                      partOfSpeech: card.sentenceTiles![_userOrder[i]]['pos']
-                          as String?,
+                      partOfSpeech:
+                          card.sentenceTiles![_userOrder[i]]['pos'] as String?,
                     ),
                   ),
               ],

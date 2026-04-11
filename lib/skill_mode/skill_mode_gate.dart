@@ -6,7 +6,8 @@ bool canAccessSkillMode({
   Map<String, dynamic>? tenantEnabledFeatures,
 }) {
   final domainMatch = activeDomain == 'languages';
-  final tenantAllows = tenantEnabledFeatures == null ||
+  final tenantAllows =
+      tenantEnabledFeatures == null ||
       (tenantEnabledFeatures['skill_mode'] as bool? ?? true);
   return domainMatch && tenantAllows;
 }

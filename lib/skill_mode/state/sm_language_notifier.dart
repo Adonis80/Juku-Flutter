@@ -26,4 +26,5 @@ class SmLanguageNotifier extends AsyncNotifier<SmLanguageProgress?> {
 
 final smLanguageProvider =
     AsyncNotifierProvider<SmLanguageNotifier, SmLanguageProgress?>(
-        SmLanguageNotifier.new);
+      SmLanguageNotifier.new,
+    );

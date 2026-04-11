@@ -100,13 +100,16 @@ class ChallengeService {
     required bool correct,
     required List<String> answers,
   }) async {
-    final result = await supabase.rpc('submit_challenge_attempt', params: {
-      'p_challenge_id': challengeId,
-      'p_score': score,
-      'p_time_ms': timeMs,
-      'p_correct': correct,
-      'p_answers': answers,
-    });
+    final result = await supabase.rpc(
+      'submit_challenge_attempt',
+      params: {
+        'p_challenge_id': challengeId,
+        'p_score': score,
+        'p_time_ms': timeMs,
+        'p_correct': correct,
+        'p_answers': answers,
+      },
+    );
 
     if (result == null) return null;
     final map = result as Map<String, dynamic>;
@@ -115,12 +118,12 @@ class ChallengeService {
   }
 
   /// Get the global leaderboard for a challenge.
-  Future<List<Map<String, dynamic>>> getLeaderboard(
-      String challengeId) async {
+  Future<List<Map<String, dynamic>>> getLeaderboard(String challengeId) async {
     final data = await supabase
         .from('challenge_attempts')
         .select(
-            '*, profiles!challenge_attempts_user_id_fkey(display_name, username)')
+          '*, profiles!challenge_attempts_user_id_fkey(display_name, username)',
+        )
         .eq('challenge_id', challengeId)
         .order('score', ascending: false)
         .order('time_ms', ascending: true)

@@ -26,7 +26,12 @@ class _SmTranslatorLeaderboardState extends State<SmTranslatorLeaderboard> {
   Future<void> _load() async {
     try {
       final data = await _service.getTopTranslators(limit: 10);
-      if (mounted) setState(() { _translators = data; _loading = false; });
+      if (mounted) {
+        setState(() {
+          _translators = data;
+          _loading = false;
+        });
+      }
     } catch (_) {
       if (mounted) setState(() => _loading = false);
     }

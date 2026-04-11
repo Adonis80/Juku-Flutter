@@ -22,10 +22,7 @@ void main() {
     });
 
     test('fromJson uses defaults', () {
-      final zone = WorldZone.fromJson({
-        'id': 'z-2',
-        'name': 'General',
-      });
+      final zone = WorldZone.fromJson({'id': 'z-2', 'name': 'General'});
       expect(zone.language, 'general');
       expect(zone.ambientTheme, 'default');
       expect(zone.maxCapacity, 20);
@@ -40,10 +37,7 @@ void main() {
         'position_x': 0.5,
         'position_y': 0.3,
         'joined_at': '2026-04-11T10:00:00Z',
-        'profiles': {
-          'username': 'alice',
-          'display_name': 'Alice',
-        },
+        'profiles': {'username': 'alice', 'display_name': 'Alice'},
       };
       final m = PodMember.fromJson(json);
       expect(m.userId, 'u-1');
@@ -54,10 +48,7 @@ void main() {
     });
 
     test('fromJson without profile', () {
-      final json = {
-        'user_id': 'u-2',
-        'joined_at': '2026-04-11T10:00:00Z',
-      };
+      final json = {'user_id': 'u-2', 'joined_at': '2026-04-11T10:00:00Z'};
       final m = PodMember.fromJson(json);
       expect(m.username, isNull);
       expect(m.posX, 0);

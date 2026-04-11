@@ -14,16 +14,20 @@ class SmChallengeService {
     String? deckId,
     String? tauntMessage,
   }) async {
-    final data = await supabase.from('skill_mode_challenges').insert({
-      'challenger_id': challengerId,
-      'challenged_id': challengedId,
-      'card_id': cardId,
-      'deck_id': deckId,
-      'language': language,
-      'challenger_score': challengerScore,
-      'challenger_time_ms': challengerTimeMs,
-      'taunt_message': tauntMessage,
-    }).select('id').single();
+    final data = await supabase
+        .from('skill_mode_challenges')
+        .insert({
+          'challenger_id': challengerId,
+          'challenged_id': challengedId,
+          'card_id': cardId,
+          'deck_id': deckId,
+          'language': language,
+          'challenger_score': challengerScore,
+          'challenger_time_ms': challengerTimeMs,
+          'taunt_message': tauntMessage,
+        })
+        .select('id')
+        .single();
 
     // Award XP for sending a challenge
     await supabase.from('xp_events').insert({
@@ -37,17 +41,21 @@ class SmChallengeService {
 
   /// Accept a challenge.
   Future<void> acceptChallenge(String challengeId) async {
-    await supabase.from('skill_mode_challenges').update({
-      'status': 'accepted',
-      'accepted_at': DateTime.now().toIso8601String(),
-    }).eq('id', challengeId);
+    await supabase
+        .from('skill_mode_challenges')
+        .update({
+          'status': 'accepted',
+          'accepted_at': DateTime.now().toIso8601String(),
+        })
+        .eq('id', challengeId);
   }
 
   /// Decline a challenge.
   Future<void> declineChallenge(String challengeId) async {
-    await supabase.from('skill_mode_challenges').update({
-      'status': 'declined',
-    }).eq('id', challengeId);
+    await supabase
+        .from('skill_mode_challenges')
+        .update({'status': 'declined'})
+        .eq('id', challengeId);
   }
 
   /// Complete a challenge — submit the challenged player's score.
@@ -85,13 +93,18 @@ class SmChallengeService {
       // Equal score + time = no winner
     }
 
-    final data = await supabase.from('skill_mode_challenges').update({
-      'challenged_score': score,
-      'challenged_time_ms': timeMs,
-      'status': 'completed',
-      'completed_at': DateTime.now().toIso8601String(),
-      'winner_id': winnerId,
-    }).eq('id', challengeId).select().single();
+    final data = await supabase
+        .from('skill_mode_challenges')
+        .update({
+          'challenged_score': score,
+          'challenged_time_ms': timeMs,
+          'status': 'completed',
+          'completed_at': DateTime.now().toIso8601String(),
+          'winner_id': winnerId,
+        })
+        .eq('id', challengeId)
+        .select()
+        .single();
 
     // Award XP
     if (winnerId == challengedId) {
@@ -175,12 +188,12 @@ class SmChallengeService {
   }
 
   /// Get friends/followers for challenge picker.
-  Future<List<Map<String, dynamic>>> getChallengeFriends(
-    String userId,
-  ) async {
+  Future<List<Map<String, dynamic>>> getChallengeFriends(String userId) async {
     final data = await supabase
         .from('follows')
-        .select('following_id, profiles!follows_following_id_fkey(id, username, photo_url)')
+        .select(
+          'following_id, profiles!follows_following_id_fkey(id, username, photo_url)',
+        )
         .eq('follower_id', userId)
         .limit(50);
 

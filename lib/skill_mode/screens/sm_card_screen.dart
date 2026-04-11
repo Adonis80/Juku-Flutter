@@ -250,8 +250,10 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
               Row(
                 children: [
                   Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primaryContainer,
                       borderRadius: BorderRadius.circular(8),
@@ -317,15 +319,17 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
 
     if (_state == SmCardState.revealed && !_showForeignOrder) {
       // Show tiles in native order with cascade reveal
-      final nativeOrder = card.nativeWordOrder ?? List.generate(tiles.length, (i) => i);
+      final nativeOrder =
+          card.nativeWordOrder ?? List.generate(tiles.length, (i) => i);
       final orderedTiles = nativeOrder.map((idx) => tiles[idx]).toList();
       return Wrap(
         spacing: 8,
         runSpacing: 8,
         children: List.generate(orderedTiles.length, (i) {
           final t = orderedTiles[i];
-          final controller =
-              i < _flipControllers.length ? _flipControllers[i] : null;
+          final controller = i < _flipControllers.length
+              ? _flipControllers[i]
+              : null;
 
           Widget tile = SmTileWidget(
             foreignText: t['word'] as String? ?? '',
@@ -348,10 +352,7 @@ class _SmCardScreenState extends ConsumerState<SmCardScreen>
                     ..rotateY(angle),
                   child: controller.value > 0.5
                       ? child
-                      : SmTileWidget(
-                          foreignText: '',
-                          isFaceDown: true,
-                        ),
+                      : SmTileWidget(foreignText: '', isFaceDown: true),
                 );
               },
               child: tile,

@@ -53,7 +53,6 @@ class _TenantOnboardingScreenState
   // Step 5: Invite emails
   final _inviteCtrl = TextEditingController();
 
-
   @override
   void dispose() {
     _nameCtrl.dispose();
@@ -137,26 +136,25 @@ class _TenantOnboardingScreenState
               children: List.generate(5, (i) {
                 final done = i <= _step;
                 return Expanded(
-                  child: Container(
-                    height: 4,
-                    margin: const EdgeInsets.symmetric(horizontal: 2),
-                    decoration: BoxDecoration(
-                      color: done
-                          ? theme.colorScheme.primary
-                          : theme.colorScheme.surfaceContainerHighest,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  )
-                      .animate(
-                        target: done ? 1 : 0,
-                      )
-                      .scaleX(
-                        begin: 0,
-                        end: 1,
-                        alignment: Alignment.centerLeft,
-                        duration: 300.ms,
-                        curve: Curves.easeOut,
-                      ),
+                  child:
+                      Container(
+                            height: 4,
+                            margin: const EdgeInsets.symmetric(horizontal: 2),
+                            decoration: BoxDecoration(
+                              color: done
+                                  ? theme.colorScheme.primary
+                                  : theme.colorScheme.surfaceContainerHighest,
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          )
+                          .animate(target: done ? 1 : 0)
+                          .scaleX(
+                            begin: 0,
+                            end: 1,
+                            alignment: Alignment.centerLeft,
+                            duration: 300.ms,
+                            curve: Curves.easeOut,
+                          ),
                 );
               }),
             ),
@@ -172,10 +170,7 @@ class _TenantOnboardingScreenState
 
           // Step content
           Expanded(
-            child: AnimatedSwitcher(
-              duration: 300.ms,
-              child: _buildStep(),
-            ),
+            child: AnimatedSwitcher(duration: 300.ms, child: _buildStep()),
           ),
 
           // Next button
@@ -206,32 +201,26 @@ class _TenantOnboardingScreenState
   Widget _buildStep() {
     return switch (_step) {
       0 => _StepName(
-          key: const ValueKey(0),
-          nameCtrl: _nameCtrl,
-          slugCtrl: _slugCtrl,
-          onChanged: () => setState(() {}),
-        ),
+        key: const ValueKey(0),
+        nameCtrl: _nameCtrl,
+        slugCtrl: _slugCtrl,
+        onChanged: () => setState(() {}),
+      ),
       1 => _StepPlan(
-          key: const ValueKey(1),
-          selected: _plan,
-          onSelected: (p) => setState(() => _plan = p),
-        ),
+        key: const ValueKey(1),
+        selected: _plan,
+        onSelected: (p) => setState(() => _plan = p),
+      ),
       2 => _StepBranding(
-          key: const ValueKey(2),
-          primaryColor: _primaryColor,
-          secondaryColor: _secondaryColor,
-          colors: _brandColors,
-          onPrimaryChanged: (c) => setState(() => _primaryColor = c),
-          onSecondaryChanged: (c) => setState(() => _secondaryColor = c),
-        ),
-      3 => _StepWelcome(
-          key: const ValueKey(3),
-          ctrl: _welcomeCtrl,
-        ),
-      4 => _StepInvite(
-          key: const ValueKey(4),
-          ctrl: _inviteCtrl,
-        ),
+        key: const ValueKey(2),
+        primaryColor: _primaryColor,
+        secondaryColor: _secondaryColor,
+        colors: _brandColors,
+        onPrimaryChanged: (c) => setState(() => _primaryColor = c),
+        onSecondaryChanged: (c) => setState(() => _secondaryColor = c),
+      ),
+      3 => _StepWelcome(key: const ValueKey(3), ctrl: _welcomeCtrl),
+      4 => _StepInvite(key: const ValueKey(4), ctrl: _inviteCtrl),
       _ => const SizedBox.shrink(),
     };
   }
@@ -262,8 +251,8 @@ class _StepName extends StatelessWidget {
         Text(
           'This is what your members will see.',
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ),
         const SizedBox(height: 24),
         TextField(
@@ -315,8 +304,7 @@ class _StepPlan extends StatelessWidget {
       children: [
         Text('Choose your plan', style: theme.textTheme.headlineSmall),
         const SizedBox(height: 24),
-        for (final (key, label, price, desc)
-            in _tenantPlans) ...[
+        for (final (key, label, price, desc) in _tenantPlans) ...[
           Card(
             elevation: selected == key ? 4 : 1,
             color: selected == key
@@ -330,9 +318,9 @@ class _StepPlan extends StatelessWidget {
                   : null,
               onTap: () => onSelected(key),
             ),
-          ).animate().fadeIn(delay: (100 * _tenantPlans
-                      .indexWhere((e) => e.$1 == key))
-                  .ms),
+          ).animate().fadeIn(
+            delay: (100 * _tenantPlans.indexWhere((e) => e.$1 == key)).ms,
+          ),
           const SizedBox(height: 8),
         ],
       ],
@@ -531,7 +519,8 @@ class _StepInvite extends StatelessWidget {
           maxLines: 3,
           decoration: const InputDecoration(
             hintText: 'admin@example.com, mod@example.com',
-            helperText: 'Separate emails with commas. Optional — skip to launch.',
+            helperText:
+                'Separate emails with commas. Optional — skip to launch.',
             border: OutlineInputBorder(),
           ),
           keyboardType: TextInputType.emailAddress,

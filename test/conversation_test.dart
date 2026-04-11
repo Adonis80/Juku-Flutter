@@ -24,11 +24,7 @@ void main() {
     });
 
     test('fromJson uses defaults for missing fields', () {
-      final json = {
-        'id': 'sc-2',
-        'title': 'Test',
-        'description': 'Test desc',
-      };
+      final json = {'id': 'sc-2', 'title': 'Test', 'description': 'Test desc'};
       final scenario = ConversationScenario.fromJson(json);
       expect(scenario.language, 'de');
       expect(scenario.difficulty, 'beginner');

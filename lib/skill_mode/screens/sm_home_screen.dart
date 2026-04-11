@@ -121,8 +121,7 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                             label: Text('${entry.value.$2} ${entry.value.$1}'),
                             onSelected: (selected) {
                               if (selected) {
-                                setState(
-                                    () => _selectedLanguage = entry.key);
+                                setState(() => _selectedLanguage = entry.key);
                                 _loadData();
                               }
                             },
@@ -212,8 +211,7 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                   Card(
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
-                      onTap: () =>
-                          context.push('/skill/conversation'),
+                      onTap: () => context.push('/skill/conversation'),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Row(
@@ -226,22 +224,17 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'AI Conversation',
                                     style: theme.textTheme.titleMedium
-                                        ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     'Practice speaking with a native AI partner',
-                                    style: theme.textTheme.bodySmall
-                                        ?.copyWith(
-                                      color: theme
-                                          .colorScheme.onSurfaceVariant,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
                                     ),
                                   ),
                                 ],
@@ -262,8 +255,7 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                   Card(
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
-                      onTap: () =>
-                          context.push('/skill-mode/competitions'),
+                      onTap: () => context.push('/skill-mode/competitions'),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Row(
@@ -276,22 +268,17 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
                             const SizedBox(width: 16),
                             Expanded(
                               child: Column(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
                                     'Translation Battles',
                                     style: theme.textTheme.titleMedium
-                                        ?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     'Compete to translate song lyrics',
-                                    style: theme.textTheme.bodySmall
-                                        ?.copyWith(
-                                      color: theme
-                                          .colorScheme.onSurfaceVariant,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
                                     ),
                                   ),
                                 ],

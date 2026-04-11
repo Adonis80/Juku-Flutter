@@ -42,8 +42,9 @@ class _SmCompetitionEntryScreenState
 
   Future<void> _loadData() async {
     try {
-      final detail =
-          ref.read(smCompetitionDetailProvider(widget.competitionId));
+      final detail = ref.read(
+        smCompetitionDetailProvider(widget.competitionId),
+      );
       final comp = detail.competition;
       if (comp == null) return;
 
@@ -70,8 +71,9 @@ class _SmCompetitionEntryScreenState
           return _LineEntry(
             lineIndex: idx,
             sourceText: lyric['text'] as String? ?? '',
-            controller:
-                TextEditingController(text: existing?.translatedText ?? ''),
+            controller: TextEditingController(
+              text: existing?.translatedText ?? '',
+            ),
           );
         }).toList();
         _loading = false;
@@ -83,8 +85,9 @@ class _SmCompetitionEntryScreenState
 
   Future<void> _submit() async {
     // Validate at least one line translated.
-    final translated =
-        _lines.where((l) => l.controller.text.trim().isNotEmpty).toList();
+    final translated = _lines
+        .where((l) => l.controller.text.trim().isNotEmpty)
+        .toList();
     if (translated.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Translate at least one line')),
@@ -96,11 +99,13 @@ class _SmCompetitionEntryScreenState
 
     try {
       final translations = translated
-          .map((l) => SmEntryLine(
-                lineIndex: l.lineIndex,
-                sourceText: l.sourceText,
-                translatedText: l.controller.text.trim(),
-              ))
+          .map(
+            (l) => SmEntryLine(
+              lineIndex: l.lineIndex,
+              sourceText: l.sourceText,
+              translatedText: l.controller.text.trim(),
+            ),
+          )
           .toList();
 
       final actions = SmCompetitionDetailActions(ref, widget.competitionId);
@@ -112,16 +117,16 @@ class _SmCompetitionEntryScreenState
       );
 
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Entry submitted!')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Entry submitted!')));
         context.pop();
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error: $e')));
       }
     } finally {
       if (mounted) setState(() => _submitting = false);
@@ -131,8 +136,9 @@ class _SmCompetitionEntryScreenState
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final translatedCount =
-        _lines.where((l) => l.controller.text.trim().isNotEmpty).length;
+    final translatedCount = _lines
+        .where((l) => l.controller.text.trim().isNotEmpty)
+        .length;
 
     return Scaffold(
       appBar: AppBar(
@@ -157,8 +163,10 @@ class _SmCompetitionEntryScreenState
               children: [
                 // Progress bar.
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   color: theme.colorScheme.surfaceContainerHighest,
                   child: Row(
                     children: [
@@ -220,8 +228,7 @@ class _SmCompetitionEntryScreenState
                         lineIndex: line.lineIndex,
                         sourceText: line.sourceText,
                         controller: line.controller,
-                        targetLanguage:
-                            _competition?.targetLanguage ?? 'en',
+                        targetLanguage: _competition?.targetLanguage ?? 'en',
                         onChanged: () => setState(() {}),
                       );
                     },

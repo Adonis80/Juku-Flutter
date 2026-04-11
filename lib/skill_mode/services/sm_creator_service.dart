@@ -67,12 +67,15 @@ class SmCreatorService {
         final newRank = _rankForXp(newXp);
         final newLevel = _levelForXp(newXp);
 
-        await supabase.from('skill_mode_creator_stats').update({
-          'creator_xp': newXp,
-          'creator_rank': newRank,
-          'creator_level': newLevel,
-          'updated_at': DateTime.now().toIso8601String(),
-        }).eq('user_id', userId);
+        await supabase
+            .from('skill_mode_creator_stats')
+            .update({
+              'creator_xp': newXp,
+              'creator_rank': newRank,
+              'creator_level': newLevel,
+              'updated_at': DateTime.now().toIso8601String(),
+            })
+            .eq('user_id', userId);
       }
     } catch (_) {}
   }
@@ -97,11 +100,14 @@ class SmCreatorService {
   }) async {
     // Increment play count on deck.
     try {
-      await supabase.rpc('increment_field', params: {
-        'table_name': 'skill_mode_decks',
-        'field_name': 'play_count',
-        'row_id': deckId,
-      });
+      await supabase.rpc(
+        'increment_field',
+        params: {
+          'table_name': 'skill_mode_decks',
+          'field_name': 'play_count',
+          'row_id': deckId,
+        },
+      );
     } catch (_) {
       // Fallback: direct update.
       try {
@@ -110,9 +116,10 @@ class SmCreatorService {
             .select('play_count')
             .eq('id', deckId)
             .single();
-        await supabase.from('skill_mode_decks').update({
-          'play_count': (deck['play_count'] as int? ?? 0) + 1,
-        }).eq('id', deckId);
+        await supabase
+            .from('skill_mode_decks')
+            .update({'play_count': (deck['play_count'] as int? ?? 0) + 1})
+            .eq('id', deckId);
       } catch (_) {}
     }
 

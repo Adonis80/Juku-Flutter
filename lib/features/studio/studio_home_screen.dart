@@ -49,8 +49,9 @@ class StudioHomeScreen extends ConsumerWidget {
             // My Modules section
             Text(
               'My Modules',
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             myModules.when(
@@ -65,17 +66,19 @@ class StudioHomeScreen extends ConsumerWidget {
                   ? _buildEmptyState(context, theme)
                   : Column(
                       children: modules
-                          .map((m) => _ModuleCard(
-                                module: m,
-                                isOwn: true,
-                                onTap: () {
-                                  if (m.published) {
-                                    context.push('/studio/play/${m.id}');
-                                  }
-                                },
-                                onDelete: () => _confirmDelete(
-                                    context, ref, m.id),
-                              ))
+                          .map(
+                            (m) => _ModuleCard(
+                              module: m,
+                              isOwn: true,
+                              onTap: () {
+                                if (m.published) {
+                                  context.push('/studio/play/${m.id}');
+                                }
+                              },
+                              onDelete: () =>
+                                  _confirmDelete(context, ref, m.id),
+                            ),
+                          )
                           .toList(),
                     ),
             ),
@@ -84,8 +87,9 @@ class StudioHomeScreen extends ConsumerWidget {
             // Community Modules section
             Text(
               'Community Modules',
-              style: theme.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold),
+              style: theme.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 8),
             communityModules.when(
@@ -112,12 +116,13 @@ class StudioHomeScreen extends ConsumerWidget {
                     )
                   : Column(
                       children: modules
-                          .map((m) => _ModuleCard(
-                                module: m,
-                                isOwn: false,
-                                onTap: () =>
-                                    context.push('/studio/play/${m.id}'),
-                              ))
+                          .map(
+                            (m) => _ModuleCard(
+                              module: m,
+                              isOwn: false,
+                              onTap: () => context.push('/studio/play/${m.id}'),
+                            ),
+                          )
                           .toList(),
                     ),
             ),
@@ -150,9 +155,7 @@ class StudioHomeScreen extends ConsumerWidget {
             Text(
               'Create quizzes, flashcard decks, or calculators — powered by AI.',
               textAlign: TextAlign.center,
-              style: TextStyle(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+              style: TextStyle(color: theme.colorScheme.onSurfaceVariant),
             ),
             const SizedBox(height: 16),
             FilledButton.icon(
@@ -264,8 +267,7 @@ class _ModuleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final hasCover = module.coverUrl != null &&
-        module.coverUrl!.isNotEmpty;
+    final hasCover = module.coverUrl != null && module.coverUrl!.isNotEmpty;
     final hasBranding = module.branding.isNotEmpty;
 
     // Build background decoration from branding
@@ -343,7 +345,9 @@ class _ModuleCard extends StatelessWidget {
                       children: [
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 6, vertical: 1),
+                            horizontal: 6,
+                            vertical: 1,
+                          ),
                           decoration: BoxDecoration(
                             color: useWhiteText
                                 ? Colors.white.withValues(alpha: 0.2)
@@ -356,13 +360,11 @@ class _ModuleCard extends StatelessWidget {
                               fontSize: 10,
                               color: useWhiteText
                                   ? Colors.white
-                                  : theme
-                                      .colorScheme.onSecondaryContainer,
+                                  : theme.colorScheme.onSecondaryContainer,
                             ),
                           ),
                         ),
-                        if (!isOwn &&
-                            module.creatorUsername != null) ...[
+                        if (!isOwn && module.creatorUsername != null) ...[
                           const SizedBox(width: 6),
                           Text(
                             '@${module.creatorUsername}',
@@ -386,15 +388,15 @@ class _ModuleCard extends StatelessWidget {
                   if (isOwn)
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 6, vertical: 2),
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
                       decoration: BoxDecoration(
                         color: module.published
                             ? Colors.green.withValues(alpha: 0.2)
                             : (useWhiteText
-                                ? Colors.white
-                                    .withValues(alpha: 0.15)
-                                : theme.colorScheme
-                                    .surfaceContainerHighest),
+                                  ? Colors.white.withValues(alpha: 0.15)
+                                  : theme.colorScheme.surfaceContainerHighest),
                         borderRadius: BorderRadius.circular(4),
                       ),
                       child: Text(
@@ -404,12 +406,11 @@ class _ModuleCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: module.published
                               ? (useWhiteText
-                                  ? Colors.greenAccent
-                                  : Colors.green)
+                                    ? Colors.greenAccent
+                                    : Colors.green)
                               : (useWhiteText
-                                  ? Colors.white60
-                                  : theme
-                                      .colorScheme.onSurfaceVariant),
+                                    ? Colors.white60
+                                    : theme.colorScheme.onSurfaceVariant),
                         ),
                       ),
                     ),
@@ -417,11 +418,13 @@ class _ModuleCard extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.play_arrow,
-                          size: 14,
-                          color: useWhiteText
-                              ? Colors.white60
-                              : theme.colorScheme.outline),
+                      Icon(
+                        Icons.play_arrow,
+                        size: 14,
+                        color: useWhiteText
+                            ? Colors.white60
+                            : theme.colorScheme.outline,
+                      ),
                       const SizedBox(width: 2),
                       Text(
                         '${module.playCount}',

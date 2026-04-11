@@ -118,10 +118,7 @@ class _FlamePainter extends CustomPainter {
       ..shader = LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [
-          color.withAlpha(200),
-          color,
-        ],
+        colors: [color.withAlpha(200), color],
       ).createShader(Rect.fromLTWH(0, 0, w, h));
 
     canvas.drawPath(outerPath, outerPaint);

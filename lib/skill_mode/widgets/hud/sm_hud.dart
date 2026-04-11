@@ -50,14 +50,15 @@ class _SmHudState extends ConsumerState<SmHud> with TickerProviderStateMixin {
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _shatterController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    )..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          setState(() => _comboShattered = false);
-        }
-      });
+    _shatterController =
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 600),
+        )..addStatusListener((status) {
+          if (status == AnimationStatus.completed) {
+            setState(() => _comboShattered = false);
+          }
+        });
   }
 
   @override
@@ -202,9 +203,7 @@ class _SmHudState extends ConsumerState<SmHud> with TickerProviderStateMixin {
             ],
           ),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: const Color(0xFFF59E0B).withAlpha(100),
-          ),
+          border: Border.all(color: const Color(0xFFF59E0B).withAlpha(100)),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -241,7 +240,8 @@ class _SmHudState extends ConsumerState<SmHud> with TickerProviderStateMixin {
             animation: _xpBarController,
             builder: (context, _) {
               // Interpolate bar fill.
-              final currentXp = _xpBarFrom +
+              final currentXp =
+                  _xpBarFrom +
                   (_xpBarTo - _xpBarFrom) *
                       Curves.easeOut.transform(_xpBarController.value);
               // Normalize: assume 100 XP per session as "full".
@@ -251,9 +251,7 @@ class _SmHudState extends ConsumerState<SmHud> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(4),
                 child: Stack(
                   children: [
-                    Container(
-                      color: theme.colorScheme.surfaceContainerHighest,
-                    ),
+                    Container(color: theme.colorScheme.surfaceContainerHighest),
                     FractionallySizedBox(
                       widthFactor: fill,
                       child: Container(
@@ -339,6 +337,5 @@ class _ShatterPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant _ShatterPainter old) =>
-      old.progress != progress;
+  bool shouldRepaint(covariant _ShatterPainter old) => old.progress != progress;
 }

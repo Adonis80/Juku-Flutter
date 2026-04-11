@@ -48,7 +48,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
     final lessonsFuture = supabase
         .from('lessons')
         .select(
-            'id, title, topic, language_pair, score, profiles!lessons_author_id_fkey(username)')
+          'id, title, topic, language_pair, score, profiles!lessons_author_id_fkey(username)',
+        )
         .or('title.ilike.%$query%,content.ilike.%$query%')
         .eq('hidden', false)
         .order('score', ascending: false)
@@ -90,8 +91,10 @@ class _ExploreScreenState extends State<ExploreScreen> {
             ),
             filled: true,
             fillColor: theme.colorScheme.surfaceContainerHighest,
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 10,
+            ),
           ),
           onChanged: _onSearchChanged,
         ),
@@ -100,47 +103,47 @@ class _ExploreScreenState extends State<ExploreScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : !_hasSearched
-              ? _BuildSuggestions()
-              : (_lessons.isEmpty && _profiles.isEmpty)
-                  ? Center(
-                      child: Text(
-                        'No results found',
-                        style: TextStyle(color: theme.colorScheme.outline),
+          ? _BuildSuggestions()
+          : (_lessons.isEmpty && _profiles.isEmpty)
+          ? Center(
+              child: Text(
+                'No results found',
+                style: TextStyle(color: theme.colorScheme.outline),
+              ),
+            )
+          : ListView(
+              padding: const EdgeInsets.all(12),
+              children: [
+                // Profiles section
+                if (_profiles.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      'Users',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
-                    )
-                  : ListView(
-                      padding: const EdgeInsets.all(12),
-                      children: [
-                        // Profiles section
-                        if (_profiles.isNotEmpty) ...[
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                              'Users',
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          ..._profiles.map((p) => _ProfileTile(profile: p)),
-                          const SizedBox(height: 16),
-                        ],
-
-                        // Lessons section
-                        if (_lessons.isNotEmpty) ...[
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                              'Lessons',
-                              style: theme.textTheme.titleSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          ..._lessons.map((l) => _LessonTile(lesson: l)),
-                        ],
-                      ],
                     ),
+                  ),
+                  ..._profiles.map((p) => _ProfileTile(profile: p)),
+                  const SizedBox(height: 16),
+                ],
+
+                // Lessons section
+                if (_lessons.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text(
+                      'Lessons',
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  ..._lessons.map((l) => _LessonTile(lesson: l)),
+                ],
+              ],
+            ),
     );
   }
 }
@@ -154,8 +157,11 @@ class _BuildSuggestions extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.explore_outlined,
-              size: 64, color: theme.colorScheme.outline),
+          Icon(
+            Icons.explore_outlined,
+            size: 64,
+            color: theme.colorScheme.outline,
+          ),
           const SizedBox(height: 16),
           Text(
             'Explore Juku',
@@ -253,7 +259,11 @@ class _LessonTile extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.arrow_upward, size: 14, color: theme.colorScheme.primary),
+            Icon(
+              Icons.arrow_upward,
+              size: 14,
+              color: theme.colorScheme.primary,
+            ),
             const SizedBox(width: 2),
             Text(
               '${lesson['score'] ?? 0}',
