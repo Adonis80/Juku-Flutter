@@ -55,7 +55,7 @@ flutter build apk          # Android APK
 
 ## Current Sprint
 
-**SM-22: App Store Launch Sprint** 🔄 CURRENT
+**GL-2: Juku for Schools** 🔄 CURRENT
 
 All prior sprints complete:
 | Range | What | Status |
@@ -70,6 +70,8 @@ All prior sprints complete:
 | SM-19 | Juku Studio Pro | ✅ |
 | SM-20 | White-Label Tenant Dashboard | ✅ |
 | SM-21 | Juku World v2: Social Spaces | ✅ |
+| SM-22 | App Store Launch Sprint | ✅ (code) |
+| GL-1 | Referral Engine | ✅ |
 
 ---
 

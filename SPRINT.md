@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** SM-21 (Juku World v2) complete. SM-22 (App Store Launch) next.
+**Current status:** GL-1 (Referral Engine) complete. GL-2 (Juku for Schools) next.
 
 ---
 
@@ -50,6 +50,8 @@
 | SM-19 | Juku Studio Pro: 8 card types + revenue dashboard | 2026-04-10 |
 | SM-20 | White-Label Tenant Dashboard | 2026-04-11 |
 | SM-21 | Juku World v2: Social Spaces | 2026-04-11 |
+| SM-22 | App Store Launch Sprint (code) | 2026-04-11 |
+| GL-1 | Referral Engine | 2026-04-11 |
 
 ---
 
@@ -132,13 +134,49 @@
 
 ---
 
+## Completed Sprint
+
+### SM-22 — App Store Launch Sprint ✅ (code complete)
+
+**Goal:** App Store metadata, privacy/terms, store prep. Manual tasks remain (see STORE_CHECKLIST.md).
+
+**What was built:**
+- `app_store_metadata.dart` — title, subtitle, description (4000 chars), keywords, promotional text, URLs
+- `legal_screen.dart` — Privacy Policy + Terms of Service in-app screens
+- Settings screen updated with Privacy/Terms links
+- Info.plist: `ITSAppUsesNonExemptEncryption` = false
+- `STORE_CHECKLIST.md` — full manual submission guide
+
+**⏳ Manual tasks remaining:**
+- Apple Developer account ($99/yr)
+- App icon design (designer)
+- 6 App Store screenshots (6.9" + 6.1" iPhone)
+- Preview video (30s)
+- TestFlight build + submission
+- Host privacy/terms at juku.pro
+
+---
+
+## Completed Sprint
+
+### GL-1 — Referral Engine ✅
+
+**What was built:**
+- Migration: `20260429000000_referral_engine.sql` — referral_codes, referrals tables, referral_leaderboard view, ensure_referral_code + claim_referral RPCs
+- Flutter: `referral_service.dart` — CRUD for codes, claiming, stats, leaderboard
+- Flutter: `referral_screen.dart` — 3-tab screen (Share/My Referrals/Leaderboard), milestone tracker
+- Settings link: "Refer & Earn" with 50 Juice description
+- Tests: 6 unit tests for models and share helpers
+
+---
+
 ## Next Sprint
 
-### SM-22 — App Store Launch Sprint
+### GL-2 — Juku for Schools
 
-**Goal:** App icon, screenshots, preview video, privacy policy, terms, TestFlight submission.
+**Goal:** Self-serve classroom mode for teachers. Class creation, student invite by code, teacher dashboard, class leaderboard.
 
-**Full spec:** ROADMAP.md SM-22
+**Full spec:** ROADMAP.md GL-2
 
 ---
 
@@ -153,6 +191,9 @@
 This session (2026-04-11):
 - SM-20: White-Label Tenant Dashboard complete — 15 new files, 2672 lines, 12 tests
 - SM-21: Juku World v2 complete — 7 new files, 1597 lines, 11 tests
+- SM-22: App Store Launch code complete — metadata, privacy, terms, checklist
+- GL-1: Referral Engine complete — codes, rewards, leaderboard, 6 tests
+- ⏳ Migration `20260429000000_referral_engine.sql` — run in Supabase SQL Editor
 - Fixed 3 null-aware element warnings in studio files (content_editor.dart, studio_state.dart)
 - ⏳ Migration `20260427000000_tenant_dashboard.sql` — run in Supabase SQL Editor
 - ⏳ Migration `20260428000000_world_v2.sql` — run in Supabase SQL Editor
