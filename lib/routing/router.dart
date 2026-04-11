@@ -38,6 +38,7 @@ import '../features/studio/studio_home_screen.dart';
 import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
+import '../features/referral/referral_screen.dart';
 import '../features/world/world_builder_screen.dart';
 import '../features/world/pod_detail_screen.dart';
 import '../features/tenant/tenant_dashboard_screen.dart';
@@ -303,6 +304,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             isHost: extra?['isHost'] as bool? ?? false,
           );
         },
+      ),
+
+      // Referral
+      GoRoute(
+        path: '/referral',
+        builder: (_, _) => const ReferralScreen(),
       ),
 
       // World pod detail route

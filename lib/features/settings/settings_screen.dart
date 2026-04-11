@@ -244,6 +244,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                         const Divider(height: 1),
                         ListTile(
+                          leading: const Icon(Icons.card_giftcard),
+                          title: const Text('Refer & Earn'),
+                          subtitle: const Text('Get 50 Juice per referral'),
+                          trailing: const Icon(Icons.chevron_right),
+                          onTap: () => context.push('/referral'),
+                        ),
+                        const Divider(height: 1),
+                        ListTile(
                           leading: const Icon(Icons.shield_outlined),
                           title: const Text('Privacy Policy'),
                           trailing: const Icon(Icons.chevron_right),
