@@ -9,6 +9,8 @@ import '../features/chat/chat_list_screen.dart';
 import '../features/chat/chat_thread_screen.dart';
 import '../features/circles/circles_screen.dart';
 import '../features/explore/explore_screen.dart';
+import '../features/gamification/evolution_screen.dart';
+import '../features/gamification/evolution_service.dart';
 import '../features/feed/create_lesson_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/feed/lesson_detail_screen.dart';
@@ -231,6 +233,22 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/create',
         builder: (_, _) => const CreateLessonScreen(),
+      ),
+      GoRoute(
+        path: '/evolution',
+        builder: (_, _) => const EvolutionScreen(),
+      ),
+      GoRoute(
+        path: '/evolution/cinematic',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return EvolutionCinematicScreen(
+            branch: extra?['branch'] as EvolutionBranch? ??
+                EvolutionBranch.vocabulary,
+            fromStage: extra?['fromStage'] as int? ?? 0,
+            toStage: extra?['toStage'] as int? ?? 1,
+          );
+        },
       ),
       GoRoute(
         path: '/challenge',

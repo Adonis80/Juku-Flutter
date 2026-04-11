@@ -45,6 +45,7 @@
 | 23.5 | Gamified play overhauls, branding editor, image upload, cover art | 2026-04-10 |
 | SM-15 | Payment v2: Stripe + GoCardless | 2026-04-10 |
 | SM-16 | Juku Live: real-time broadcasts + Juice gifting | 2026-04-10 |
+| SM-17 | Daily Challenges: viral loop with streaks + leaderboards | 2026-04-10 |
 
 ---
 
@@ -85,19 +86,20 @@
 
 ## Current Sprint
 
-### SM-17 — Juku Challenges (Daily Viral Loop)
+### SM-18 — Jukumon Evolution v2
 
-**Goal:** Daily challenge card that all users play — one attempt, global leaderboard, streaks, shareable result cards.
+**Goal:** Jukumon evolution system with 4 skill-based branches, evolution cinematics, and rare cosmetic variants.
 
-**Full spec:** ROADMAP.md SM-17
+**Full spec:** ROADMAP.md SM-18
 
 **Acceptance criteria:**
-- [ ] `daily_challenges` table: one card per day per language
-- [ ] `challenge_attempts` table: one attempt per user per day, score + time
-- [ ] Global leaderboard: resets daily, shows rank + percentile
-- [ ] Personal streak: increments on consecutive daily attempts
-- [ ] Result share card: score, rank percentile, streak, answer grid
-- [ ] Streak freeze integration (SM-11 earnable items)
+- [ ] `jukumon_evolutions` table: user's current evolution branch + stage
+- [ ] `jukumon_variants` table: cosmetic variants (rare, seasonal)
+- [ ] Dominant skill calculated from last 30 days of session data
+- [ ] Evolution triggered at levels 5, 15, 30, 50, 100
+- [ ] Evolution animation screen (full-screen cinematic)
+- [ ] Jukumon displayed on public profile with evolution branch
+- [ ] Rare variants purchasable with Juice
 - [ ] `flutter analyze` zero issues
 
 ---
