@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** SM-15 through SM-19 built this session. SM-20 next.
+**Current status:** SM-20 (White-Label Tenant Dashboard) complete. Next sprint TBD.
 
 ---
 
@@ -48,10 +48,11 @@
 | SM-17 | Daily Challenges: viral loop with streaks + leaderboards | 2026-04-10 |
 | SM-18 | Jukumon Evolution v2: skill branches + cinematic + variants | 2026-04-10 |
 | SM-19 | Juku Studio Pro: 8 card types + revenue dashboard | 2026-04-10 |
+| SM-20 | White-Label Tenant Dashboard | 2026-04-11 |
 
 ---
 
-## Current Sprint
+## Completed Sprint
 
 ### SM-15 — Payment v2: Hybrid Stripe + GoCardless ✅
 
@@ -86,22 +87,40 @@
 
 ---
 
-## Current Sprint
+## Completed Sprint
 
-### SM-20 — White-Label Tenant Dashboard
+### SM-20 — White-Label Tenant Dashboard ✅
 
 **Goal:** Self-serve tenant onboarding, branding customisation, analytics, user management, and content moderation.
 
-**Full spec:** ROADMAP.md SM-20
-
 **Acceptance criteria:**
-- [ ] Self-serve signup wizard (5 steps)
-- [ ] Custom branding: logo, colours, welcome message
-- [ ] Content namespace: siloed per tenant
-- [ ] User management: invite, revoke, activity
-- [ ] Moderation queue: approve/reject cards
-- [ ] Analytics: DAU, plays, Juice, signups
-- [ ] `flutter analyze` zero issues
+- [x] Self-serve signup wizard (5 steps)
+- [x] Custom branding: logo, colours, welcome message
+- [x] Content namespace: siloed per tenant (RLS on all tables)
+- [x] User management: invite, revoke, activity
+- [x] Moderation queue: approve/reject cards (swipe gestures)
+- [x] Analytics: DAU, plays, Juice, signups (bar charts + stat cards)
+- [x] `flutter analyze` zero issues
+
+**What was built:**
+- Migration: `20260427000000_tenant_dashboard.sql` — 4 tables (tenant_admins, tenant_analytics_snapshots, tenant_invites, tenant_moderation_queue), branding columns on tenants, accept_tenant_invite RPC, full RLS
+- Flutter: `tenant_service.dart` — full CRUD for tenants, branding, invites, moderation, analytics
+- Flutter: `tenant_state.dart` — Riverpod 3 AsyncNotifier + FutureProvider.family providers
+- Flutter: `tenant_onboarding_screen.dart` — 5-step wizard (name/slug → plan → branding → welcome → invite)
+- Flutter: `tenant_dashboard_screen.dart` — 5-tab dashboard (Analytics/Users/Moderation/Branding/Settings)
+- Flutter: 5 tab widgets — analytics with custom bar charts, user management with invite/revoke, moderation with swipe-to-approve/reject, branding with live phone preview, settings with plan/billing/domain
+- Tests: 12 unit tests for all data models (fromJson parsing, defaults, edge cases)
+- Routes: `/tenant/onboarding` and `/tenant/dashboard` added to GoRouter
+
+---
+
+## Next Sprint
+
+### SM-21 — Juku World v2: Social Spaces
+
+**Goal:** Pod presence, spatial audio, card drops, limited-edition objects, seasonal events.
+
+**Full spec:** ROADMAP.md SM-21
 
 ---
 
@@ -113,7 +132,12 @@
 
 ## Session Notes
 
-This session (2026-04-10):
+This session (2026-04-11):
+- SM-20: White-Label Tenant Dashboard complete — 15 new files, 2672 lines, 12 tests
+- Fixed 3 null-aware element warnings in studio files (content_editor.dart, studio_state.dart)
+- ⏳ Migration `20260427000000_tenant_dashboard.sql` — run in Supabase SQL Editor
+
+Previous session (2026-04-10):
 - Fixed Stop hook in `.claude/settings.json` — replaced `$HOME` with hardcoded paths (was rendering as `__TRACKED_VAR__`)
 - Hook further refined: uses `⏳` marker instead of broad sprint pattern matching to detect pending work
-- No code changes to the app itself
+- SM-15 through SM-19 built
