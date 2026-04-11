@@ -38,6 +38,7 @@ import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
 import '../features/world/world_builder_screen.dart';
+import '../features/world/pod_detail_screen.dart';
 import '../features/tenant/tenant_dashboard_screen.dart';
 import '../features/tenant/tenant_onboarding_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
@@ -285,6 +286,18 @@ final routerProvider = Provider<GoRouter>((ref) {
           return LiveSessionScreen(
             sessionId: state.pathParameters['sessionId']!,
             isHost: extra?['isHost'] as bool? ?? false,
+          );
+        },
+      ),
+
+      // World pod detail route
+      GoRoute(
+        path: '/world/pod/:zoneId',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return PodDetailScreen(
+            zoneId: state.pathParameters['zoneId']!,
+            zoneName: extra?['zoneName'] as String?,
           );
         },
       ),
