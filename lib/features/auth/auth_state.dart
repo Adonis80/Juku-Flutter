@@ -84,6 +84,7 @@ Future<void> signInWithGoogle() async {
   await supabase.auth.signInWithOAuth(
     OAuthProvider.google,
     redirectTo: kIsWeb ? null : 'pro.juku.app://callback',
+    authScreenLaunchMode: LaunchMode.externalApplication,
   );
 }
 
