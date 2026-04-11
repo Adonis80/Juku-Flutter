@@ -1,12 +1,84 @@
 {
+  "defaultMode": "acceptEdits",
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true,
+    "network": {
+      "allowedDomains": [
+        "pub.dev",
+        "github.com",
+        "supabase.co",
+        "firebasestorage.googleapis.com",
+        "fonts.googleapis.com",
+        "api.flutter.dev",
+        "api.stripe.com",
+        "api.gocardless.com",
+        "r2.cloudflarestorage.com"
+      ]
+    }
+  },
+  "permissions": {
+    "allow": [
+      "Bash(flutter *)",
+      "Bash(dart *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git push origin *)",
+      "Bash(npm run *)",
+      "Bash(bun *)",
+      "Bash(supabase *)",
+      "Bash(osascript -e 'display notification*')"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(flutter pub add *)",
+      "Bash(dart pub add *)",
+      "Bash(pub global activate *)",
+      "Bash(osascript * message *)",
+      "Bash(osascript * Messages *)",
+      "Bash(mail *)",
+      "Bash(sendmail *)",
+      "Bash(curl * contacts *)",
+      "Bash(curl * addressbook *)",
+      "Bash(python * smtplib *)",
+      "Bash(open * mailto:*)"
+    ]
+  },
   "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/almashomefolder/.claude/hooks/juku-verify.sh"
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"$(date): Claude stopped with failure in $CLAUDE_PROJECT_DIR\" >> /Users/almashomefolder/.claude/failure-log.txt && osascript -e 'display notification \"Claude stopped with an error — check terminal\" with title \"Juku Build ❌\" sound name \"Basso\"'"
+          }
+        ]
+      }
+    ],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'cd /Users/almashomefolder/Documents/Claude/Projects/Juku-Flutter && export PATH=\"$HOME/development/flutter/bin:$PATH\" && if ls lib/**/*.dart lib/*.dart 2>/dev/null | head -1 | grep -q dart; then flutter analyze --no-fatal-infos 2>&1 | tail -5; fi &'"
+            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.tool_input.file_path // empty' 2>/dev/null); if [[ \"$FILE\" == *.dart ]]; then export PATH=\"/Users/almashomefolder/development/flutter/bin:$PATH\" && dart format \"$FILE\" 2>&1 && flutter analyze \"$FILE\" --no-pub 2>&1 | tail -10; fi"
           }
         ]
       }
@@ -17,18 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'if echo \"$CLAUDE_TOOL_INPUT\" | grep -q \"push.*--force\\|push.*-f\"; then echo \"[BLOCKED] Force push to main is not allowed. Use a PR instead.\" >&2; exit 2; fi'"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash -c '\nSESSION_DONE=\"/Users/almashomefolder/Documents/Claude/Projects/Juku-Flutter/.claude/session_done\"\nHANDOVER=\"/Users/almashomefolder/Documents/Claude/Projects/The-Builder/HANDOVER.md\"\n\n# If intentional exit flag is set, allow clean exit.\n# DO NOT delete the flag here — deleting causes a race condition where Claude\n# sends one more message, hook fires again with no flag, and forces continuation.\n# The wrapper script (start-juku.sh) deletes it on next session start.\nif [ -f \"$SESSION_DONE\" ]; then\n  osascript -e \"display notification \\\"Session complete — clean exit\\\" with title \\\"Juku\\\"\"\n  exit 0\nfi\n\n# Only force continuation if HANDOVER.md has pending work marker\nif grep -qE \"⏳\" \"$HANDOVER\" 2>/dev/null; then\n  osascript -e \"display notification \\\"Pending work found — forcing continuation\\\" with title \\\"Juku\\\"\"\n  echo \"Pending tasks remain. Read HANDOVER.md and continue building. Do NOT stop.\" >&2\n  exit 2\nfi\n\n# No pending work — allow exit\nosascript -e \"display notification \\\"Build complete\\\" with title \\\"Juku\\\"\"\nexit 0\n'"
+            "command": "CMD=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.tool_input.command // empty' 2>/dev/null); if echo \"$CMD\" | grep -qE 'push.*--force|push.*-f[^l]'; then echo '[BLOCKED] Force push to main is not allowed.' >&2; exit 2; fi; if echo \"$CMD\" | grep -qE 'flutter pub add|dart pub add|pub global activate'; then echo '🚫 Package install requires human approval via Dispatch.' >&2; exit 2; fi"
           }
         ]
       }
