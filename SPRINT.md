@@ -13,6 +13,8 @@
 - [x] Fixed 3 `curly_braces_in_flow_control_structures` lint warnings
 - [x] Committed DECISIONS.md D-003 (Apple platforms) and D-004 (Meta Quest/VR)
 - [x] Deep bug hunt across Skill Mode, Studio, World, Live, Classroom, Referral — no further bugs
+- [x] Fixed Google OAuth deep link: plugins registered in AppDelegate, external browser for iOS OAuth
+- [x] ⏳ Whitelist `pro.juku.app://callback` in Supabase dashboard → Auth → URL Configuration → Redirect URLs
 - [x] `flutter analyze` — 0 issues, `flutter test` — 52/52 pass
 
 ---
@@ -245,7 +247,11 @@ Post GL-3: all planned sprints complete. See ROADMAP.md for future work.
 
 ## Session Notes
 
-This session (2026-04-11, session 2):
+This session (2026-04-11, session 3):
+- Fixed Google OAuth deep link callback — AppDelegate plugin registration + LaunchMode.externalApplication
+- ⏳ Whitelist `pro.juku.app://callback` in Supabase dashboard → Auth → URL Configuration → Redirect URLs
+
+Previous session (2026-04-11, session 2):
 - D-002: Fixed Xcode 26.4 build failure — record 5.2.1 → 6.2.0 (kernel_snapshot_program fix)
 - GL-3: AI Conversation Partner complete — 4 tables, 3 Edge Functions, 5 screens, 5 models, 17 tests
 - ⏳ Migration `20260501000000_ai_conversations.sql` — run in Supabase SQL Editor
