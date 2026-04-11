@@ -14,6 +14,8 @@ import '../features/feed/feed_screen.dart';
 import '../features/feed/lesson_detail_screen.dart';
 import '../features/invite/invite_screen.dart';
 import '../features/juice/juice_wallet_screen.dart';
+import '../features/live/live_list_screen.dart';
+import '../features/live/live_session_screen.dart';
 import '../features/leaderboard/leaderboard_screen.dart';
 import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
@@ -226,6 +228,20 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/create',
         builder: (_, _) => const CreateLessonScreen(),
+      ),
+      GoRoute(
+        path: '/live',
+        builder: (_, _) => const LiveListScreen(),
+      ),
+      GoRoute(
+        path: '/live/:sessionId',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return LiveSessionScreen(
+            sessionId: state.pathParameters['sessionId']!,
+            isHost: extra?['isHost'] as bool? ?? false,
+          );
+        },
       ),
 
       // Skill Mode routes

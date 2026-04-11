@@ -81,6 +81,27 @@
 
 ---
 
+## Current Sprint
+
+### SM-16 — Juku Live
+
+**Goal:** Live broadcast sessions where hosts teach in real-time, viewers watch synchronised cards, and Juice gifts drive engagement and revenue.
+
+**Full spec:** ROADMAP.md SM-16
+
+**Acceptance criteria:**
+- [ ] Host can start a live session from their profile
+- [ ] Supabase Realtime channel per session — all viewers connected
+- [ ] Current card displayed in sync (host controls card progression)
+- [ ] Juice gifting: viewer selects gift tier (Wave=1J, Fire=5J, Crown=20J) → Juice debited → host credited → animation fires
+- [ ] Viewer count synced via presence channel
+- [ ] Live leaderboard updates in real time (top 3 gifters)
+- [ ] Session ends: host taps End → summary card shown
+- [ ] `live_sessions` and `live_gifts` tables with RLS
+- [ ] `flutter analyze` zero issues
+
+---
+
 ## Backlog
 
 - **23.5.6:** Sound packs (blocked — needs manual audio sourcing from freesound.org)

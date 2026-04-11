@@ -46,6 +46,7 @@ flutter build apk       # Build Android APK
 | SM-0–SM-14 | Skill Mode: tiles, audio, XP, duels, challenges, writing, competitions, polish | ✅ DONE |
 | 23.5 | Gamified play overhauls, branding editor, image upload, cover art | ✅ DONE |
 | SM-15 | Payment v2: Stripe + GoCardless | ✅ DONE |
+| **SM-16** | **Juku Live: real-time broadcasts + gifting** | **🔄 CURRENT** |
 
 ---
 
