@@ -38,6 +38,8 @@ import '../features/studio/studio_home_screen.dart';
 import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
+import '../features/classroom/classroom_detail_screen.dart';
+import '../features/classroom/classroom_screen.dart';
 import '../features/referral/referral_screen.dart';
 import '../features/world/world_builder_screen.dart';
 import '../features/world/pod_detail_screen.dart';
@@ -302,6 +304,22 @@ final routerProvider = Provider<GoRouter>((ref) {
           return LiveSessionScreen(
             sessionId: state.pathParameters['sessionId']!,
             isHost: extra?['isHost'] as bool? ?? false,
+          );
+        },
+      ),
+
+      // Classroom
+      GoRoute(
+        path: '/classroom',
+        builder: (_, _) => const ClassroomScreen(),
+      ),
+      GoRoute(
+        path: '/classroom/:classroomId',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return ClassroomDetailScreen(
+            classroomId: state.pathParameters['classroomId']!,
+            className: extra?['name'] as String?,
           );
         },
       ),
