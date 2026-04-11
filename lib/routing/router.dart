@@ -26,6 +26,7 @@ import '../features/notifications/notifications_screen.dart';
 import '../features/profile/profile_screen.dart';
 import '../features/profile/public_profile_screen.dart';
 import '../features/settings/settings_screen.dart';
+import '../features/settings/legal_screen.dart';
 import '../features/studio/join_game_screen.dart';
 import '../features/studio/lobby_screen.dart';
 import '../features/studio/module_builder_screen.dart';
@@ -162,6 +163,20 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings',
         builder: (_, _) => const SettingsScreen(),
+      ),
+      GoRoute(
+        path: '/privacy',
+        builder: (_, _) => const LegalScreen(
+          title: 'Privacy Policy',
+          content: privacyPolicyText,
+        ),
+      ),
+      GoRoute(
+        path: '/terms',
+        builder: (_, _) => const LegalScreen(
+          title: 'Terms of Service',
+          content: termsOfServiceText,
+        ),
       ),
       GoRoute(
         path: '/explore',
