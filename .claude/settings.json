@@ -78,7 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | jq -r '.tool_input.file_path // empty' 2>/dev/null); if [[ \"$FILE\" == *.dart ]]; then export PATH=\"/Users/almashomefolder/development/flutter/bin:$PATH\" && dart format \"$FILE\" 2>&1 && flutter analyze \"$FILE\" --no-pub 2>&1 | tail -10; fi"
+            "command": "cd /Users/almashomefolder/Documents/Claude/Projects/Juku-Flutter && export PATH=\"/Users/almashomefolder/development/flutter/bin:$PATH\" && flutter analyze --no-pub 2>&1 | tail -5 &"
           }
         ]
       }

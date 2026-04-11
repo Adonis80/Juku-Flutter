@@ -1,3 +1,4 @@
+//
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const supabaseUrl = 'https://tipinjxdupfwntmkarkj.supabase.co';
