@@ -5,12 +5,19 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'core/error_handler.dart';
 import 'core/supabase_config.dart';
+import 'features/juice/payment_service.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'routing/router.dart';
 import 'theme/app_theme.dart';
 
 /// Whether onboarding has been shown. Set during startup.
 bool onboardingDone = true;
+
+/// Stripe publishable key — set via environment or hardcode for now.
+const _stripePublishableKey = String.fromEnvironment(
+  'STRIPE_PK',
+  defaultValue: 'pk_live_placeholder',
+);
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +30,8 @@ Future<void> main() async {
     url: supabaseUrl,
     anonKey: supabaseAnonKey,
   );
+
+  PaymentService.initStripe(_stripePublishableKey);
 
   onboardingDone = await isOnboardingComplete();
 

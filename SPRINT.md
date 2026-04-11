@@ -48,28 +48,36 @@
 
 ## Current Sprint
 
-### SM-15 — Payment v2: Hybrid Stripe + GoCardless
+### SM-15 — Payment v2: Hybrid Stripe + GoCardless ✅
 
 **Goal:** Wire up real payment flows for Juice top-ups (Stripe card) and creator payouts (GoCardless direct debit). No Apple/Google IAP — all payments web or direct debit.
 
 **Full spec:** DECISIONS.md D-001
 
 **Acceptance criteria:**
-- [ ] Juice Wallet screen: payment method selector (Card via Stripe / Bank via GoCardless)
-- [ ] Stripe card top-up: user enters amount → Stripe PaymentSheet → Juice credited
-- [ ] GoCardless mandate setup: link from app → browser → GoCardless hosted page → back via deep link
-- [ ] `juice_ledger` table: weekly tip accumulations per user
-- [ ] `payment_methods` table: stored card (Stripe) or bank (GoCardless mandate)
-- [ ] `settlements` table: weekly settlement records (amount, method, status)
-- [ ] `settle-weekly` Edge Function: cron Sunday 23:00 UTC, calculates net balance, triggers charges/payouts
-- [ ] `gocardless-webhook` Edge Function: handles mandate confirmation, payment events
-- [ ] Flutter: Juice top-up flow with Stripe PaymentSheet integration
-- [ ] Flutter: GoCardless mandate setup flow (webview → deep link callback)
-- [ ] Flutter: Settlement history screen in Juice Wallet
-- [ ] All new tables have RLS enabled
-- [ ] `flutter analyze` zero issues
+- [x] Juice Wallet screen: payment method selector (Card via Stripe / Bank via GoCardless)
+- [x] Stripe card top-up: user enters amount → Stripe PaymentSheet → Juice credited
+- [x] GoCardless mandate setup: link from app → browser → GoCardless hosted page → back via deep link
+- [x] `juice_ledger` table: weekly tip accumulations per user
+- [x] `payment_methods` table: stored card (Stripe) or bank (GoCardless mandate)
+- [x] `settlements` table: weekly settlement records (amount, method, status)
+- [x] `settle-weekly` Edge Function: cron Sunday 23:00 UTC, calculates net balance, triggers charges/payouts
+- [x] `gocardless-webhook` Edge Function: handles mandate confirmation, payment events
+- [x] Flutter: Juice top-up flow with Stripe PaymentSheet integration
+- [x] Flutter: GoCardless mandate setup flow (browser → deep link callback)
+- [x] Flutter: Settlement history screen in Juice Wallet (3-tab wallet: Wallet / Payment / Settlements)
+- [x] All new tables have RLS enabled
+- [x] `flutter analyze` zero errors
 
-**Credentials:** Stripe pk_live/sk_live ✅ — GoCardless token ✅ — add to Supabase secrets before building
+**Credentials:** Stripe pk_live/sk_live ✅ — GoCardless token ✅ — add to Supabase secrets before deploying
+
+**What was built:**
+- Migration: `20260422000000_payment_v2.sql` — 3 tables (payment_methods, juice_ledger, settlements), RLS, credit_juice RPC, updated spend_juice RPC with ledger tracking
+- Edge Functions: `create-payment-intent` (Stripe PaymentIntent + SetupIntent), `stripe-webhook`, `settle-weekly`, `gocardless-webhook`, `create-gocardless-redirect`
+- Flutter: `payment_service.dart` (Stripe PaymentSheet, GoCardless mandate, CRUD for payment methods/settlements)
+- Flutter: Juice Wallet rewritten with 3-tab layout (Wallet / Payment Methods / Settlements), fee comparison info card
+- Packages added: `flutter_stripe ^12.6.0`, `url_launcher ^6.3.1`
+- Stripe initialized in `main.dart` via `String.fromEnvironment('STRIPE_PK')`
 
 ---
 

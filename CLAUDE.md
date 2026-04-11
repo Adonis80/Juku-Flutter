@@ -45,7 +45,7 @@ flutter build apk       # Build Android APK
 | 0–24 | Core app, gamification, social, Studio MVP | ✅ DONE |
 | SM-0–SM-14 | Skill Mode: tiles, audio, XP, duels, challenges, writing, competitions, polish | ✅ DONE |
 | 23.5 | Gamified play overhauls, branding editor, image upload, cover art | ✅ DONE |
-| **SM-15** | **Payment v2: Stripe + GoCardless** | **🔄 CURRENT** |
+| SM-15 | Payment v2: Stripe + GoCardless | ✅ DONE |
 
 ---
 
