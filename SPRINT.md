@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** GL-1 (Referral Engine) complete. GL-2 (Juku for Schools) next.
+**Current status:** GL-2 (Juku for Schools) complete. GL-3 (AI Conversation Partner) next.
 
 ---
 
@@ -52,6 +52,7 @@
 | SM-21 | Juku World v2: Social Spaces | 2026-04-11 |
 | SM-22 | App Store Launch Sprint (code) | 2026-04-11 |
 | GL-1 | Referral Engine | 2026-04-11 |
+| GL-2 | Juku for Schools | 2026-04-11 |
 
 ---
 
@@ -170,13 +171,27 @@
 
 ---
 
+## Completed Sprint
+
+### GL-2 — Juku for Schools ✅
+
+**What was built:**
+- Migration: `20260430000000_classrooms.sql` — classrooms, classroom_members, classroom_content tables + join_classroom RPC
+- Flutter: `classroom_service.dart` — CRUD for classes, join by code, assign content
+- Flutter: `classroom_screen.dart` — 2-tab hub (My Classes/Joined), create + join dialogs
+- Flutter: `classroom_detail_screen.dart` — 3-tab dashboard (Students/Content/Leaderboard)
+- Routes: `/classroom`, `/classroom/:classroomId`
+- Tests: 6 unit tests
+
+---
+
 ## Next Sprint
 
-### GL-2 — Juku for Schools
+### GL-3 — AI Conversation Partner
 
-**Goal:** Self-serve classroom mode for teachers. Class creation, student invite by code, teacher dashboard, class leaderboard.
+**Goal:** Voice conversation with AI native speaker. Whisper transcription, ElevenLabs synthesis, fluency scoring.
 
-**Full spec:** ROADMAP.md GL-2
+**Full spec:** ROADMAP.md GL-3
 
 ---
 
@@ -193,7 +208,9 @@ This session (2026-04-11):
 - SM-21: Juku World v2 complete — 7 new files, 1597 lines, 11 tests
 - SM-22: App Store Launch code complete — metadata, privacy, terms, checklist
 - GL-1: Referral Engine complete — codes, rewards, leaderboard, 6 tests
+- GL-2: Juku for Schools complete — classrooms, teacher dashboard, 6 tests
 - ⏳ Migration `20260429000000_referral_engine.sql` — run in Supabase SQL Editor
+- ⏳ Migration `20260430000000_classrooms.sql` — run in Supabase SQL Editor
 - Fixed 3 null-aware element warnings in studio files (content_editor.dart, studio_state.dart)
 - ⏳ Migration `20260427000000_tenant_dashboard.sql` — run in Supabase SQL Editor
 - ⏳ Migration `20260428000000_world_v2.sql` — run in Supabase SQL Editor

@@ -55,7 +55,7 @@ flutter build apk          # Android APK
 
 ## Current Sprint
 
-**GL-2: Juku for Schools** 🔄 CURRENT
+**GL-3: AI Conversation Partner** 🔄 CURRENT
 
 All prior sprints complete:
 | Range | What | Status |
@@ -72,6 +72,7 @@ All prior sprints complete:
 | SM-21 | Juku World v2: Social Spaces | ✅ |
 | SM-22 | App Store Launch Sprint | ✅ (code) |
 | GL-1 | Referral Engine | ✅ |
+| GL-2 | Juku for Schools | ✅ |
 
 ---
 
