@@ -4,6 +4,24 @@ All significant technical and product decisions with reasoning. Check before mak
 
 ---
 
+## D-002 — Upgrade `record` package 5.2.1 → 6.2.0 to fix Xcode 26.4 build failure (2026-04-11)
+
+**Decision:** Upgrade `record` from `^5.2.0` to `^6.2.0` in pubspec.yaml.
+
+**Why:**
+- `flutter build ios` failed with `Target kernel_snapshot_program failed` on Xcode 26.4 / iOS 26.3.
+- Root cause: `record 5.2.1` pulled in `record_linux 0.7.2` which was incompatible with `record_platform_interface 1.5.0` — missing `startStream` method and changed `hasPermission` signature. Even though we build for iOS, Flutter's Dart compiler compiles all platform implementations during kernel snapshot.
+- `record 6.2.0` resolves `record_linux 1.3.0` (compatible) and splits `record_darwin` into `record_ios 1.2.0` + `record_macos 1.2.1`.
+- No breaking API changes between 5.x and 6.x for the APIs we use (`AudioRecorder`, `hasPermission`, `start`, `stop`, `getAmplitude`, `RecordConfig`).
+
+**Affected files:** `pubspec.yaml` (1 line), `pubspec.lock` (auto-resolved).
+
+**Alternatives considered:**
+- `dependency_overrides` to pin `record_linux` — fragile, hides the real version gap
+- Removing `record` entirely — needed for Skill Mode pronunciation recording (SM-4.2)
+
+---
+
 ## D-001 — Payment Architecture: Hybrid Stripe + GoCardless (2026-04-10)
 
 **Decision:** Use a hybrid payment model for the Juice economy.
