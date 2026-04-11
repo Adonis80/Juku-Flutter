@@ -4,6 +4,61 @@ All significant technical and product decisions with reasoning. Check before mak
 
 ---
 
+## D-004 — Multi-Platform Expansion: Meta Quest / VR (2026-04-11)
+
+**Decision:** Defer full Meta Quest / VR support. No action needed now. Re-evaluate at 50k+ users.
+
+**Findings:**
+- Flutter Android APKs *can* sideload on Meta Quest via `adb install`, but: no Google Play Services (blocks Firebase-dependent features), no camera, targets Android 12L.
+- 2D panel experiences on Quest work via Meta Spatial SDK — but that's native Android/Kotlin, not Flutter. A proper 2D panel app would require a parallel native build.
+- Immersive VR (fully 3D, spatial UI) requires Unity or Unreal + Meta XR SDK. Separate codebase, separate team.
+- **Meta Horizon Worlds** is not an integration target — as of Feb 2026 the VR version is sunsetting (June 2026), pivoting to mobile. No public API for embedding third-party apps.
+
+**Verdict by tier:**
+| Option | Effort | Value | Decision |
+|---|---|---|---|
+| Sideload Flutter APK on Quest (2D panel) | Low | Low (niche) | Skip for now |
+| Native 2D panel via Meta Spatial SDK | High (separate codebase) | Medium | Defer to v2+ |
+| Immersive VR experience (Unity/Unreal) | Very high | High (long-term) | Roadmap item 2027+ |
+| Meta Horizon Worlds integration | N/A | None | Skip entirely |
+
+**When to revisit:** When Quest becomes a mainstream language learning device (market signal: Duolingo Quest app). Not before.
+
+---
+
+## D-003 — Multi-Platform Expansion: Apple Watch / Apple TV / Vision Pro (2026-04-11)
+
+**Decision:** Add visionOS support now (trivial). Defer Apple Watch to v2. Skip Apple TV.
+
+**Findings:**
+
+**Apple Vision Pro (visionOS):**
+- Flutter apps run in visionOS "floating window" compatibility mode automatically — essentially iPad app in a spatial window.
+- Enable: add `visionOS` to Xcode supported destinations, exclude Intel x86 slice. ~4–6 hours of testing.
+- No spatial hand-tracking or RealityKit — it's a flat window floating in space. That's fine for Juku.
+- Growing premium early-adopter audience. Differentiator: almost no language learning apps have a Vision Pro build.
+- **Decision: DO IT NOW** — add to App Store submission. Near-zero effort.
+
+**Apple Watch (watchOS):**
+- No official Flutter support. Requires native Swift WatchKit companion app alongside the Flutter iOS app.
+- Communication via `flutter_watch_os_connectivity` package + Pigeon code generators.
+- Effort: ~20–30 hours for a native Swift watch extension.
+- Best use case for Juku: streak notifications, daily XP summary, quick vocab flashcard glance.
+- **Decision: v2 sprint** — high user value (habits + streaks) once the main app is in the App Store.
+
+**Apple TV (tvOS):**
+- No official Flutter tvOS support. Community fork exists (Flutter 3.24.1 max) — not production-ready.
+- Language learning on a TV is a niche use case. Limited input method (remote only).
+- **Decision: Skip entirely.** Not worth the maintenance burden.
+
+**Sprint scope for visionOS (SP-VOS-1):**
+1. Xcode: add visionOS destination to Runner target
+2. Exclude x86_64 from build settings
+3. Test all screens in visionOS Simulator — fix any layout issues (safe area, window chrome)
+4. Update App Store metadata: add visionOS screenshots
+
+---
+
 ## D-002 — Upgrade `record` package 5.2.1 → 6.2.0 to fix Xcode 26.4 build failure (2026-04-11)
 
 **Decision:** Upgrade `record` from `^5.2.0` to `^6.2.0` in pubspec.yaml.
