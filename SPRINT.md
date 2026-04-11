@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
-**Last updated:** 2026-04-10
-**Current status:** All engineering sprints complete
+**Last updated:** 2026-04-11
+**Current status:** SM-15 through SM-19 built this session. SM-20 next.
 
 ---
 
