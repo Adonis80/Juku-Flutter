@@ -1,7 +1,19 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** GL-3 (AI Conversation Partner) complete. All planned sprints through GL-3 done.
+**Current status:** All planned sprints through GL-3 complete. Bug pass + codebase formatting done.
+
+## Post-Sprint Maintenance (2026-04-11)
+
+- [x] Fixed GoRouter navigation crash: `Navigator.pushNamed('/signup')` → `context.go('/signup')` in login_screen
+- [x] Fixed GoRouter navigation: `Navigator.pop()` → `context.go('/login')` in signup_screen
+- [x] Added null guard in lesson detail `_castVote()` to prevent race condition
+- [x] Fixed dangling doc comment lint in app_state.dart
+- [x] Ran `dart format .` across entire codebase (156 files reformatted)
+- [x] Fixed 3 `curly_braces_in_flow_control_structures` lint warnings
+- [x] Committed DECISIONS.md D-003 (Apple platforms) and D-004 (Meta Quest/VR)
+- [x] Deep bug hunt across Skill Mode, Studio, World, Live, Classroom, Referral — no further bugs
+- [x] `flutter analyze` — 0 issues, `flutter test` — 52/52 pass
 
 ---
 
