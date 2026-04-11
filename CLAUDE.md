@@ -55,7 +55,7 @@ flutter build apk          # Android APK
 
 ## Current Sprint
 
-**SM-21: Juku World v2: Social Spaces** 🔄 CURRENT
+**SM-22: App Store Launch Sprint** 🔄 CURRENT
 
 All prior sprints complete:
 | Range | What | Status |
@@ -69,6 +69,7 @@ All prior sprints complete:
 | SM-18 | Jukumon Evolution v2 | ✅ |
 | SM-19 | Juku Studio Pro | ✅ |
 | SM-20 | White-Label Tenant Dashboard | ✅ |
+| SM-21 | Juku World v2: Social Spaces | ✅ |
 
 ---
 

@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** SM-20 (White-Label Tenant Dashboard) complete. Next sprint TBD.
+**Current status:** SM-21 (Juku World v2) complete. SM-22 (App Store Launch) next.
 
 ---
 
@@ -49,6 +49,7 @@
 | SM-18 | Jukumon Evolution v2: skill branches + cinematic + variants | 2026-04-10 |
 | SM-19 | Juku Studio Pro: 8 card types + revenue dashboard | 2026-04-10 |
 | SM-20 | White-Label Tenant Dashboard | 2026-04-11 |
+| SM-21 | Juku World v2: Social Spaces | 2026-04-11 |
 
 ---
 
@@ -114,13 +115,30 @@
 
 ---
 
+## Completed Sprint
+
+### SM-21 — Juku World v2: Social Spaces ✅
+
+**Goal:** Pod presence, card drops, object gifting, limited-edition objects.
+
+**What was built:**
+- Migration: `20260428000000_world_v2.sql` — 7 tables (world_object_catalog, world_objects, jukumon_cosmetics, vr_zones, world_pod_presence, world_card_drops, world_object_gifts), RLS on all, 6 language pod seeds, 8 starter objects
+- Flutter: `world_service.dart` — full CRUD for zones, pod presence, catalog, card drops, gifting
+- Flutter: `world_state.dart` — Riverpod providers for zones, members, drops, catalog, balance
+- Flutter: Rewrote `world_builder_screen.dart` — 4 tabs (Pods/Objects/Card Drops/Gifts)
+- Flutter: `pod_detail_screen.dart` — pod space with avatar canvas, grid painter, member list, card drop dialog
+- Routes: `/world/pod/:zoneId` for pod detail
+- Tests: 11 unit tests for all data models
+
+---
+
 ## Next Sprint
 
-### SM-21 — Juku World v2: Social Spaces
+### SM-22 — App Store Launch Sprint
 
-**Goal:** Pod presence, spatial audio, card drops, limited-edition objects, seasonal events.
+**Goal:** App icon, screenshots, preview video, privacy policy, terms, TestFlight submission.
 
-**Full spec:** ROADMAP.md SM-21
+**Full spec:** ROADMAP.md SM-22
 
 ---
 
@@ -134,8 +152,10 @@
 
 This session (2026-04-11):
 - SM-20: White-Label Tenant Dashboard complete — 15 new files, 2672 lines, 12 tests
+- SM-21: Juku World v2 complete — 7 new files, 1597 lines, 11 tests
 - Fixed 3 null-aware element warnings in studio files (content_editor.dart, studio_state.dart)
 - ⏳ Migration `20260427000000_tenant_dashboard.sql` — run in Supabase SQL Editor
+- ⏳ Migration `20260428000000_world_v2.sql` — run in Supabase SQL Editor
 
 Previous session (2026-04-10):
 - Fixed Stop hook in `.claude/settings.json` — replaced `$HOME` with hardcoded paths (was rendering as `__TRACKED_VAR__`)
