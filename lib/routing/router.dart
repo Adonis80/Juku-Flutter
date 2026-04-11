@@ -38,6 +38,8 @@ import '../features/studio/template_picker_screen.dart';
 import '../features/topics/topic_channel_screen.dart';
 import '../features/topics/topic_list_screen.dart';
 import '../features/world/world_builder_screen.dart';
+import '../features/tenant/tenant_dashboard_screen.dart';
+import '../features/tenant/tenant_onboarding_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
 import '../main.dart' show onboardingDone;
 import '../skill_mode/skill_mode_router.dart';
@@ -285,6 +287,16 @@ final routerProvider = Provider<GoRouter>((ref) {
             isHost: extra?['isHost'] as bool? ?? false,
           );
         },
+      ),
+
+      // Tenant dashboard routes
+      GoRoute(
+        path: '/tenant/onboarding',
+        builder: (_, _) => const TenantOnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/tenant/dashboard',
+        builder: (_, _) => const TenantDashboardScreen(),
       ),
 
       // Skill Mode routes

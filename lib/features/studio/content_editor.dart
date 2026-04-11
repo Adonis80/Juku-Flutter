@@ -277,7 +277,7 @@ class _QuizEditor extends StatelessWidget {
                           optCtrls.map((c) => c.text).toList(),
                       'answer': selectedAnswer,
                       'hint': hintCtrl.text,
-                      if (imageUrl case final url?) 'image_url': url,
+                      'image_url': ?imageUrl,
                     });
                     Navigator.pop(ctx);
                   },

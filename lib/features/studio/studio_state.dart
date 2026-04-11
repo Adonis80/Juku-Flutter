@@ -205,8 +205,8 @@ Future<String> publishModule({
     'config': config,
     'published': true,
     'domain': domain,
-    if (branding case final b?) 'branding': b,
-    if (coverUrl case final c?) 'cover_url': c,
+    'branding': ?branding,
+    'cover_url': ?coverUrl,
   }).select('id').single();
 
   // Award XP
