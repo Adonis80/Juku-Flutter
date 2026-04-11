@@ -43,6 +43,8 @@
 | SM-13 | Song Translation Competitions | 2026-04-10 |
 | SM-14 | App Polish — splash, onboarding, error boundary | 2026-04-10 |
 | 23.5 | Gamified play overhauls, branding editor, image upload, cover art | 2026-04-10 |
+| SM-15 | Payment v2: Stripe + GoCardless | 2026-04-10 |
+| SM-16 | Juku Live: real-time broadcasts + Juice gifting | 2026-04-10 |
 
 ---
 
@@ -83,21 +85,19 @@
 
 ## Current Sprint
 
-### SM-16 — Juku Live
+### SM-17 — Juku Challenges (Daily Viral Loop)
 
-**Goal:** Live broadcast sessions where hosts teach in real-time, viewers watch synchronised cards, and Juice gifts drive engagement and revenue.
+**Goal:** Daily challenge card that all users play — one attempt, global leaderboard, streaks, shareable result cards.
 
-**Full spec:** ROADMAP.md SM-16
+**Full spec:** ROADMAP.md SM-17
 
 **Acceptance criteria:**
-- [ ] Host can start a live session from their profile
-- [ ] Supabase Realtime channel per session — all viewers connected
-- [ ] Current card displayed in sync (host controls card progression)
-- [ ] Juice gifting: viewer selects gift tier (Wave=1J, Fire=5J, Crown=20J) → Juice debited → host credited → animation fires
-- [ ] Viewer count synced via presence channel
-- [ ] Live leaderboard updates in real time (top 3 gifters)
-- [ ] Session ends: host taps End → summary card shown
-- [ ] `live_sessions` and `live_gifts` tables with RLS
+- [ ] `daily_challenges` table: one card per day per language
+- [ ] `challenge_attempts` table: one attempt per user per day, score + time
+- [ ] Global leaderboard: resets daily, shows rank + percentile
+- [ ] Personal streak: increments on consecutive daily attempts
+- [ ] Result share card: score, rank percentile, streak, answer grid
+- [ ] Streak freeze integration (SM-11 earnable items)
 - [ ] `flutter analyze` zero issues
 
 ---

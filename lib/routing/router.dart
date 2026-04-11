@@ -13,6 +13,9 @@ import '../features/feed/create_lesson_screen.dart';
 import '../features/feed/feed_screen.dart';
 import '../features/feed/lesson_detail_screen.dart';
 import '../features/invite/invite_screen.dart';
+import '../features/challenge/challenge_result_screen.dart';
+import '../features/challenge/challenge_screen.dart';
+import '../features/challenge/challenge_service.dart';
 import '../features/juice/juice_wallet_screen.dart';
 import '../features/live/live_list_screen.dart';
 import '../features/live/live_session_screen.dart';
@@ -228,6 +231,23 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/create',
         builder: (_, _) => const CreateLessonScreen(),
+      ),
+      GoRoute(
+        path: '/challenge',
+        builder: (_, _) => const ChallengeScreen(),
+      ),
+      GoRoute(
+        path: '/challenge/result',
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          return ChallengeResultScreen(
+            challengeId: extra?['challengeId'] as String? ?? '',
+            result: extra?['result'] as ChallengeResult?,
+            correct: extra?['correct'] as bool?,
+            score: extra?['score'] as int?,
+            timeMs: extra?['timeMs'] as int?,
+          );
+        },
       ),
       GoRoute(
         path: '/live',
