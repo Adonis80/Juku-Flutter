@@ -46,7 +46,7 @@ import '../features/world/pod_detail_screen.dart';
 import '../features/tenant/tenant_dashboard_screen.dart';
 import '../features/tenant/tenant_onboarding_screen.dart';
 import '../features/onboarding/onboarding_screen.dart';
-import '../main.dart' show onboardingDone;
+import '../core/app_state.dart';
 import '../skill_mode/skill_mode_router.dart';
 import 'app_shell.dart';
 

@@ -3,15 +3,13 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'core/app_state.dart';
 import 'core/error_handler.dart';
 import 'core/supabase_config.dart';
 import 'features/juice/payment_service.dart';
 import 'features/onboarding/onboarding_screen.dart';
 import 'routing/router.dart';
 import 'theme/app_theme.dart';
-
-/// Whether onboarding has been shown. Set during startup.
-bool onboardingDone = true;
 
 /// Stripe publishable key — set via environment or hardcode for now.
 const _stripePublishableKey = String.fromEnvironment(
