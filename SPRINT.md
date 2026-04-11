@@ -1,7 +1,7 @@
 # SPRINT.md — Juku Flutter
 
 **Last updated:** 2026-04-11
-**Current status:** GL-2 (Juku for Schools) complete. GL-3 (AI Conversation Partner) next.
+**Current status:** GL-3 (AI Conversation Partner) complete. All planned sprints through GL-3 done.
 
 ---
 
@@ -53,6 +53,7 @@
 | SM-22 | App Store Launch Sprint (code) | 2026-04-11 |
 | GL-1 | Referral Engine | 2026-04-11 |
 | GL-2 | Juku for Schools | 2026-04-11 |
+| GL-3 | AI Conversation Partner | 2026-04-11 |
 
 ---
 
@@ -185,13 +186,42 @@
 
 ---
 
-## Next Sprint
+## Completed Sprint
 
-### GL-3 — AI Conversation Partner
+### GL-3 — AI Conversation Partner ✅
 
 **Goal:** Voice conversation with AI native speaker. Whisper transcription, ElevenLabs synthesis, fluency scoring.
 
-**Full spec:** ROADMAP.md GL-3
+**Acceptance criteria:**
+- [x] Conversation scenarios: 12 seeded across 5 languages (de, fr, ru, zh, ar)
+- [x] Voice recording with live waveform visualization
+- [x] Whisper transcription via Edge Function (BYOK)
+- [x] AI response via Claude API (BYOK)
+- [x] ElevenLabs TTS synthesis via Edge Function (BYOK)
+- [x] Per-turn fluency/vocabulary/grammar scoring with corrections
+- [x] Session result screen with overall scores + XP award (10–50 XP)
+- [x] Conversation history screen
+- [x] API key management screen (BYOK: OpenAI, Anthropic, ElevenLabs)
+- [x] Entry point from Skill Mode home screen
+- [x] All tables have RLS enabled
+- [x] `flutter analyze` zero issues
+- [x] 17 unit tests passing
+
+**What was built:**
+- Migration: `20260501000000_ai_conversations.sql` — 4 tables (ai_conversation_scenarios, ai_conversations, ai_conversation_messages, ai_api_keys), RLS, 12 seed scenarios
+- Edge Functions: `transcribe-audio` (Whisper BYOK), `ai-conversation-respond` (Claude BYOK with scoring), `synthesize-speech` (ElevenLabs BYOK)
+- Flutter: `sm_conversation.dart` — 5 models (ConversationScenario, AiConversation, ConversationMessage, ConversationScores, AiApiKey)
+- Flutter: `sm_conversation_service.dart` — full CRUD, recording, transcription, AI response, TTS, scoring, API key management
+- Flutter: `sm_conversation_state.dart` — Riverpod 3 NotifierProvider with phase tracking, running score averages
+- Flutter: 5 screens — scenario picker, live conversation (chat bubbles + waveform + mic), result (animated scores), history, API keys
+- Routes: `/skill/conversation`, `/skill/conversation/live`, `/skill/conversation/result`, `/skill/conversation/history`, `/skill/conversation/keys`
+- Tests: 17 unit tests for all models, scores, and XP calculation
+
+---
+
+## Next Sprint
+
+Post GL-3: all planned sprints complete. See ROADMAP.md for future work.
 
 ---
 
@@ -203,7 +233,14 @@
 
 ## Session Notes
 
-This session (2026-04-11):
+This session (2026-04-11, session 2):
+- D-002: Fixed Xcode 26.4 build failure — record 5.2.1 → 6.2.0 (kernel_snapshot_program fix)
+- GL-3: AI Conversation Partner complete — 4 tables, 3 Edge Functions, 5 screens, 5 models, 17 tests
+- ⏳ Migration `20260501000000_ai_conversations.sql` — run in Supabase SQL Editor
+- ⏳ Deploy Edge Functions: transcribe-audio, ai-conversation-respond, synthesize-speech
+- ⏳ Supabase secrets: OPENAI_API_KEY, ANTHROPIC_API_KEY, ELEVENLABS_API_KEY (optional fallbacks)
+
+Previous session (2026-04-11, session 1):
 - SM-20: White-Label Tenant Dashboard complete — 15 new files, 2672 lines, 12 tests
 - SM-21: Juku World v2 complete — 7 new files, 1597 lines, 11 tests
 - SM-22: App Store Launch code complete — metadata, privacy, terms, checklist

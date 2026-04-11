@@ -26,6 +26,11 @@ import 'screens/sm_competition_vote_screen.dart';
 import 'screens/sm_translation_screen.dart';
 import 'screens/sm_vault_screen.dart';
 import 'screens/sm_writing_screen.dart';
+import 'screens/sm_conversation_scenarios_screen.dart';
+import 'screens/sm_conversation_live_screen.dart';
+import 'screens/sm_conversation_result_screen.dart';
+import 'screens/sm_conversation_history_screen.dart';
+import 'screens/sm_api_keys_screen.dart';
 
 /// All GoRouter sub-routes for Skill Mode.
 /// Added as detail routes (pushed on top of shell) in the main router.
@@ -174,6 +179,28 @@ List<GoRoute> skillModeRoutes() {
       builder: (_, state) => SmCompetitionResultsScreen(
         competitionId: state.pathParameters['id']!,
       ),
+    ),
+
+    // AI Conversation Partner (GL-3)
+    GoRoute(
+      path: '/skill/conversation',
+      builder: (_, _) => const SmConversationScenariosScreen(),
+    ),
+    GoRoute(
+      path: '/skill/conversation/live',
+      builder: (_, _) => const SmConversationLiveScreen(),
+    ),
+    GoRoute(
+      path: '/skill/conversation/result',
+      builder: (_, _) => const SmConversationResultScreen(),
+    ),
+    GoRoute(
+      path: '/skill/conversation/history',
+      builder: (_, _) => const SmConversationHistoryScreen(),
+    ),
+    GoRoute(
+      path: '/skill/conversation/keys',
+      builder: (_, _) => const SmApiKeysScreen(),
     ),
   ];
 }

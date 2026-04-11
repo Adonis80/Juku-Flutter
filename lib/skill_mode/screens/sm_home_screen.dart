@@ -208,6 +208,56 @@ class _SmHomeScreenState extends ConsumerState<SmHomeScreen> {
 
                   const SizedBox(height: 16),
 
+                  // AI Conversation Partner entry card (GL-3)
+                  Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () =>
+                          context.push('/skill/conversation'),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.record_voice_over,
+                              size: 40,
+                              color: theme.colorScheme.primary,
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'AI Conversation',
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Practice speaking with a native AI partner',
+                                    style: theme.textTheme.bodySmall
+                                        ?.copyWith(
+                                      color: theme
+                                          .colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Icon(
+                              Icons.chevron_right,
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
                   // Translation Battles entry card
                   Card(
                     clipBehavior: Clip.antiAlias,

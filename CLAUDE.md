@@ -55,9 +55,9 @@ flutter build apk          # Android APK
 
 ## Current Sprint
 
-**GL-3: AI Conversation Partner** 🔄 CURRENT
+**All planned sprints complete through GL-3.**
 
-All prior sprints complete:
+All sprints:
 | Range | What | Status |
 |---|---|---|
 | 0–24 | Core app, gamification, social, Studio MVP | ✅ |
@@ -73,6 +73,7 @@ All prior sprints complete:
 | SM-22 | App Store Launch Sprint | ✅ (code) |
 | GL-1 | Referral Engine | ✅ |
 | GL-2 | Juku for Schools | ✅ |
+| GL-3 | AI Conversation Partner | ✅ |
 
 ---
 
